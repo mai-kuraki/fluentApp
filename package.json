@@ -1,0 +1,19 @@
+{
+    "name": "fluentapp",
+    "version": "1.0.0",
+    "description": "microsoft fluent design app",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mai-kuraki/fluentApp.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mai-kuraki/fluentApp/issues"
+    },
+    "homepage": "https://github.com/mai-kuraki/fluentApp#readme"
+}
