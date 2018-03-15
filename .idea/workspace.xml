@@ -2,42 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="de3c8a6a-80b8-4959-a6a9-56915af827f2" name="默认的" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/font/Amble-Bold.ttf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/font/Amble-BoldItalic.ttf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/font/Amble-Italic.ttf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/font/Amble-Light.ttf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/font/Amble-LightCondensed.ttf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/font/Amble-LightCondensedItalic.ttf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/font/Amble-LightItalic.ttf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/font/Amble-Regular.ttf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/font/Apache License.txt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server/app.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server/bin/www" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server/package.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server/public/stylesheets/style.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server/routes/api.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server/routes/service.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server/views/error.jade" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server/views/index.jade" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/server/views/layout.jade" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/js/actions/index.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/js/app.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/js/compoments/app.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/js/contaniers/index.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/js/lib/const.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/js/lib/eventEmitter.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/js/reducers/index.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/js/reducers/main.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/js/store/index.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/package-lock.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/package.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/scss/style.scss" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/ui/webpack.config.js" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app.html" afterPath="$PROJECT_DIR$/app.html" />
+      <change beforePath="$PROJECT_DIR$/dist/bundle_app.js" afterPath="$PROJECT_DIR$/dist/bundle_app.js" />
+      <change beforePath="$PROJECT_DIR$/dist/style.css" afterPath="$PROJECT_DIR$/dist/style.css" />
+      <change beforePath="$PROJECT_DIR$/dist/style.css.map" afterPath="$PROJECT_DIR$/dist/style.css.map" />
       <change beforePath="$PROJECT_DIR$/main.js" afterPath="$PROJECT_DIR$/main.js" />
+      <change beforePath="$PROJECT_DIR$/ui/js/compoments/app.js" afterPath="$PROJECT_DIR$/ui/js/compoments/app.js" />
+      <change beforePath="$PROJECT_DIR$/ui/scss/style.scss" afterPath="$PROJECT_DIR$/ui/scss/style.scss" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -51,11 +23,43 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="924">
-              <caret line="21" column="35" lean-forward="false" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
+            <state relative-caret-position="484">
+              <caret line="11" column="18" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ui/js/compoments/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1012">
+              <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="45" />
+              <folding>
+                <element signature="e#46#72#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="5" column="87" lean-forward="false" selection-start-line="5" selection-start-column="87" selection-end-line="5" selection-end-column="87" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.scss" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ui/scss/style.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1508">
+              <caret line="152" column="41" lean-forward="false" selection-start-line="152" selection-start-column="41" selection-end-line="152" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -89,11 +93,11 @@
         <option value="$PROJECT_DIR$/ui/package.json" />
         <option value="$PROJECT_DIR$/ui/js/reducers/index.js" />
         <option value="$PROJECT_DIR$/ui/js/actions/index.js" />
-        <option value="$PROJECT_DIR$/ui/scss/style.scss" />
         <option value="$PROJECT_DIR$/ui/webpack.config.js" />
         <option value="$PROJECT_DIR$/app.html" />
         <option value="$PROJECT_DIR$/ui/js/compoments/app.js" />
         <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/ui/scss/style.scss" />
       </list>
     </option>
   </component>
@@ -178,12 +182,18 @@
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="compoments" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="fluentApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fluentApp" type="462c0819:PsiDirectoryNode" />
+              <item name="ui" type="462c0819:PsiDirectoryNode" />
+              <item name="scss" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -236,15 +246,17 @@
       <workItem from="1520955567492" duration="664000" />
       <workItem from="1520956379709" duration="159000" />
       <workItem from="1521035493514" duration="3437000" />
-      <workItem from="1521042311830" duration="1471000" />
+      <workItem from="1521042311830" duration="1548000" />
+      <workItem from="1521121175414" duration="6358000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8623000" />
+    <option name="totallyTimeSpent" value="15058000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15251945" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -253,8 +265,8 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32966396" sideWeight="0.5011836" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23348783" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="运行" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32966396" sideWeight="0.49881637" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23348783" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -279,6 +291,14 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ui/webpack.config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -292,7 +312,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="7" lean-forward="true" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -319,7 +339,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
           <caret line="4" column="27" lean-forward="false" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -467,19 +486,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/scss/style.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4532">
-          <caret line="103" column="0" lean-forward="false" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ui/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="968">
           <caret line="22" column="27" lean-forward="false" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -501,38 +511,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ui/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#26#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-792">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="11" column="18" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="15" column="42" lean-forward="false" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
+        <state relative-caret-position="220">
+          <caret line="5" column="87" lean-forward="false" selection-start-line="5" selection-start-column="87" selection-end-line="5" selection-end-column="87" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/js/compoments/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="22" column="21" lean-forward="false" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+        <state relative-caret-position="1012">
+          <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="40" selection-end-line="25" selection-end-column="45" />
           <folding>
             <element signature="e#46#72#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/js/app.js">
+    <entry file="file://$PROJECT_DIR$/ui/scss/style.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="924">
-          <caret line="21" column="35" lean-forward="false" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
+        <state relative-caret-position="1508">
+          <caret line="152" column="41" lean-forward="false" selection-start-line="152" selection-start-column="41" selection-end-line="152" selection-end-column="41" />
           <folding />
         </state>
       </provider>

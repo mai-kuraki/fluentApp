@@ -31588,8 +31588,22 @@ var App = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                     'div',
-                    { className: 'wrap' },
-                    '\u8FD9\u91CC\u662F\u82F1\u8BED'
+                    { className: 'player-wrap' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'play-ui-page' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'head' },
+                            _react2.default.createElement('div', { className: 'back iconfont icon-fanhui' }),
+                            _react2.default.createElement('div', { className: 'menu iconfont icon-weibiaoti12' })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'cover' },
+                            _react2.default.createElement('img', { src: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1521139730883&di=971a956639155c09237e4a924221c70d&imgtype=0&src=http%3A%2F%2Fi0.sinaimg.cn%2Fent%2Fy%2F2011-11-16%2FU5956P28T3D3482905F326DT20111116155045.jpg' })
+                        )
+                    )
                 )
             );
         }

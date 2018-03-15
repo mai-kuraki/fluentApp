@@ -8,8 +8,10 @@ function createWindow () {
     // Create the browser window.
     win = new BrowserWindow({
         frame: false,
-        width: 320,
-        height: 500
+        width: 620,
+        height: 540,
+        transparent: true,
+        backgroundColor: '#00FFFFFF',
     });
 
     // 然后加载应用的 index.html。
