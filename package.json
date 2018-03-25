@@ -15,5 +15,8 @@
     "bugs": {
         "url": "https://github.com/mai-kuraki/fluentApp/issues"
     },
-    "homepage": "https://github.com/mai-kuraki/fluentApp#readme"
+    "homepage": "https://github.com/mai-kuraki/fluentApp#readme",
+    "dependencies": {
+        "http-proxy": "^1.16.2"
+    }
 }

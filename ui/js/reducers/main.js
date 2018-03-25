@@ -1,24 +1,29 @@
 import * as TYPE from '../lib/const';
 
 const initState = {
-    curSong: {},
-    curPlaySong: {},
-    playState: false,
+    recommendList: [],
+    currentSong: {},
+    UIPage: false,
+    songInfo: {},
 };
 
 function main(state = initState, action) {
     switch (action.type) {
-        case TYPE.SET_CUR_SONG:
+        case TYPE.SET_RECOMMEND_LIST:
             return Object.assign({}, state, {
-                curSong: action.val
+                recommendList: action.value
             });
-        case TYPE.SET_CUR_PLAY_SONG:
+        case TYPE.SET_CURRENTSONG_INFO:
             return Object.assign({}, state, {
-                curPlaySong: action.val
+                currentSong: action.value
             });
-        case TYPE.SET_PLAY_STATE:
+        case TYPE.SET_PLAY_UI_PAGE:
             return Object.assign({}, state, {
-                playState: action.val
+                UIPage: action.value
+            });
+        case TYPE.SET_SONG_INFO:
+            return Object.assign({}, state, {
+                songInfo: action.value
             });
         default:
             return state;

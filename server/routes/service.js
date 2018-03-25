@@ -30,7 +30,7 @@ let rpUtil = {
             }
         })();
     }
-}
+};
 module.exports = {
     search: (req, res) => {
         let args = req.query;
@@ -49,5 +49,21 @@ module.exports = {
         rpUtil.get(`${requestHost}/song/detail?ids=${args.ids}`, null, req, res, (body) => {
             res.json(body);
         });
+    },
+    personalized: (req, res) => {
+        rpUtil.get(`${requestHost}/personalized`, null, req, res, (body) => {
+            res.json(body);
+        });
+    },
+    playlistDetail: (req, res) => {
+        let args = req.query;
+        let id = args.id;
+        if(id) {
+            rpUtil.get(`${requestHost}/playlist/detail?id=${id}`, null, req, res, (body) => {
+                res.json(body);
+            });
+        }else {
+            res.json({status: 500, messge: '缺少参数id'})
+        }
     }
 };

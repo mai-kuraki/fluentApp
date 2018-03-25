@@ -1,0 +1,212 @@
+@font-face {
+  font-family: "amble";
+  src: url("../font/Amble-Regular.ttf"); }
+* {
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+  box-sizing: border-box;
+  font-family: "amble", "Microsoft YaHei", "PingFangSC-Regular", STHeiti, Helvetica, Arial, sans-serif !important;
+  user-select: none; }
+
+html {
+  width: 100%;
+  height: 100%;
+  background: none; }
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "amble", "Microsoft YaHei", "PingFangSC-Regular", STHeiti, Helvetica, Arial, sans-serif !important;
+  font-size: 14px;
+  color: #000;
+  background: none;
+  overflow-y: auto; }
+
+a {
+  text-decoration: none;
+  color: #000; }
+
+a img {
+  border: none; }
+
+i, em {
+  font-style: normal; }
+
+input {
+  font-family: "amble", "Microsoft YaHei", "PingFangSC-Regular", STHeiti, Helvetica, Arial, sans-serif !important; }
+
+input[type="button"], input[type="submit"], input[type="reset"] {
+  -webkit-appearance: none; }
+
+input[placeholder] {
+  font-family: "amble", "Microsoft YaHei", "PingFangSC-Regular", STHeiti, Helvetica, Arial, sans-serif !important; }
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 5px;
+  background-color: #f0f0f0; }
+
+::-webkit-scrollbar-thumb {
+  background-color: #999; }
+
+::-webkit-scrollbar-track {
+  background-color: unset; }
+
+::selection {
+  background: #858585;
+  color: #FFF; }
+
+::-moz-selection {
+  background: #858585;
+  color: #FFF; }
+
+.clearfix {
+  zoom: 1; }
+  .clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    font-size: 0;
+    clear: both;
+    visibility: hidden; }
+
+.track-vertical {
+  right: 0px;
+  width: 0px !important;
+  height: 100%; }
+
+.thumb-vertical {
+  background: #C8C9CC;
+  border-radius: 4px; }
+  .thumb-vertical:hover {
+    background: #adafb2; }
+
+#main {
+  width: 100vw;
+  height: 100vh;
+  background: none;
+  position: relative;
+  padding: 10px 25px 25px 25px; }
+
+.player-wrap {
+  width: 100%;
+  height: 100%;
+  background: #FFF;
+  -webkit-app-region: drag;
+  z-index: 2;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 6px 18px 0px rgba(73, 73, 73, 0.4); }
+  .player-wrap .play-ui-page {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 1px;
+    border-radius: 8px;
+    overflow: hidden; }
+    .player-wrap .play-ui-page .head {
+      position: absolute;
+      left: 0px;
+      top: 15px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      height: 50px;
+      align-items: center;
+      z-index: 9; }
+      .player-wrap .play-ui-page .head .back {
+        display: flex;
+        height: 50px;
+        width: 50px;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 20px;
+        cursor: pointer;
+        -webkit-app-region: no-drag; }
+      .player-wrap .play-ui-page .head .menu {
+        display: flex;
+        height: 50px;
+        width: 50px;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 20px;
+        cursor: pointer;
+        -webkit-app-region: no-drag; }
+    .player-wrap .play-ui-page .cover {
+      width: 32vw;
+      height: 32vw;
+      border-radius: 50%;
+      margin: 16vh auto 0vh;
+      position: relative; }
+      .player-wrap .play-ui-page .cover .progress {
+        width: 100%;
+        height: 100%; }
+        .player-wrap .play-ui-page .cover .progress svg {
+          width: 100%;
+          height: 100%; }
+          .player-wrap .play-ui-page .cover .progress svg path:nth-child(2) {
+            border-radius: 2px; }
+      .player-wrap .play-ui-page .cover img {
+        display: block;
+        width: 25vw;
+        height: 25vw;
+        border-radius: 50%;
+        position: absolute;
+        left: 3.5vw;
+        top: 3.5vw; }
+    .player-wrap .play-ui-page .wave {
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+      left: 0px;
+      bottom: 0px; }
+      .player-wrap .play-ui-page .wave canvas {
+        width: 100%;
+        height: 100%; }
+    .player-wrap .play-ui-page .player-panel {
+      width: 100%;
+      height: 26vh;
+      position: absolute;
+      left: 0px;
+      bottom: 0px;
+      z-index: 9;
+      background: none;
+      padding: 1px 20px; }
+      .player-wrap .play-ui-page .player-panel .song-name {
+        width: 100%;
+        font-size: 14px;
+        color: #FFF;
+        display: flex;
+        justify-content: center; }
+      .player-wrap .play-ui-page .player-panel .singer {
+        width: 100%;
+        font-size: 10px;
+        color: #FFF;
+        display: flex;
+        justify-content: center;
+        margin-top: 1vh; }
+      .player-wrap .play-ui-page .player-panel .control {
+        width: 60vw;
+        margin: 2.5vh auto 0px;
+        display: flex;
+        height: 80px;
+        align-items: center;
+        justify-content: space-between;
+        color: #FFF; }
+        .player-wrap .play-ui-page .player-panel .control .change {
+          font-size: 7vw;
+          -webkit-app-region: no-drag;
+          cursor: pointer; }
+        .player-wrap .play-ui-page .player-panel .control .play {
+          font-size: 16vw;
+          text-shadow: 0px 6px 20px rgba(73, 73, 73, 0.2);
+          -webkit-app-region: no-drag;
+          cursor: pointer;
+          transition: all ease-in-out 250ms; }
+          .player-wrap .play-ui-page .player-panel .control .play:hover {
+            text-shadow: 0px 6px 20px rgba(73, 73, 73, 0.4); }
+
+/*# sourceMappingURL=style.css.map */

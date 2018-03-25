@@ -1,17 +1,28 @@
 let express = require('express');
 let router = express.Router();
 let service = require('./service');
-
-router.get('/search', (req, res, next) => {
-    service.search(req, res);
+/**
+ * 获取推荐歌单
+ */
+router.get('/personalized', (req, res) => {
+   service.personalized(req, res);
 });
-
-router.get('/music/url', (req, res, next) => {
+/**
+ * 获取歌单详情
+ */
+router.get('/playlist/detail', (req, res) => {
+    service.playlistDetail(req, res);
+});
+/**
+ * 根据id获取音乐url
+ */
+router.get('/music/url', (req, res) => {
     service.musicUrl(req, res);
 });
-
-router.get('/song/detail', (req, res, next) => {
+/**
+ * 获取音乐信息
+ */
+router.get('/song/detail', (req, res) => {
     service.songDetail(req, res);
 });
-
 module.exports = router;

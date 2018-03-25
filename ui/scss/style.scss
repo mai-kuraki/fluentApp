@@ -1,6 +1,9 @@
 @font-face {font-family: "amble";
     src: url('../font/Amble-Regular.ttf');
 }
+
+$theme: #31C27C;
+
 * {
     padding: 0px;
     margin: 0px;
@@ -103,11 +106,14 @@ input[placeholder]{
     }
 }
 #main{
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     background: none;
     position: relative;
-    padding: 5px 25px 25px 5px;
+    padding: 10px 25px 25px 25px;
+}
+#audio{
+    display: none;
 }
 .player-wrap{
     width: 100%;
@@ -115,21 +121,188 @@ input[placeholder]{
     background: #FFF;
     -webkit-app-region: drag;
     z-index: 2;
-    box-shadow: 10px 10px 20px rgba(0,0,0,.1);
+    overflow: hidden;
+    box-shadow: 0px 6px 18px 0px rgba(73, 73, 73, 0.4);
+    position: relative;
+    .fix-control{
+        width: 100%;
+        height: 50px;
+        background: #FFF;
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        z-index: 999;
+        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.06);
+        display: flex;
+        .play-bar{
+            width: 100%;
+            height: 3px;
+            background: #FFF;
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            .curBar{
+                width: 0%;
+                height: 3px;
+                background: $theme;
+            }
+        }
+        .cover{
+            width: 50px;
+            height: 50px;
+            padding: 8px;
+            -webkit-app-region: no-drag;
+            img{
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .info{
+            width: calc(100% - 50px - 50px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 5px 12px 7px 4px;
+            -webkit-app-region: no-drag;
+            .name{
+                font-size: 14px;
+                color: #333;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .singer{
+                font-size: 12px;
+                color: #999;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+        .play-icon{
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $theme;
+            font-size: 22px;
+            cursor: pointer;
+        }
+    }
+    .snackbar{
+        max-width: 50vw;
+        min-width: 30vw;
+        padding: 5px 12px;
+        background: rgba(0,0,0,.8);
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        color: #FFF;
+        font-size: 13px;
+        line-height: 1.6;
+        text-align: center;
+        border-radius: 3px;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        word-break: break-all;
+    }
+    .windowsHead{
+        position: absolute;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        top: 0px;
+        left: 0px;
+        z-index: 999;
+        -webkit-app-region: drag;
+        background: #FFF;
+        .back{
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 250ms ease;
+            -webkit-app-region: no-drag;
+        }
+        .dragbar{
+            width: calc(100% - 50px - 100px);
+            height: 100%;
+            -webkit-app-region: drag;
+        }
+        .btns{
+            display: flex;
+            span{
+                width: 50px;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #999;
+                font-size: 20px;
+                cursor: pointer;
+                transition: all 250ms ease;
+                -webkit-app-region: no-drag;
+                &:hover{
+                    background: rgba(134,134,134, 0.1);
+                }
+            }
+            .close{
+                &:hover{
+                    color: #FFF;
+                    background: #DA3B01;
+                }
+            }
+        }
+    }
+    .windowsHead-transparent{
+        background: linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,.0));
+        .back{
+            color: #FFF;
+        }
+        .btns{
+            span{
+                color: #FFF;
+                &:hover{
+                    background: none;
+                }
+            }
+            .close{
+                &:hover{
+                    background: none;
+                }
+            }
+        }
+    }
     .play-ui-page{
         width: 100%;
         height: 100%;
-        position: relative;
+        position: absolute;
+        left: 0px;
+        top: 100vh;
+        z-index: 1000;
+        background: #FFF;
         padding: 1px;
+        overflow: hidden;
+        transition: all 250ms ease-out;
         .head{
             position: absolute;
             left: 0px;
-            top: 20px;
+            top: 15px;
             width: 100%;
             display: flex;
             justify-content: space-between;
             height: 50px;
             align-items: center;
+            z-index: 9;
             .back{
                 display: flex;
                 height: 50px;
@@ -139,7 +312,7 @@ input[placeholder]{
                 color: #999;
                 font-size: 20px;
                 cursor: pointer;
-                -webkit-app-region: none;
+                -webkit-app-region: no-drag;
             }
             .menu{
                 display: flex;
@@ -150,19 +323,380 @@ input[placeholder]{
                 color: #999;
                 font-size: 20px;
                 cursor: pointer;
-                -webkit-app-region: none;
+                -webkit-app-region: no-drag;
             }
         }
         .cover{
-            width: 100px;
-            height: 100px;
+            width: 32vw;
+            height: 32vw;
             border-radius: 50%;
             margin: 16vh auto 0vh;
-            img{
-                display: block;
+            position: relative;
+            .progress{
                 width: 100%;
                 height: 100%;
+                svg{
+                    width: 100%;
+                    height: 100%;
+                    path{
+                        &:nth-child(2) {
+                            border-radius: 2px;
+                        }
+                    }
+                }
+            }
+            img{
+                display: block;
+                width: 25vw;
+                height: 25vw;
                 border-radius: 50%;
+                position: absolute;
+                left: 3.5vw;
+                top: 3.5vw;
+            }
+        }
+        .wave{
+            width: 100%;
+            height: 100vh;
+            //background: #F08F8F;
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            canvas{
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .player-panel{
+            width: 100%;
+            height: 26vh;
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            z-index: 9;
+            background: none;
+            padding: 1px 20px;
+            .song-name{
+                width: 100%;
+                font-size: 14px;
+                color: #FFF;
+                display: flex;
+                justify-content: center;
+            }
+            .singer{
+                width: 100%;
+                font-size: 10px;
+                color: #FFF;
+                display: flex;
+                justify-content: center;
+                margin-top: 1vh;
+            }
+            .control{
+                width: 60vw;
+                margin: 2.5vh auto 0px;
+                display: flex;
+                height: 80px;
+                align-items: center;
+                justify-content: space-between;
+                color: #FFF;
+                .change{
+                    font-size: 7vw;
+                    -webkit-app-region: no-drag;
+                    cursor: pointer;
+                }
+                .play{
+                    font-size: 16vw;
+                    text-shadow: 0px 6px 20px rgba(73, 73, 73, 0.2);
+                    -webkit-app-region: no-drag;
+                    cursor: pointer;
+                    transition: all ease-in-out 250ms;
+                    &:hover{
+                        text-shadow: 0px 6px 20px rgba(73, 73, 73, 0.4);
+                    }
+                }
+            }
+        }
+    }
+    .play-ui-page-show{
+        top: 0px;
+    }
+    .home-page{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        padding-top: 50px;
+        .home-tab{
+            width: 100%;
+            height: 32px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 14px;
+            align-items: center;
+            -webkit-app-region: no-drag;
+            .tab{
+                color: #999;
+                transition: all 250ms ease;
+                -webkit-app-region: no-drag;
+                cursor: pointer;
+                &:hover{
+                    color: #333;
+                }
+            }
+            .cur{
+                color: #333;
+                font-weight: bold;
+            }
+        }
+        .recommend{
+            height: calc(100vh - 50px - 32px);
+            padding: 18px 0px;
+            .recommoned-banner{
+                width: 100%;
+                padding: 5px 18px;
+                display: flex;
+                .cover{
+                    width: 32vw;
+                    height: 32vw;
+                    box-shadow: 0px 6px 18px 0px rgba(73, 73, 73, 0.4);
+                    position: relative;
+                    .list-tag{
+                        position: absolute;
+                        right: 8px;
+                        bottom: 8px;
+                        padding: 3px 8px;
+                        font-size: 11px;
+                        display: flex;
+                        border-radius: 2px;
+                        background: rgba(0,0,0,.5);
+                        color: #FFF;
+                        em{
+                            margin-right: 1px;
+                            font-size: 14px;
+                        }
+                    }
+                    img{
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .info{
+                    width: calc(100% - 32vw);
+                    padding-left: 18px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    .name{
+                        font-size: 3.4vw;
+                        font-weight: bold;
+                        line-height: 1.6;
+                        max-height: 11vw;
+                        overflow: hidden;
+                    }
+                    .desc{
+                        font-size: 2.8vw;
+                        color: #999;
+                        line-height: 1.6;
+                        height: 8.5vw;
+                        overflow: hidden;
+                    }
+                    .play-btn{
+                        width: 100px;
+                        height: 8vw;
+                        background: $theme;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #FFF;
+                        cursor: pointer;
+                        font-size: 12px;
+                        -webkit-app-region: no-drag;
+                        i{
+                            margin-right: 5px;
+                            font-size: 24px;
+                        }
+                    }
+                }
+            }
+            .item-list{
+                width: 100%;
+                height: calc(100% - 32vw - 38px);
+                overflow-y: auto;
+                -webkit-app-region: no-drag;
+                margin-top: 16px;
+                padding-bottom: 18px;
+                .album-itembox{
+                    width: 100%;
+                    padding: 8px 18px;
+                    display: flex;
+                    cursor: pointer;
+                    -webkit-app-region: no-drag;
+                    transition: all 250ms ease;
+                    &:hover{
+                        background: #F0F0F0;
+                    }
+                    .cover{
+                        width: 68px;
+                        height: 68px;
+                        img{
+                            display: block;
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                    .r{
+                        width: calc(100% - 68px);
+                        padding: 0px 0px 0px 12px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        .desc{
+                            font-size: 14px;
+                            line-height: 1.6;
+                        }
+                        .num{
+                            font-size: 12px;
+                            color: #999;
+                            display: flex;
+                            i{
+                                margin-right: 4px;
+                                align-items: center;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .listDetail-page{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        .wrap{
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .listCoverBanner{
+            width: 100%;
+            height: 38vh;
+            position: relative;
+            .play{
+                position: absolute;
+                right: 0px;
+                bottom: -26px;
+                width: 56px;
+                height: 56px;
+                background: $theme;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #FFF;
+                padding-left: 4px;
+                font-size: 22px;
+                cursor: pointer;
+                -webkit-app-region: no-drag;
+            }
+            .cover{
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                img{
+                    display: block;
+                    width: 100%;
+                }
+            }
+        }
+        .listInfo{
+            width: 100%;
+            padding: 40px 20px 30px;
+            .name{
+                font-size: 15px;
+                font-weight: bold;
+                line-height: 1.6;
+            }
+            .desc{
+                font-size: 12px;
+                color: #999;
+                margin-top: 12px;
+                line-height: 1.6;
+                max-height: 56px;
+                overflow: hidden;
+            }
+        }
+        .song-list{
+            width: 100%;
+            padding-bottom: 70px;
+            .song{
+                width: 100%;
+                padding: 0px 0px;
+                display: flex;
+                -webkit-app-region: no-drag;
+                position: relative;
+                &:before{
+                    content: '\e60a';
+                    font-family: iconfont;
+                    position: absolute;
+                    display: none;
+                    justify-content: center;
+                    align-items: center;
+                    right: 16px;
+                    top: 0px;
+                    height: 100%;
+                    color: $theme;
+                    font-size: 26px;
+                }
+                &:hover{
+                    background: #FCFCFC;
+                    .key{
+                        color: $theme;
+                    }
+                    &:before{
+                        display: flex;
+                    }
+                }
+                &:last-child{
+                    .r{
+                        border-bottom: none;
+                    }
+                }
+                .key{
+                    width: 60px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: #ECECEC;
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+                .r{
+                    width: calc(100% - 60px);
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    border-bottom: solid 1px #FAFAFA;
+                    padding: 10px 30px 10px 0px;
+                    cursor: pointer;
+                    .name{
+                        font-size: 14px;
+                        color: #333;
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: normal;
+                    }
+                    .singer{
+                        font-size: 12px;
+                        color: #999;
+                        margin-top: 4px;
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: normal;
+                    }
+                }
             }
         }
     }

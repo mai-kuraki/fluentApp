@@ -8,8 +8,8 @@ function createWindow () {
     // Create the browser window.
     win = new BrowserWindow({
         frame: false,
-        width: 620,
-        height: 540,
+        width: 800,
+        height: 670,
         transparent: true,
         backgroundColor: '#00FFFFFF',
     });
