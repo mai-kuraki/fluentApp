@@ -77,21 +77,27 @@ export default class Mysong extends React.Component {
                             <div className="file-btn" onClick={this.addFileDir.bind(this)}>选择本地音乐文件夹</div>
                         </div>:null
                 }
-                <div className="item-list">
-                    {
-                        state.playlist.map((data, k) => {
-                            return(
-                                <div key={k} className="song-itembox" onDoubleClick={this.playLocal.bind(this, data)}>
-                                    <div className="cover"><img src={data.cover || '/defaultCover.png'}/></div>
-                                    <div className="info">
-                                        <div className="name">{data.name}</div>
-                                        <div className="singer"><i className="iconfont icon-computer_icon"></i>{data.artist || '未知'}-{data.album || '未知'}</div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
+                {
+                    state.playlist.length > 0?
+                        <div className="item-list">
+                            <div className="list-head">
+                                <div className="label">本地音乐<i>{state.playlist.length}首音乐</i></div>
+                            </div>
+                            {
+                                state.playlist.map((data, k) => {
+                                    return(
+                                        <div key={k} className="song-itembox" onDoubleClick={this.playLocal.bind(this, data)}>
+                                            <div className="cover"><img src={data.cover || '/defaultCover.png'}/></div>
+                                            <div className="info">
+                                                <div className="name">{data.name}</div>
+                                                <div className="singer"><i className="iconfont icon-computer_icon"></i>{data.artist || '未知'}-{data.album || '未知'}</div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>:null
+                }
             </div>
         )
     }

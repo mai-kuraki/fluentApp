@@ -44765,9 +44765,24 @@ var Mysong = function (_React$Component) {
                         '\u9009\u62E9\u672C\u5730\u97F3\u4E50\u6587\u4EF6\u5939'
                     )
                 ) : null,
-                _react2.default.createElement(
+                state.playlist.length > 0 ? _react2.default.createElement(
                     'div',
                     { className: 'item-list' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'list-head' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'label' },
+                            '\u672C\u5730\u97F3\u4E50',
+                            _react2.default.createElement(
+                                'i',
+                                null,
+                                state.playlist.length,
+                                '\u9996\u97F3\u4E50'
+                            )
+                        )
+                    ),
                     state.playlist.map(function (data, k) {
                         return _react2.default.createElement(
                             'div',
@@ -44796,7 +44811,7 @@ var Mysong = function (_React$Component) {
                             )
                         );
                     })
-                )
+                ) : null
             );
         }
     }]);

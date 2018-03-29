@@ -637,6 +637,17 @@ input[placeholder] {
         overflow-y: auto;
         padding-bottom: 68px;
         padding-top: 10px; }
+        .player-wrap .home-page .mysong .item-list .list-head {
+          width: 100%;
+          display: flex;
+          padding: 0px 18px 20px;
+          align-items: center; }
+          .player-wrap .home-page .mysong .item-list .list-head .label {
+            font-size: 14px; }
+            .player-wrap .home-page .mysong .item-list .list-head .label i {
+              color: #999;
+              font-size: 11px;
+              margin-left: 5px; }
         .player-wrap .home-page .mysong .item-list .song-itembox {
           width: 100%;
           padding: 8px 18px;

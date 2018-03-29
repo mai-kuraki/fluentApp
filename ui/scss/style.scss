@@ -772,6 +772,20 @@ input[placeholder] {
                 overflow-y: auto;
                 padding-bottom: 68px;
                 padding-top: 10px;
+                .list-head{
+                    width: 100%;
+                    display: flex;
+                    padding: 0px 18px 20px;
+                    align-items: center;
+                    .label{
+                        font-size: 14px;
+                        i{
+                            color: #999;
+                            font-size: 11px;
+                            margin-left: 5px;
+                        }
+                    }
+                }
                 .song-itembox {
                     width: 100%;
                     padding: 8px 18px;
