@@ -10,6 +10,7 @@ import * as Actions from '../actions';
 import Home from './home';
 import PlayDetail from './playDetail';
 import ListDetail from './listDetail';
+import AlbumDetail from './albumDetail';
 import store from "../store";
 
 
@@ -20,7 +21,6 @@ export default class App extends React.Component {
             snackbar: false,
             snackbarText: '',
             playPercent: 0,
-            playState: false,
             audioDuration: 0,
             audioCurDuration: 0,
         };
@@ -58,15 +58,15 @@ export default class App extends React.Component {
         eventEmitter.on(constStr.INITAUDIO, () => {
             this.initAudio();
         });
+        eventEmitter.on(constStr.INITLOCALAUDIO, (data) => {
+            this.initLocalAudio(data);
+        });
         eventEmitter.on(constStr.SNACKBAROPEN, (text, dur) => {
            this.snackbarOpen(text, dur);
         });
         eventEmitter.on(constStr.SWITCHPLAY, (state) => {
             this.switchPlay(state);
         });
-
-        // this.audio.crossOrigin = 'anonymous';
-        // this.audio.src = 'http://127.0.0.1:4000/ftm.mp3';
     }
 
     durationchange() {
@@ -115,6 +115,19 @@ export default class App extends React.Component {
         this.audio.crossOrigin = 'anonymous';
         this.audio.src = url;
         this.audio.play();
+        store.dispatch(Actions.setPlayState(true));
+    }
+
+    initLocalAudio(data) {
+        let url = data.url;
+        this.audio.src = url;
+        this.audio.play();
+        store.dispatch(Actions.setSongInfo({
+            name: data.name,
+            al: {picUrl: data.cover},
+            ar: [{name: data.artist}],
+        }));
+        store.dispatch(Actions.setPlayState(true));
     }
 
     switchPlay(state) {
@@ -123,9 +136,7 @@ export default class App extends React.Component {
         }else {
             this.audio.pause();
         }
-        this.setState({
-            playState: state,
-        })
+        store.dispatch(Actions.setPlayState(state));
     }
 
     toUIPage() {
@@ -163,8 +174,8 @@ export default class App extends React.Component {
                                     <div className="name">{songInfo.name || ''}</div>
                                     <div className="singer">{songInfo.ar[0].name || ''}</div>
                                 </div>
-                                <div className={`play-icon iconfont ${state.playState?'icon-weibiaoti519':'icon-bofang2'}`} onClick={(e) => {
-                                    this.switchPlay(!state.playState);
+                                <div className={`play-icon iconfont ${storeMain.playState?'icon-weibiaoti519':'icon-bofang2'}`} onClick={(e) => {
+                                    this.switchPlay(!storeMain.playState);
                                 }}></div>
                             </div>
                     }
@@ -175,10 +186,9 @@ export default class App extends React.Component {
                             1 === 1?
                                 <React.Fragment>
                                     <Route path="/listDetail/:id" component={ListDetail}/>
-                                    <Route path="/UIPage" component={PlayDetail}/>
                                     <Route path="/" component={Home}/>
                                 </React.Fragment>:<React.Fragment>
-                                    <Route path="/" component={PlayDetail}/>
+                                    <Route path="/" component={AlbumDetail}/>
                                 </React.Fragment>
                         }
                     </Switch>

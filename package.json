@@ -17,6 +17,10 @@
     },
     "homepage": "https://github.com/mai-kuraki/fluentApp#readme",
     "dependencies": {
-        "http-proxy": "^1.16.2"
+        "btoa": "^1.2.1",
+        "http-proxy": "^1.16.2",
+        "jsmediatags": "^3.8.1",
+        "lowdb": "^1.0.0",
+        "underscore": "^1.8.3"
     }
 }

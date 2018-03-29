@@ -65,5 +65,26 @@ module.exports = {
         }else {
             res.json({status: 500, messge: '缺少参数id'})
         }
-    }
+    },
+    newsong: (req, res) => {
+        rpUtil.get(`${requestHost}/personalized/newsong`, null, req, res, (body) => {
+            res.json(body);
+        });
+    },
+    topAlbum: (req, res) => {
+        rpUtil.get(`${requestHost}/top/album`, null, req, res, (body) => {
+            res.json(body);
+        });
+    },
+    getAlbum: (req, res) => {
+        let args = req.query;
+        let id = args.id;
+        if(id) {
+            rpUtil.get(`${requestHost}/album?id=${id}`, null, req, res, (body) => {
+                res.json(body);
+            });
+        }else {
+            res.json({status: 500, messge: '缺少参数id'})
+        }
+    },
 };

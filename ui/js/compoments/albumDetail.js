@@ -5,12 +5,13 @@ import eventEmitter from '../lib/eventEmitter';
 import * as constStr from '../lib/const';
 import * as Actions from '../actions';
 
-export default class ListDetail extends React.Component {
+export default class AlbumDetail extends React.Component {
     constructor() {
         super();
         this.state = {
-            id: '2151736437',
-            listData: {},
+            id: '38044027',
+            album: {},
+            songs: [],
             scrollState: false,
         }
     }
@@ -29,14 +30,15 @@ export default class ListDetail extends React.Component {
 
     getListDetail() {
         let id = this.state.id;
-        fetch(`${__REQUESTHOST}/api/playlist/detail?id=${id}`, {
+        fetch(`${__REQUESTHOST}/api/album?id=${id}`, {
             method: 'GET',
         }).then((res) => {
             return res.json();
         }).then(data => {
             if(data.code == 200) {
                 this.setState({
-                    listData: data.result,
+                    songs: data.songs,
+                    album: data.album,
                 })
             }
         })
@@ -76,14 +78,13 @@ export default class ListDetail extends React.Component {
     }
 
     goBack() {
-        console.log(this.props.history)
         this.props.history.goBack();
     }
 
     render() {
         let state = this.state;
-        let listData = state.listData;
-        let tracks = listData.tracks || [];
+        let songs = state.songs,
+            album = state.album;
         return(
             <div className="listDetail-page">
                 <div className={`windowsHead ${state.scrollState?'':'windowsHead-transparent'}`}>
@@ -98,22 +99,22 @@ export default class ListDetail extends React.Component {
                     <div className="listCoverBanner">
                         <div className="play iconfont icon-bofang2"></div>
                         <div className="cover">
-                            <img src={listData.coverImgUrl || ''} draggable={false}/>
+                            <img src={album.picUrl || ''} draggable={false}/>
                         </div>
                     </div>
                     <div className="listInfo">
-                        <div className="name">{listData.name || ''}</div>
-                        <div className="desc">{listData.description || ''}</div>
+                        <div className="name">{album.name || ''}</div>
+                        <div className="desc">{album.company || ''}</div>
                     </div>
                     <div className="song-list">
                         {
-                            tracks.map((data, k) => {
+                            songs.map((data, k) => {
                                 return (
                                     <div className="song" key={k} onDoubleClick={this.id2Song.bind(this, data.id)}>
                                         <div className="key">{k + 1}</div>
                                         <div className="r">
                                             <div className="name">{data.name || ''}</div>
-                                            <div className="singer">{data.artists[0].name || ''}</div>
+                                            <div className="singer">{data.ar[0].name || ''}</div>
                                         </div>
                                     </div>
                                 )
@@ -121,7 +122,6 @@ export default class ListDetail extends React.Component {
                         }
                     </div>
                 </div>
-
             </div>
         )
     }

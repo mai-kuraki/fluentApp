@@ -10,7 +10,6 @@ export default class PlayDetail extends React.Component {
     constructor() {
         super();
         this.state = {
-            playState: false,
             percent: 0,
         };
         this.progress = null;
@@ -18,11 +17,6 @@ export default class PlayDetail extends React.Component {
     }
 
     componentDidMount() {
-        let audio = document.getElementById('audio');
-        let state = audio.paused;
-        this.setState({
-            playState: !state,
-        });
         this.progress = new Progressbar.Circle('#progress', {
             strokeWidth: 4,
             trailWidth: 2,
@@ -45,9 +39,9 @@ export default class PlayDetail extends React.Component {
         this.canvas = document.getElementById('waveCanvas');
         this.ctx = this.canvas.getContext('2d');
         this.width = this.canvas.offsetWidth,
-            this.height = this.canvas.offsetHeight;
+        this.height = this.canvas.offsetHeight;
         this.canvas.width = this.width,
-            this.canvas.height = this.height;
+        this.canvas.height = this.height;
         this.ctx.beginPath();
         this.ctx.fillStyle = 'rgba(240,143,143,0.9)';
         this.ctx.moveTo(0, this.baseY);
@@ -159,10 +153,8 @@ export default class PlayDetail extends React.Component {
     }
 
     switchPlay() {
-        eventEmitter.emit(constStr.SWITCHPLAY, !this.state.playState);
-        this.setState({
-            playState: !this.state.playState,
-        })
+        let storeMain = store.getState().main;
+        eventEmitter.emit(constStr.SWITCHPLAY, !storeMain.playState);
     }
 
     goBack() {
@@ -202,7 +194,7 @@ export default class PlayDetail extends React.Component {
                     <div className="singer">{songInfo.ar[0].name || ''}</div>
                     <div className="control">
                         <div className="change pre iconfont icon-xiayishou1-copy"></div>
-                        <div className={`play iconfont ${state.playState?'icon-zanting':'icon-bofang'}`} onClick={this.switchPlay.bind(this)}></div>
+                        <div className={`play iconfont ${storeMain.playState?'icon-zanting':'icon-bofang'}`} onClick={this.switchPlay.bind(this)}></div>
                         <div className="change next iconfont icon-xiayishou1"></div>
                     </div>
                 </div>

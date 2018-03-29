@@ -139,14 +139,14 @@ input[placeholder] {
       padding: 5px 12px 7px 4px;
       -webkit-app-region: no-drag; }
       .player-wrap .fix-control .info .name {
-        font-size: 14px;
+        font-size: 13px;
         color: #333;
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap; }
       .player-wrap .fix-control .info .singer {
-        font-size: 12px;
+        font-size: 11px;
         color: #999;
         width: 100%;
         overflow: hidden;
@@ -371,8 +371,19 @@ input[placeholder] {
       .player-wrap .home-page .home-tab .cur {
         color: #333;
         font-weight: bold; }
+    .player-wrap .home-page .home-tab-wrapper {
+      width: 100%;
+      height: calc(100vh - 50px - 32px); }
+      .player-wrap .home-page .home-tab-wrapper .swiper-wrapper {
+        display: flex;
+        width: 400vw;
+        height: 100%; }
+      .player-wrap .home-page .home-tab-wrapper .swiper-slide {
+        width: 100vw;
+        height: 100%; }
     .player-wrap .home-page .recommend {
-      height: calc(100vh - 50px - 32px);
+      width: 100%;
+      height: 100%;
       padding: 18px 0px; }
       .player-wrap .home-page .recommend .recommoned-banner {
         width: 100%;
@@ -438,7 +449,7 @@ input[placeholder] {
         overflow-y: auto;
         -webkit-app-region: no-drag;
         margin-top: 16px;
-        padding-bottom: 18px; }
+        padding-bottom: 68px; }
         .player-wrap .home-page .recommend .item-list .album-itembox {
           width: 100%;
           padding: 8px 18px;
@@ -471,6 +482,193 @@ input[placeholder] {
               .player-wrap .home-page .recommend .item-list .album-itembox .r .num i {
                 margin-right: 4px;
                 align-items: center; }
+    .player-wrap .home-page .newest {
+      width: 100%;
+      height: 100%;
+      padding: 18px 0px; }
+      .player-wrap .home-page .newest .newest-banner {
+        width: 100%;
+        height: 25vh;
+        overflow: hidden;
+        position: relative;
+        display: none; }
+        .player-wrap .home-page .newest .newest-banner .bg {
+          display: block;
+          width: 100%; }
+      .player-wrap .home-page .newest .item-list {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        padding-bottom: 68px;
+        padding-top: 10px; }
+        .player-wrap .home-page .newest .item-list .song-itembox {
+          width: 100%;
+          padding: 8px 18px;
+          display: flex;
+          cursor: pointer;
+          -webkit-app-region: no-drag;
+          transition: all 250ms ease; }
+          .player-wrap .home-page .newest .item-list .song-itembox:hover {
+            background: #F0F0F0; }
+          .player-wrap .home-page .newest .item-list .song-itembox .cover {
+            width: 38px;
+            height: 38px; }
+            .player-wrap .home-page .newest .item-list .song-itembox .cover img {
+              display: block;
+              width: 100%;
+              height: 100%; }
+          .player-wrap .home-page .newest .item-list .song-itembox .info {
+            width: calc(100% - 38px);
+            padding: 0px 0px 0px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; }
+            .player-wrap .home-page .newest .item-list .song-itembox .info .name {
+              font-size: 14px;
+              line-height: 1.6; }
+            .player-wrap .home-page .newest .item-list .song-itembox .info .singer {
+              font-size: 12px;
+              color: #999;
+              display: flex; }
+              .player-wrap .home-page .newest .item-list .song-itembox .info .singer i {
+                margin-right: 4px;
+                align-items: center; }
+    .player-wrap .home-page .album {
+      width: 100%;
+      height: 100%;
+      padding: 18px 0px; }
+      .player-wrap .home-page .album .item-list {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        padding-bottom: 68px;
+        padding-top: 10px; }
+        .player-wrap .home-page .album .item-list .album-itembox {
+          width: 50%;
+          padding: 8px 18px;
+          height: 48vw;
+          display: flex;
+          flex-direction: column;
+          cursor: pointer;
+          -webkit-app-region: no-drag;
+          transition: all 250ms ease;
+          float: left; }
+          .player-wrap .home-page .album .item-list .album-itembox:hover .cover:before {
+            right: -24px; }
+          .player-wrap .home-page .album .item-list .album-itembox .cover {
+            width: 30vw;
+            height: 30vw;
+            position: relative; }
+            .player-wrap .home-page .album .item-list .album-itembox .cover:before {
+              content: '';
+              display: block;
+              width: 30vw;
+              height: 30vw;
+              background: #333;
+              border-radius: 50%;
+              position: absolute;
+              right: -15px;
+              top: 50%;
+              margin-top: -15vw;
+              transition: all 250ms ease-out; }
+            .player-wrap .home-page .album .item-list .album-itembox .cover img {
+              display: block;
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              left: 0px;
+              top: 0px;
+              z-index: 9;
+              box-shadow: 0px 2px 6px 0px rgba(73, 73, 73, 0.1);
+              background: #FFF; }
+          .player-wrap .home-page .album .item-list .album-itembox .info {
+            width: 100%;
+            padding: 10px 0px 0px; }
+            .player-wrap .home-page .album .item-list .album-itembox .info .name {
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-size: 14px;
+              line-height: 1.6; }
+            .player-wrap .home-page .album .item-list .album-itembox .info .singer {
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-size: 12px;
+              color: #999;
+              display: flex; }
+              .player-wrap .home-page .album .item-list .album-itembox .info .singer i {
+                margin-right: 4px;
+                align-items: center; }
+    .player-wrap .home-page .mysong {
+      width: 100%;
+      height: 100%;
+      padding: 18px 0px; }
+      .player-wrap .home-page .mysong .mysong-empty {
+        width: 100%;
+        padding: 10vh 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column; }
+        .player-wrap .home-page .mysong .mysong-empty .loading {
+          width: 60vw; }
+        .player-wrap .home-page .mysong .mysong-empty .loading-text {
+          font-size: 12px;
+          color: #999;
+          margin-top: 8px;
+          margin-bottom: 20px; }
+        .player-wrap .home-page .mysong .mysong-empty .tip {
+          font-size: 14px;
+          font-weight: bold; }
+        .player-wrap .home-page .mysong .mysong-empty .file-btn {
+          padding: 10px 20px;
+          background: #31C27C;
+          color: #FFF;
+          font-size: 12px;
+          cursor: pointer;
+          -webkit-app-region: no-drag;
+          margin-top: 12px; }
+      .player-wrap .home-page .mysong .item-list {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        padding-bottom: 68px;
+        padding-top: 10px; }
+        .player-wrap .home-page .mysong .item-list .song-itembox {
+          width: 100%;
+          padding: 8px 18px;
+          display: flex;
+          cursor: pointer;
+          -webkit-app-region: no-drag;
+          transition: all 250ms ease; }
+          .player-wrap .home-page .mysong .item-list .song-itembox:hover {
+            background: #F0F0F0; }
+          .player-wrap .home-page .mysong .item-list .song-itembox .cover {
+            width: 38px;
+            height: 38px; }
+            .player-wrap .home-page .mysong .item-list .song-itembox .cover img {
+              display: block;
+              width: 100%;
+              height: 100%; }
+          .player-wrap .home-page .mysong .item-list .song-itembox .info {
+            width: calc(100% - 38px);
+            padding: 0px 0px 0px 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; }
+            .player-wrap .home-page .mysong .item-list .song-itembox .info .name {
+              font-size: 14px;
+              line-height: 1.6; }
+            .player-wrap .home-page .mysong .item-list .song-itembox .info .singer {
+              font-size: 12px;
+              color: #999;
+              display: flex; }
+              .player-wrap .home-page .mysong .item-list .song-itembox .info .singer i {
+                margin-right: 4px;
+                align-items: center; }
   .player-wrap .listDetail-page {
     width: 100%;
     height: 100%;
@@ -498,14 +696,16 @@ input[placeholder] {
         padding-left: 4px;
         font-size: 22px;
         cursor: pointer;
-        -webkit-app-region: no-drag; }
+        -webkit-app-region: no-drag;
+        z-index: 9; }
       .player-wrap .listDetail-page .listCoverBanner .cover {
         width: 100%;
         height: 100%;
         overflow: hidden; }
         .player-wrap .listDetail-page .listCoverBanner .cover img {
           display: block;
-          width: 100%; }
+          width: 100%;
+          transform: scale(1.2); }
     .player-wrap .listDetail-page .listInfo {
       width: 100%;
       padding: 40px 20px 30px; }
@@ -580,5 +780,115 @@ input[placeholder] {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: normal; }
+
+.progress-bar-root {
+  display: block;
+  vertical-align: middle;
+  overflow: hidden;
+  width: 100%;
+  height: 4px;
+  margin: 10px 0; }
+  .progress-bar-root .progress-bar-bar {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%; }
+
+.progress-bar-item {
+  background: #31C27C;
+  position: absolute;
+  top: 0px;
+  left: -4px;
+  width: 4px;
+  height: 4px;
+  border-radius: 4px; }
+
+.react-uwp-progress-bar_4000-item-0 {
+  animation: ProgressBar 4000ms 0ms cubic-bezier(0.25, 0.75, 0.75, 0.25) infinite normal forwards; }
+
+.react-uwp-progress-bar_4000-item-1 {
+  animation: ProgressBar 4000ms 102.4ms cubic-bezier(0.25, 0.75, 0.75, 0.25) infinite normal forwards; }
+
+.react-uwp-progress-bar_4000-item-2 {
+  animation: ProgressBar 4000ms 204.8ms cubic-bezier(0.25, 0.75, 0.75, 0.25) infinite normal forwards; }
+
+.react-uwp-progress-bar_4000-item-3 {
+  animation: ProgressBar 4000ms 307.2ms cubic-bezier(0.25, 0.75, 0.75, 0.25) infinite normal forwards; }
+
+.react-uwp-progress-bar_4000-item-4 {
+  animation: ProgressBar 4000ms 409.6ms cubic-bezier(0.25, 0.75, 0.75, 0.25) infinite normal forwards; }
+
+@keyframes ProgressBar {
+  0% {
+    left: -4px; }
+  15% {
+    left: -4px; }
+  85% {
+    left: calc(100% + 4px); }
+  100% {
+    left: calc(100% + 4px); } }
+.progress-ring-root {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  position: relative; }
+
+.progress-ring-item {
+  background: #31C27C;
+  position: absolute;
+  top: 0px;
+  left: 25px;
+  width: 5px;
+  height: 5px;
+  opacity: 0;
+  transform-origin: 0px 25px;
+  border-radius: 50%; }
+
+.react-uwp-progress-ring_6_5000-item-0 {
+  animation: CircleLoopFade 5000ms 0ms linear infinite normal forwards; }
+
+.react-uwp-progress-ring_6_5000-item-1 {
+  animation: CircleLoopFade 5000ms 125ms linear infinite normal forwards; }
+
+.react-uwp-progress-ring_6_5000-item-2 {
+  animation: CircleLoopFade 5000ms 250ms linear infinite normal forwards; }
+
+.react-uwp-progress-ring_6_5000-item-3 {
+  animation: CircleLoopFade 5000ms 375ms linear infinite normal forwards; }
+
+.react-uwp-progress-ring_6_5000-item-4 {
+  animation: CircleLoopFade 5000ms 500ms linear infinite normal forwards; }
+
+.react-uwp-progress-ring_6_5000-item-5 {
+  animation: CircleLoopFade 5000ms 625ms linear infinite normal forwards; }
+
+@keyframes CircleLoopFade {
+  0% {
+    transform: rotateZ(0deg);
+    opacity: 1; }
+  12.5% {
+    transform: rotateZ(180deg);
+    opacity: 1; }
+  25% {
+    transform: rotateZ(270deg);
+    opacity: 1; }
+  37.5% {
+    transform: rotateZ(300deg);
+    opacity: 1; }
+  50% {
+    transform: rotateZ(360deg);
+    opacity: 1; }
+  62.5% {
+    transform: rotateZ(540deg);
+    opacity: 1; }
+  75% {
+    transform: rotateZ(630deg);
+    opacity: 1; }
+  87.5% {
+    transform: rotateZ(660deg);
+    opacity: 1; }
+  100% {
+    transform: rotateZ(720deg);
+    opacity: 1; } }
 
 /*# sourceMappingURL=style.css.map */
