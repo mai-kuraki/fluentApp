@@ -84,7 +84,9 @@ export default class App extends React.Component {
             playPercent: playPercent,
             audioCurDuration: currentTime,
         });
-        eventEmitter.emit(constStr.PLAYPERCENT, playPercent);
+        if(store.getState().main.UIPage) {
+            eventEmitter.emit(constStr.PLAYPERCENT, playPercent);
+        }
     }
 
     getSongInfo(id) {
@@ -141,6 +143,9 @@ export default class App extends React.Component {
 
     toUIPage() {
         store.dispatch(Actions.setPlayUiPage(true));
+        setTimeout(() => {
+            eventEmitter.emit(constStr.PLAYANIMATE);
+        })
     }
 
     render() {
@@ -186,6 +191,7 @@ export default class App extends React.Component {
                             1 === 1?
                                 <React.Fragment>
                                     <Route path="/listDetail/:id" component={ListDetail}/>
+                                    <Route path="/albumDetail/:id" component={AlbumDetail}/>
                                     <Route path="/" component={Home}/>
                                 </React.Fragment>:<React.Fragment>
                                     <Route path="/" component={AlbumDetail}/>

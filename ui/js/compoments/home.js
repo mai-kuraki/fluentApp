@@ -1,18 +1,31 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {remote, ipcRenderer} from 'electron';
 import Swiper from 'swiper';
 import Recommend from './recommend';
 import Newest from './newest';
 import Album from './ablum';
 import Mysong from './mysong';
+import BarLoading from './barLoading';
+import eventEmitter from '../lib/eventEmitter';
 import store from '../store';
 import * as Actions from '../actions';
+import _ from 'underscore';
+import * as constStr from "../lib/const";
+
+const low = remote.require('lowdb');
+const FileSync = remote.require('lowdb/adapters/FileSync');
+const adapter = new FileSync('db.json');
+const db = low(adapter);
+
 
 export default class Home extends React.Component {
     constructor() {
         super();
         this.state = {
+            barLoading: false,
             activeTab: 0,
+            addedDir: [],
+            addFileDialog: false,
             tabs: [
                 {id: 0, name: 'RECOMMEND'},
                 {id: 1, name: 'NEWEST'},
@@ -22,7 +35,51 @@ export default class Home extends React.Component {
         }
     }
 
+    barLoadingOpen() {
+        this.setState({
+            barLoading: true,
+        })
+    }
+
+    barLoadingClose() {
+        this.setState({
+            barLoading: false,
+        })
+    }
+
+    addFileDialogOpen() {
+        this.setState({
+            addFileDialog: true,
+        })
+    }
+
+    addFileDialogClose() {
+        this.setState({
+            addFileDialog: false,
+        })
+    }
+
+    getAddedDir() {
+        let dirs = db.get('addedDir').value() || [];
+        this.setState({
+            addedDir: dirs,
+        })
+    }
+
     componentDidMount() {
+        eventEmitter.on(constStr.OPENFILEDIALOG, () => {
+            this.addFileDialogOpen();
+        });
+        eventEmitter.on(constStr.BARLOADING, (state) => {
+           if(state) {
+               this.barLoadingOpen();
+           }else {
+               this.barLoadingClose();
+           }
+        });
+        ipcRenderer.on('barLoadingOpen', (e) => {
+            eventEmitter.emit(constStr.BARLOADING, true);
+        });
         this.mySwiper = new Swiper('.home-tab-wrapper', {
             on:{
                 transitionEnd: () => {
@@ -32,6 +89,8 @@ export default class Home extends React.Component {
                 },
             },
         });
+        this.mySwiper.slideTo(3);
+        this.getAddedDir();
     }
 
     switchTab(index) {
@@ -39,6 +98,43 @@ export default class Home extends React.Component {
         this.setState({
             activeTab: index,
         })
+    }
+
+    fileDialogOpen() {
+        remote.dialog.showOpenDialog({
+            title: '选择添加目录',
+            properties: ['openDirectory', 'multiSelections'],
+        }, (files) => {
+            if(!files) return;
+            let addedDir = this.state.addedDir;
+            files.map((dir) => {
+                let f = false;
+                addedDir.map((d) => {
+                    if(d.path == dir) {
+                        f = true;
+                    }
+                });
+                if(!f) {
+                    addedDir.push({
+                        path: dir,
+                        checked: false,
+                    });
+                }
+            });
+            this.setState({
+                addedDir: addedDir,
+            });
+        })
+    }
+
+    scan() {
+        this.addFileDialogClose();
+        this.barLoadingOpen();
+        eventEmitter.emit(constStr.SONGLOADING, true);
+        setTimeout(() => {
+            let addedDir = this.state.addedDir;
+            ipcRenderer.send('scanningDir', addedDir);
+        }, 800);
     }
 
     render() {
@@ -53,6 +149,36 @@ export default class Home extends React.Component {
                         <span className="close iconfont icon-guanbi"></span>
                     </div>
                 </div>
+                {
+                    state.addFileDialog?
+                        <div className="addfile-dialog">
+                            <div className="mask"></div>
+                            <div className="content">
+                                <div className="head"><label>选择本地音乐文件夹</label><span className="iconfont icon-guanbi" onClick={this.addFileDialogClose.bind(this)}></span></div>
+                                <div className="list">
+                                    {
+                                        state.addedDir.map((data, k) => {
+                                            return (
+                                                <div className="row" key={k} onClick={(e) => {
+                                                    data.checked = !data.checked;
+                                                    this.setState({
+                                                        addedDir: state.addedDir,
+                                                    });
+                                                }}>
+                                                    <div className={`checkbox iconfont ${data.checked?'icon-fuxuankuang checked':'icon-iconfonticonfontsquare'}`}></div>
+                                                    <span>{data.path}</span>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                                <div className="opts">
+                                    <div className="btn confirm" onClick={this.scan.bind(this)}>确认</div>
+                                    <div className="btn" onClick={this.fileDialogOpen.bind(this)}>添加文件夹</div>
+                                </div>
+                            </div>
+                        </div>:null
+                }
                 <div className="home-tab">
                     {
                         state.tabs.map((data, k) => {
@@ -62,6 +188,10 @@ export default class Home extends React.Component {
                         })
                     }
                 </div>
+                {
+                    state.barLoading?
+                        <div className="barloading"><BarLoading/></div>:null
+                }
                 <div className="home-tab-wrapper">
                     <div className="swiper-wrapper">
                         <div className="swiper-slide"><Recommend/></div>

@@ -3,7 +3,6 @@ import {remote, ipcRenderer} from 'electron';
 import {Link} from 'react-router-dom';
 import store from '../store';
 import * as Actions from '../actions';
-import BarLoading from './barLoading';
 import eventEmitter from "../lib/eventEmitter";
 import * as constStr from "../lib/const";
 let low = remote.require('lowdb');
@@ -21,38 +20,34 @@ export default class Mysong extends React.Component {
         }
     }
 
-    componentWillMount() {
+    getListData() {
         let playlist = db.get('playlist').value();
         if(playlist && typeof playlist == 'object') {
             this.setState({
                 playlist: playlist,
             })
         }
-        ipcRenderer.on('barLoadingOpen', (e) => {
-            this.barLoadingOpen();
-        });
-        ipcRenderer.on('scanningEnd', (e, data) => {
-            this.barLoadingClose();
+    }
+
+    componentWillMount() {
+        this.getListData();
+        eventEmitter.on(constStr.SONGLOADING, (state) => {
             this.setState({
-                playlist: data,
-            })
+                barLoading: state,
+            });
+        });
+        ipcRenderer.on('scanningEnd', (e) => {
+            eventEmitter.emit(constStr.BARLOADING, false);
+            this.setState({
+                barLoading: false,
+            });
+            this.getListData();
         });
     }
 
-    barLoadingOpen() {
-        this.setState({
-            barLoading: true,
-        })
-    }
-
-    barLoadingClose() {
-        this.setState({
-            barLoading: false,
-        })
-    }
 
     addFileDir() {
-        ipcRenderer.send('scanningDirDialog');
+        eventEmitter.emit(constStr.OPENFILEDIALOG);
     }
 
     playLocal(data) {
@@ -68,10 +63,7 @@ export default class Mysong extends React.Component {
                         <div className="mysong-empty">
                             {
                                 state.barLoading ?
-                                    <React.Fragment>
-                                        <div className="loading"><BarLoading/></div>
-                                        <div className="loading-text">音乐马上就到...</div>
-                                    </React.Fragment> : null
+                                    <div className="loading-text">音乐扫描中...</div> : null
                             }
                             <div className="tip">请添加本地音乐</div>
                             <div className="file-btn" onClick={this.addFileDir.bind(this)}>选择本地音乐文件夹</div>
@@ -82,6 +74,7 @@ export default class Mysong extends React.Component {
                         <div className="item-list">
                             <div className="list-head">
                                 <div className="label">本地音乐<i>{state.playlist.length}首音乐</i></div>
+                                <div className="adddir" onClick={this.addFileDir.bind(this)}>选择目录</div>
                             </div>
                             {
                                 state.playlist.map((data, k) => {

@@ -32,7 +32,8 @@ export default class Assume  extends React.Component {
                     {
                         albumList.map((data, k) => {
                             return(
-                                <div key={k} className="album-itembox clearfix">
+                                <Link to={`/albumDetail/${data.id}`} key={k}>
+                                <div className="album-itembox clearfix">
                                     <div className="cover">
                                         <img src={data.picUrl}/>
                                     </div>
@@ -41,6 +42,7 @@ export default class Assume  extends React.Component {
                                         <div className="singer">{data.artist.name}</div>
                                     </div>
                                 </div>
+                                </Link>
                             )
                         })
                     }

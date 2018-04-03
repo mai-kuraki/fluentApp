@@ -4,7 +4,7 @@
     "description": "microsoft fluent design app",
     "main": "main.js",
     "scripts": {
-        "start": "electron ."
+        "start": "electron app/main.js"
     },
     "repository": {
         "type": "git",

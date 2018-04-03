@@ -11,6 +11,7 @@ export default class PlayDetail extends React.Component {
         super();
         this.state = {
             percent: 0,
+            init: false,
         };
         this.progress = null;
         this.baseY = Math.floor(window.innerHeight * 2/3);
@@ -26,43 +27,48 @@ export default class PlayDetail extends React.Component {
         this.init();
         eventEmitter.on(constStr.PLAYPERCENT, (percent) => {
             this.progress.animate(percent);
-        })
+        });
+        eventEmitter.on(constStr.PLAYANIMATE, () => {
+            this.init();
+        });
     }
 
-    componentWillUnmount() {
-
-    }
 
     init() {
+        let init = this.state.init;
         let _this = this;
-        this.audioContext = new window.AudioContext();
-        this.canvas = document.getElementById('waveCanvas');
-        this.ctx = this.canvas.getContext('2d');
-        this.width = this.canvas.offsetWidth,
-        this.height = this.canvas.offsetHeight;
-        this.canvas.width = this.width,
-        this.canvas.height = this.height;
-        this.ctx.beginPath();
-        this.ctx.fillStyle = 'rgba(240,143,143,0.9)';
-        this.ctx.moveTo(0, this.baseY);
-        this.ctx.lineTo(this.width, this.baseY);
-        this.ctx.lineTo(this.width, this.height);
-        this.ctx.lineTo(0, this.height);
-        this.ctx.fill();
+        if(!init) {
+            this.audioContext = new window.AudioContext();
+            this.canvas = document.getElementById('waveCanvas');
+            this.ctx = this.canvas.getContext('2d');
+            this.width = this.canvas.offsetWidth,
+            this.height = this.canvas.offsetHeight;
+            this.canvas.width = this.width,
+            this.canvas.height = this.height;
+            this.ctx.beginPath();
+            this.ctx.fillStyle = 'rgba(49,194,124,0.8)';
+            this.ctx.moveTo(0, this.baseY);
+            this.ctx.lineTo(this.width, this.baseY);
+            this.ctx.lineTo(this.width, this.height);
+            this.ctx.lineTo(0, this.height);
+            this.ctx.fill();
 
-        let audio = document.getElementById('audio');
-        let source = this.audioContext.createMediaElementSource(audio);
-        let analyser = this.audioContext.createAnalyser();
-        analyser.connect(this.audioContext.destination);
-        source.connect(analyser);
+            this.audio = document.getElementById('audio');
+            this.source = this.audioContext.createMediaElementSource(this.audio);
+            this.analyser = this.audioContext.createAnalyser();
+            this.analyser.connect(this.audioContext.destination);
+            this.source.connect(this.analyser);
+            this.setState({
+                init: true,
+            })
+        }
         function con() {
-            let storeMain = store.getState().main;
-            if(storeMain.UIPage) {
-                let array = new Uint8Array(analyser.frequencyBinCount);
-                analyser.getByteFrequencyData(array);
+            if(store.getState().main.UIPage) {
+                let array = new Uint8Array(_this.analyser.frequencyBinCount);
+                _this.analyser.getByteFrequencyData(array);
                 _this.draw(array);
+                requestAnimationFrame(con);
             }
-            requestAnimationFrame(con);
         }
         requestAnimationFrame(con)
     }

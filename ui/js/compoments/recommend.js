@@ -60,7 +60,7 @@ export default class Recommend  extends React.Component {
                         recommendList.map((data, k) => {
                             if(k > 0) {
                                 return (
-                                    <Link to={`/listDetail/${data.id}`} replace key={k}>
+                                    <Link to={`/listDetail/${data.id}`} key={k}>
                                         <div className="album-itembox">
                                             <div className="cover">
                                                 <img src={data.picUrl} />
