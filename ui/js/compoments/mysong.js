@@ -5,10 +5,10 @@ import store from '../store';
 import * as Actions from '../actions';
 import eventEmitter from "../lib/eventEmitter";
 import * as constStr from "../lib/const";
-let low = remote.require('lowdb');
-let FileSync = remote.require('lowdb/adapters/FileSync');
-let adapter = new FileSync('db.json');
-let db = low(adapter);
+const low = remote.require('lowdb');
+const FileSync = remote.require('lowdb/adapters/FileSync');
+const adapter = new FileSync('db.json');
+const db = low(adapter);
 
 
 export default class Mysong extends React.Component {
@@ -21,7 +21,8 @@ export default class Mysong extends React.Component {
     }
 
     getListData() {
-        let playlist = db.get('playlist').value();
+        let playlist = db.read().get('playlist').value();
+        console.log(playlist)
         if(playlist && typeof playlist == 'object') {
             this.setState({
                 playlist: playlist,

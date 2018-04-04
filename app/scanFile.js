@@ -1,6 +1,6 @@
 const low = require('lowdb');
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('db.json');
+const FileAsync = require('lowdb/adapters/FileAsync');
+const adapter = new FileAsync('db.json');
 const db = low(adapter);
 const jsmediatags = require('jsmediatags');
 const fs = require('fs');
@@ -43,9 +43,10 @@ let scanningDir = (path, callback) => {
 };
 
 let saveDB = (data) => {
-    db.set('playlist', data).write().then(() => {
-        songItem = [];
-        process.send('');
+    db.then(db => {
+        db.set('playlist', data).write().then(() => {
+            process.send('');
+        })
     });
 };
 
@@ -62,13 +63,33 @@ let getFileName = (path) => {
     return name;
 };
 
+let createRandomId = () => {
+    return (Math.random()*10000000).toString(16).substr(0,4)+'-'+(new Date()).getTime()+'-'+Math.random().toString().substr(2,5);
+};
+
+
 process.on('message', (dirs) => {
-    db.set('addedDir', dirs).write();
+    db.then(db => {
+        db.set('addedDir', dirs).write();
+    });
     if(dirs.length == 0) {
         process.send('');
         return;
     }
     let len = 0, hasChecked = false;
+
+    if(!fs.existsSync('cache')) {
+        fs.mkdirSync('cache');
+    }
+    if(!fs.existsSync('cache/albumCover')) {
+        fs.mkdirSync('cache/albumCover');
+    }else {
+        let covers = fs.readdirSync('cache/albumCover');
+        covers.forEach(function(file) {
+            let curPath = `cache/albumCover/${file}`;
+            fs.unlinkSync(curPath);
+        });
+    }
     dirs.map((dir) => {
         if(dir.checked) {
             hasChecked = true;
@@ -83,22 +104,29 @@ process.on('message', (dirs) => {
                         jsmediatags.read(data, {
                             onSuccess: (tag) => {
                                 let image = tag.tags.picture;
+                                let filename = `cache/albumCover/${createRandomId()}.jpeg`;
                                 let base64String = "";
                                 image.data.map((d, j) => {
                                     base64String += String.fromCharCode(d);
                                 });
-                                listItem.push({
-                                    name: name,
-                                    url: data,
-                                    size: tag.size,
-                                    album: tag.tags.album,
-                                    artist: tag.tags.artist,
-                                    cover: `data:${image.format};base64,${btoa(base64String)}`
+                                let dataBuffer = new Buffer(btoa(base64String), 'base64');
+                                fs.writeFile(filename, dataBuffer, (err) => {
+                                   if(err) {
+                                       filename = '';
+                                   }
+                                    listItem.push({
+                                        name: name,
+                                        url: data,
+                                        size: tag.size,
+                                        album: tag.tags.album,
+                                        artist: tag.tags.artist,
+                                        cover: `../${filename}`
+                                    });
+                                    f ++;
+                                    if(f == songItem.length) {
+                                        saveDB(listItem);
+                                    }
                                 });
-                                f ++;
-                                if(f == songItem.length) {
-                                    saveDB(listItem);
-                                }
                             },
                             onError: (error) => {
                                 listItem.push({

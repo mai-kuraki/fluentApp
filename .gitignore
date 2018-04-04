@@ -60,3 +60,4 @@ typings/
 db.json
 .idea/
 workspace.xml
+cache/albumCover/

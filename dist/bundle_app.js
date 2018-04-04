@@ -7736,7 +7736,7 @@ var win = w;
 
 // Lower level API to animate any kind of svg path
 
-var Tweenable = __webpack_require__(466);
+var Tweenable = __webpack_require__(467);
 var utils = __webpack_require__(57);
 
 var EASING_ALIASES = {
@@ -35492,15 +35492,15 @@ var _home = __webpack_require__(454);
 
 var _home2 = _interopRequireDefault(_home);
 
-var _playDetail = __webpack_require__(463);
+var _playDetail = __webpack_require__(464);
 
 var _playDetail2 = _interopRequireDefault(_playDetail);
 
-var _listDetail = __webpack_require__(468);
+var _listDetail = __webpack_require__(469);
 
 var _listDetail2 = _interopRequireDefault(_listDetail);
 
-var _albumDetail = __webpack_require__(469);
+var _albumDetail = __webpack_require__(470);
 
 var _albumDetail2 = _interopRequireDefault(_albumDetail);
 
@@ -36107,7 +36107,7 @@ var _mysong = __webpack_require__(460);
 
 var _mysong2 = _interopRequireDefault(_mysong);
 
-var _barLoading = __webpack_require__(461);
+var _barLoading = __webpack_require__(462);
 
 var _barLoading2 = _interopRequireDefault(_barLoading);
 
@@ -36123,7 +36123,7 @@ var _actions = __webpack_require__(33);
 
 var Actions = _interopRequireWildcard(_actions);
 
-var _underscore = __webpack_require__(462);
+var _underscore = __webpack_require__(463);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
@@ -44879,7 +44879,8 @@ var Mysong = function (_React$Component) {
     _createClass(Mysong, [{
         key: 'getListData',
         value: function getListData() {
-            var playlist = db.get('playlist').value();
+            var playlist = db.read().get('playlist').value();
+            console.log(playlist);
             if (playlist && (typeof playlist === 'undefined' ? 'undefined' : _typeof(playlist)) == 'object') {
                 this.setState({
                     playlist: playlist
@@ -45005,7 +45006,8 @@ var Mysong = function (_React$Component) {
 exports.default = Mysong;
 
 /***/ }),
-/* 461 */
+/* 461 */,
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45063,7 +45065,7 @@ var BarLoading = function (_React$Component) {
 exports.default = BarLoading;
 
 /***/ }),
-/* 462 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -46618,7 +46620,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 
 
 /***/ }),
-/* 463 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46636,7 +46638,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(36);
 
-var _progressbar = __webpack_require__(464);
+var _progressbar = __webpack_require__(465);
 
 var _progressbar2 = _interopRequireDefault(_progressbar);
 
@@ -46912,14 +46914,14 @@ var PlayDetail = function (_React$Component) {
 exports.default = PlayDetail;
 
 /***/ }),
-/* 464 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
     // Higher level API, different shaped progress bars
-    Line: __webpack_require__(465),
+    Line: __webpack_require__(466),
     Circle: __webpack_require__(182),
-    SemiCircle: __webpack_require__(467),
+    SemiCircle: __webpack_require__(468),
 
     // Lower level API to use any SVG path
     Path: __webpack_require__(181),
@@ -46935,7 +46937,7 @@ module.exports = {
 
 
 /***/ }),
-/* 465 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Line shaped progress bar
@@ -46970,7 +46972,7 @@ module.exports = Line;
 
 
 /***/ }),
-/* 466 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* shifty - v1.5.3 - 2016-11-29 - http://jeremyckahn.github.io/shifty */
@@ -48627,7 +48629,7 @@ var Tweenable = (function () {
 
 
 /***/ }),
-/* 467 */
+/* 468 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Semi-SemiCircle shaped progress bar
@@ -48681,7 +48683,7 @@ module.exports = SemiCircle;
 
 
 /***/ }),
-/* 468 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -48903,7 +48905,7 @@ var ListDetail = function (_React$Component) {
 exports.default = ListDetail;
 
 /***/ }),
-/* 469 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
