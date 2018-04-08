@@ -29,6 +29,7 @@ export default class ListDetail extends React.Component {
 
     getListDetail() {
         let id = this.state.id;
+        eventEmitter.emit(constStr.RINGLOADING, true);
         fetch(`${__REQUESTHOST}/api/playlist/detail?id=${id}`, {
             method: 'GET',
         }).then((res) => {
@@ -39,11 +40,13 @@ export default class ListDetail extends React.Component {
                     listData: data.result,
                 })
             }
+            eventEmitter.emit(constStr.RINGLOADING, false);
         })
     }
 
 
     id2Song(id) {
+        eventEmitter.emit(constStr.RINGLOADING, true);
         fetch(`${__REQUESTHOST}/api/music/url?id=${id}`, {
             method: 'GET',
         }).then((res) => {
@@ -55,6 +58,7 @@ export default class ListDetail extends React.Component {
                     eventEmitter.emit(constStr.INITAUDIO);
                 }
             }
+            eventEmitter.emit(constStr.RINGLOADING, false);
         })
     }
 
@@ -76,7 +80,6 @@ export default class ListDetail extends React.Component {
     }
 
     goBack() {
-        console.log(this.props.history)
         this.props.history.goBack();
     }
 
@@ -90,8 +93,8 @@ export default class ListDetail extends React.Component {
                     <div className="back iconfont icon-fanhui" onClick={this.goBack.bind(this)}></div>
                     <div className="dragbar"></div>
                     <div className="btns">
-                        <span className="iconfont icon-zuixiaohua3"></span>
-                        <span className="close iconfont icon-guanbi"></span>
+                        <span className="iconfont icon-zuixiaohua3" onClick={() => {eventEmitter.emit(constStr.MINWINDOW)}}></span>
+                        <span className="close iconfont icon-guanbi" onClick={() => {eventEmitter.emit(constStr.CLOSEWINDOW)}}></span>
                     </div>
                 </div>
                 <div className="wrap" onScroll={this.scroll.bind(this)}>

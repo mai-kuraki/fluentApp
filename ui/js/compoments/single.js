@@ -5,7 +5,7 @@ import * as Actions from '../actions';
 import eventEmitter from "../lib/eventEmitter";
 import * as constStr from "../lib/const";
 
-export default class Newest  extends React.Component {
+export default class Single  extends React.Component {
     constructor() {
         super();
     }
@@ -25,7 +25,7 @@ export default class Newest  extends React.Component {
                 store.dispatch(Actions.setNewest(data.result || []));
             }
             eventEmitter.emit(constStr.RINGLOADING, false);
-        })
+        });
     }
 
     id2Song(id) {
@@ -44,18 +44,18 @@ export default class Newest  extends React.Component {
     }
 
     render() {
-        let newestList = store.getState().main.newestList || [];
+        let data = this.props.data;
         return (
-            <div className="newest">
+            <div className="single-item">
                 <div className="item-list">
                     {
-                        newestList.map((data, k) => {
+                        data.map((data, k) => {
                             return(
                                 <div key={k} className="song-itembox" onDoubleClick={this.id2Song.bind(this, data.id)}>
-                                    <div className="cover"><img src={data.song.album.picUrl}/></div>
+                                    <div className="cover"><img src={data.album.artist.img1v1Url}/></div>
                                     <div className="info">
-                                        <div className="name">{data.song.name}</div>
-                                        <div className="singer">{data.song.artists[0].name}</div>
+                                        <div className="name">{data.name}</div>
+                                        <div className="singer">{data.artists[0].name}</div>
                                     </div>
                                 </div>
                             )

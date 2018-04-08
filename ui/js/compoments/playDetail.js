@@ -183,8 +183,8 @@ export default class PlayDetail extends React.Component {
                     <div className="back iconfont icon-fanhui" onClick={this.goBack.bind(this)}></div>
                     <div className="dragbar"></div>
                     <div className="btns">
-                        <span className="iconfont icon-zuixiaohua3"></span>
-                        <span className="close iconfont icon-guanbi"></span>
+                        <span className="iconfont icon-zuixiaohua3" onClick={() => {eventEmitter.emit(constStr.MINWINDOW)}}></span>
+                        <span className="close iconfont icon-guanbi" onClick={() => {eventEmitter.emit(constStr.CLOSEWINDOW)}}></span>
                     </div>
                 </div>
                 <div className="cover">

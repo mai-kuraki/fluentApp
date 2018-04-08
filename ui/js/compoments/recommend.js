@@ -2,6 +2,8 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import store from '../store';
 import * as Actions from '../actions';
+import * as constStr from "../lib/const";
+import eventEmitter from "../lib/eventEmitter";
 
 export default class Recommend  extends React.Component {
     constructor() {
@@ -13,6 +15,7 @@ export default class Recommend  extends React.Component {
     }
 
     getRecommend() {
+        eventEmitter.emit(constStr.RINGLOADING, true);
         fetch(`${__REQUESTHOST}/api/personalized`, {
             method: 'GET',
         }).then((res) => {
@@ -21,6 +24,7 @@ export default class Recommend  extends React.Component {
             if(data.code == 200) {
                 store.dispatch(Actions.setRecommend(data.result || []));
             }
+            eventEmitter.emit(constStr.RINGLOADING, false);
         })
     }
 

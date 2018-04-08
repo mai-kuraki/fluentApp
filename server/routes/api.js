@@ -43,4 +43,10 @@ router.get('/music/url', (req, res) => {
 router.get('/song/detail', (req, res) => {
     service.songDetail(req, res);
 });
+/**
+ * 搜索
+ */
+router.get('/search', (req, res) => {
+    service.search(req, res);
+});
 module.exports = router;

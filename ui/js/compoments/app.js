@@ -12,12 +12,15 @@ import PlayDetail from './playDetail';
 import ListDetail from './listDetail';
 import AlbumDetail from './albumDetail';
 import store from "../store";
+import RingLoading from './ringLoading';
+import Search from './search';
 
 
 export default class App extends React.Component {
     constructor() {
         super();
         this.state = {
+            loading: false,
             snackbar: false,
             snackbarText: '',
             playPercent: 0,
@@ -40,6 +43,18 @@ export default class App extends React.Component {
     snackbarClose() {
         this.setState({
             snackbar: false,
+        });
+    }
+
+    loadingOpen() {
+        this.setState({
+            loading: true,
+        });
+    }
+
+    loadingClose() {
+        this.setState({
+            loading: false,
         });
     }
 
@@ -67,6 +82,13 @@ export default class App extends React.Component {
         eventEmitter.on(constStr.SWITCHPLAY, (state) => {
             this.switchPlay(state);
         });
+        eventEmitter.on(constStr.RINGLOADING, (state) => {
+            if(state) {
+                this.loadingOpen();
+            }else {
+                this.loadingClose();
+            }
+        })
     }
 
     durationchange() {
@@ -161,6 +183,12 @@ export default class App extends React.Component {
         return (
             <Router>
                 <div className="player-wrap">
+                    {
+                        state.loading?
+                            <div className="ringLoadinf-wrap">
+                                <RingLoading/>
+                            </div>:null
+                    }
                     <PlayDetail/>
                     {
                         this.state.snackbar?
@@ -192,9 +220,10 @@ export default class App extends React.Component {
                                 <React.Fragment>
                                     <Route path="/listDetail/:id" component={ListDetail}/>
                                     <Route path="/albumDetail/:id" component={AlbumDetail}/>
+                                    <Route path="/search" component={Search}/>
                                     <Route path="/" component={Home}/>
                                 </React.Fragment>:<React.Fragment>
-                                    <Route path="/" component={AlbumDetail}/>
+                                    <Route path="/" component={Search}/>
                                 </React.Fragment>
                         }
                     </Switch>

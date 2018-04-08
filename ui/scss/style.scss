@@ -634,6 +634,9 @@ input[placeholder] {
                         .name {
                             font-size: 14px;
                             line-height: 1.6;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
                         }
                         .singer {
                             font-size: 12px;
@@ -1229,5 +1232,244 @@ input[placeholder] {
     100% {
         transform: rotateZ(720deg);
         opacity: 1;
+    }
+}
+.ringLoadinf-wrap{
+    width: calc(100vw - 50px);
+    height: calc(100vh - 35px);
+    position: fixed;
+    left: 25px;
+    top: 10px;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search-page{
+    width: 100%;
+    height: 100%;
+    .search-area{
+        width: 100%;
+        height: 50px;
+        display: flex;
+        position: relative;
+        -webkit-app-region: no-drag;
+        .searchBtn{
+            display: flex;
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 250ms ease;
+            padding-top: 10px;
+        }
+        .clear{
+            display: flex;
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 250ms ease;
+            position: absolute;
+            right: 6px;
+            top: 0px;
+            padding-top: 10px;
+        }
+        input{
+            width: calc(100% - 50px - 20px);
+            border: none;
+            border-bottom: solid 1px #DDD;
+            padding-top: 12px;
+            font-size: 14px;
+            outline: none;
+            color: #333;
+            background: none;
+            &:focus{
+                border-bottom: solid 2px #333;
+            }
+        }
+        input::-webkit-input-placeholder{
+            color: #EEE;
+        }
+    }
+    .search-tab {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        font-size: 14px;
+        align-items: center;
+        -webkit-app-region: no-drag;
+        padding-top: 16px;
+        .tab {
+            color: #999;
+            transition: all 250ms ease;
+            -webkit-app-region: no-drag;
+            cursor: pointer;
+            &:hover {
+                color: #333;
+            }
+        }
+        .cur {
+            color: #333;
+            font-weight: bold;
+        }
+    }
+    .search-tab-wrapper {
+        width: 100%;
+        height: calc(100vh - 50px - 32px);
+        .swiper-wrapper {
+            display: flex;
+            width: 400vw;
+            height: 100%;
+        }
+        .swiper-slide {
+            width: 100vw;
+            height: 100%;
+        }
+    }
+    .single-item {
+        width: 100%;
+        height: 100%;
+        padding: 10px 0px 18px;
+        .item-list {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding-bottom: 68px;
+            padding-top: 10px;
+            .song-itembox {
+                width: 100%;
+                padding: 8px 18px;
+                display: flex;
+                cursor: pointer;
+                -webkit-app-region: no-drag;
+                transition: all 250ms ease;
+                &:hover {
+                    background: #F0F0F0;
+                }
+                .cover {
+                    width: 38px;
+                    height: 38px;
+                    img {
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .info {
+                    width: calc(100% - 38px);
+                    padding: 0px 0px 0px 12px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    .name {
+                        font-size: 14px;
+                        line-height: 1.6;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    .singer {
+                        font-size: 12px;
+                        color: #999;
+                        display: flex;
+                        i {
+                            margin-right: 4px;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .album {
+        width: 100%;
+        height: 100%;
+        padding: 10px 0px 18px;
+        .item-list {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding-bottom: 68px;
+            padding-top: 10px;
+            .album-itembox {
+                width: 50%;
+                padding: 8px 18px;
+                height: 48vw;
+                display: flex;
+                flex-direction: column;
+                cursor: pointer;
+                -webkit-app-region: no-drag;
+                transition: all 250ms ease;
+                float: left;
+                &:hover {
+                    .cover {
+                        &:before {
+                            right: -24px;
+                        }
+                    }
+                }
+                .cover {
+                    width: 30vw;
+                    height: 30vw;
+                    position: relative;
+                    &:before {
+                        content: '';
+                        display: block;
+                        width: 30vw;
+                        height: 30vw;
+                        background: #333;
+                        border-radius: 50%;
+                        position: absolute;
+                        right: -15px;
+                        top: 50%;
+                        margin-top: -15vw;
+                        transition: all 250ms ease-out;
+                    }
+                    img {
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        left: 0px;
+                        top: 0px;
+                        z-index: 9;
+                        box-shadow: 0px 2px 6px 0px rgba(73, 73, 73, 0.1);
+                        background: #FFF;
+                    }
+                }
+                .info {
+                    width: 100%;
+                    padding: 10px 0px 0px;
+                    .name {
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        font-size: 14px;
+                        line-height: 1.6;
+                    }
+                    .singer {
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        font-size: 12px;
+                        color: #999;
+                        display: flex;
+                        i {
+                            margin-right: 4px;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

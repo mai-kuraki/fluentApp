@@ -30,6 +30,7 @@ export default class AlbumDetail extends React.Component {
 
     getListDetail() {
         let id = this.state.id;
+        eventEmitter.emit(constStr.RINGLOADING, true);
         fetch(`${__REQUESTHOST}/api/album?id=${id}`, {
             method: 'GET',
         }).then((res) => {
@@ -41,11 +42,13 @@ export default class AlbumDetail extends React.Component {
                     album: data.album,
                 })
             }
+            eventEmitter.emit(constStr.RINGLOADING, false);
         })
     }
 
 
     id2Song(id) {
+        eventEmitter.emit(constStr.RINGLOADING, true);
         fetch(`${__REQUESTHOST}/api/music/url?id=${id}`, {
             method: 'GET',
         }).then((res) => {
@@ -57,6 +60,7 @@ export default class AlbumDetail extends React.Component {
                     eventEmitter.emit(constStr.INITAUDIO);
                 }
             }
+            eventEmitter.emit(constStr.RINGLOADING, false);
         })
     }
 
@@ -91,8 +95,8 @@ export default class AlbumDetail extends React.Component {
                     <div className="back iconfont icon-fanhui" onClick={this.goBack.bind(this)}></div>
                     <div className="dragbar"></div>
                     <div className="btns">
-                        <span className="iconfont icon-zuixiaohua3"></span>
-                        <span className="close iconfont icon-guanbi"></span>
+                        <span className="iconfont icon-zuixiaohua3" onClick={() => {eventEmitter.emit(constStr.MINWINDOW)}}></span>
+                        <span className="close iconfont icon-guanbi" onClick={() => {eventEmitter.emit(constStr.CLOSEWINDOW)}}></span>
                     </div>
                 </div>
                 <div className="wrap" onScroll={this.scroll.bind(this)}>

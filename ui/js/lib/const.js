@@ -8,6 +8,9 @@ export const OPENFILEDIALOG = 'OPENFILEDIALOG';
 export const BARLOADING = 'BARLOADING';
 export const PLAYANIMATE = 'PLAYANIMATE';
 export const SONGLOADING = 'SONGLOADING';
+export const CLOSEWINDOW = 'CLOSEWINDOW';
+export const MINWINDOW = 'MINWINDOW';
+export const RINGLOADING = 'RINGLOADING';
 
 //redux
 export const SET_RECOMMEND_LIST = 'SET_RECOMMEND_LIST';

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {remote, ipcRenderer} from 'electron';
 import Swiper from 'swiper';
 import Recommend from './recommend';
@@ -27,10 +28,10 @@ export default class Home extends React.Component {
             addedDir: [],
             addFileDialog: false,
             tabs: [
-                {id: 0, name: 'RECOMMEND'},
-                {id: 1, name: 'NEWEST'},
-                {id: 2, name: 'ALBUM'},
-                {id: 3, name: 'MY SONG'},
+                {id: 0, name: '推荐歌单'},
+                {id: 1, name: '最新单曲'},
+                {id: 2, name: '推荐专辑'},
+                {id: 3, name: '本地歌曲'},
             ]
         }
     }
@@ -66,6 +67,14 @@ export default class Home extends React.Component {
         })
     }
 
+    closeWindow() {
+        remote.getCurrentWindow().close();
+    }
+
+    minWindow() {
+        remote.getCurrentWindow().minimize();
+    }
+
     componentDidMount() {
         eventEmitter.on(constStr.OPENFILEDIALOG, () => {
             this.addFileDialogOpen();
@@ -76,6 +85,12 @@ export default class Home extends React.Component {
            }else {
                this.barLoadingClose();
            }
+        });
+        eventEmitter.on(constStr.CLOSEWINDOW, () => {
+            this.closeWindow();
+        });
+        eventEmitter.on(constStr.MINWINDOW, () => {
+            this.minWindow();
         });
         ipcRenderer.on('barLoadingOpen', (e) => {
             eventEmitter.emit(constStr.BARLOADING, true);
@@ -89,7 +104,6 @@ export default class Home extends React.Component {
                 },
             },
         });
-        this.mySwiper.slideTo(3);
         this.getAddedDir();
     }
 
@@ -142,11 +156,11 @@ export default class Home extends React.Component {
         return(
             <div className="home-page">
                 <div className="windowsHead">
-                    <div className="back"></div>
+                    <Link to="/search"><div className="back search iconfont icon-sousuo1"></div></Link>
                     <div className="dragbar"></div>
                     <div className="btns">
-                        <span className="iconfont icon-zuixiaohua3"></span>
-                        <span className="close iconfont icon-guanbi"></span>
+                        <span className="iconfont icon-zuixiaohua3" onClick={this.minWindow.bind(this)}></span>
+                        <span className="close iconfont icon-guanbi" onClick={this.closeWindow.bind(this)}></span>
                     </div>
                 </div>
                 {
