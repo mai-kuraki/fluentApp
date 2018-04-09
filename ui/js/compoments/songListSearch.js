@@ -1,12 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import SearchAlbumDetail from './searchAlbumDetail';
+import SearchListDetail from './searchListDetail';
 import store from '../store';
 import * as Actions from '../actions';
 import * as constStr from "../lib/const";
 import eventEmitter from "../lib/eventEmitter";
 
-export default class AblumSearch  extends React.Component {
+export default class SongListSearch  extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -15,7 +15,16 @@ export default class AblumSearch  extends React.Component {
         }
     }
 
-    componentDidMount() {
+
+    getPlayCount(num) {
+        let str;
+        if(num > 10000) {
+            str = (num / 10000).toFixed(0);
+            str += '万';
+        }else {
+            str = num;
+        }
+        return str
     }
 
     goback() {
@@ -25,37 +34,39 @@ export default class AblumSearch  extends React.Component {
     }
 
     render() {
-        let data = this.props.data || [];
+        let data = this.props.data;
         return (
-            <div className="album">
+            <div className="songlist">
                 {
                     this.state.detailShow?
-                        <div className="album-detail">
-                            <SearchAlbumDetail id={this.state.curId} goback={this.goback.bind(this)}/>
+                        <div className="songlist-detail">
+                            <SearchListDetail id={this.state.curId} goback={this.goback.bind(this)}/>
                         </div>:null
                 }
                 <div className="item-list">
                     {
                         data.map((data, k) => {
-                            return(
-                                <div key={k} className="album-itembox clearfix" onClick={() => {
+                            return (
+                                <div key={k} className="album-itembox" onClick={() => {
                                     this.setState({
                                         curId: data.id,
                                         detailShow: true,
                                     })
                                 }}>
                                     <div className="cover">
-                                        <img src={data.picUrl}/>
+                                        <img src={data.coverImgUrl} />
                                     </div>
-                                    <div className="info">
-                                        <div className="name">{data.name}</div>
-                                        <div className="singer">{data.artist.name}</div>
+                                    <div className="r">
+                                        <div className="desc">{data.name}</div>
+                                        <div className="num">
+                                            <i className="iconfont icon-iconset0271"></i>
+                                            <span>{this.getPlayCount(data.playCount)}</span>
+                                        </div>
                                     </div>
                                 </div>
                             )
                         })
                     }
-
                 </div>
             </div>
         )

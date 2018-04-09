@@ -49,4 +49,10 @@ router.get('/song/detail', (req, res) => {
 router.get('/search', (req, res) => {
     service.search(req, res);
 });
+/**
+ * 歌手单曲
+ */
+router.get('/artists', (req, res) => {
+    service.artists(req, res);
+});
 module.exports = router;

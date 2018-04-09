@@ -2,7 +2,7 @@
  * Created by maikuraki on 2017/11/4.
  */
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
 // import {remote} from 'electron';
 import eventEmitter from '../lib/eventEmitter';
 import * as constStr from '../lib/const';
@@ -218,9 +218,10 @@ export default class App extends React.Component {
                         {
                             1 === 1?
                                 <React.Fragment>
+                                    <Route path="/search" component={Search}/>
                                     <Route path="/listDetail/:id" component={ListDetail}/>
                                     <Route path="/albumDetail/:id" component={AlbumDetail}/>
-                                    <Route path="/search" component={Search}/>
+                                    <Route path="/home" component={Home}/>
                                     <Route path="/" component={Home}/>
                                 </React.Fragment>:<React.Fragment>
                                     <Route path="/" component={Search}/>

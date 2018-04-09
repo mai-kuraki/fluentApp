@@ -87,4 +87,15 @@ module.exports = {
             res.json({status: 500, messge: '缺少参数id'})
         }
     },
+    artists: (req, res) => {
+        let args = req.query;
+        let id = args.id;
+        if(id) {
+            rpUtil.get(`${requestHost}/artists?id=${id}`, null, req, res, (body) => {
+                res.json(body);
+            });
+        }else {
+            res.json({status: 500, messge: '缺少参数id'})
+        }
+    }
 };

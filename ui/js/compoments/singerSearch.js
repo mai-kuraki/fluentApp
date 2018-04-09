@@ -1,13 +1,18 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import SearchSingerDetail from './searchSingerDetail';
 import store from '../store';
 import * as Actions from '../actions';
 import eventEmitter from "../lib/eventEmitter";
 import * as constStr from "../lib/const";
 
-export default class Single  extends React.Component {
+export default class SingerSearch  extends React.Component {
     constructor() {
         super();
+        this.state = {
+            detailShow: false,
+            curId: '',
+        }
     }
 
     id2Song(id) {
@@ -25,19 +30,35 @@ export default class Single  extends React.Component {
         })
     }
 
+    goback() {
+        this.setState({
+            detailShow: false,
+        })
+    }
+
     render() {
         let data = this.props.data;
         return (
-            <div className="single-item">
+            <div className="singer-item">
+                {
+                    this.state.detailShow?
+                        <div className="singerlist-detail">
+                            <SearchSingerDetail id={this.state.curId} goback={this.goback.bind(this)}/>
+                        </div>:null
+                }
                 <div className="item-list">
                     {
                         data.map((data, k) => {
                             return(
-                                <div key={k} className="song-itembox" onDoubleClick={this.id2Song.bind(this, data.id)}>
-                                    <div className="cover"><img src={data.album.artist.img1v1Url}/></div>
+                                <div key={k} className="song-itembox" onClick={() => {
+                                    this.setState({
+                                        curId: data.id,
+                                        detailShow: true,
+                                    })
+                                }}>
+                                    <div className="cover"><img src={data.img1v1Url}/></div>
                                     <div className="info">
-                                        <div className="name">{data.name}</div>
-                                        <div className="singer">{data.artists[0].name}</div>
+                                        <div className="name">{data.name}<i>{data.trans?`(${data.trans})`:''}</i></div>
                                     </div>
                                 </div>
                             )

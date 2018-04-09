@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import Swiper from 'swiper';
 import Single from './single';
 import AblumSearch from './ablumSearch';
+import SingerSearch from './singerSearch';
+import SongListSearch from './songListSearch';
 import store from '../store';
 import * as Actions from '../actions';
 import * as constStr from "../lib/const";
@@ -14,6 +16,7 @@ export default class Search  extends React.Component {
         this.state = {
             activeTab: 0,
             keyword: '',
+            keywordCache: '',
             tabs: [
                 {id: 0, name: '单曲'},
                 {id: 1, name: '专辑'},
@@ -33,6 +36,7 @@ export default class Search  extends React.Component {
 
     componentDidMount() {
         this.mySwiper = new Swiper('.search-tab-wrapper', {
+            allowTouchMove: false,
             on:{
                 transitionEnd: () => {
                     this.setState({
@@ -112,13 +116,24 @@ export default class Search  extends React.Component {
             <div className="search-page">
                 <div className="search-area">
                     <Link to="/"><div className="searchBtn iconfont icon-fanhui"></div></Link>
-                    <input type="text" placeholder="搜索音乐、歌单、歌手" value={state.keyword} onChange={(e) => {
-                        this.setState({
-                            keyword: e.target.value,
-                        })
-                    }} onKeyDown={(e) => {
+                    <input type="text" placeholder="搜索音乐、歌单、歌手" onKeyDown={(e) => {
                         if(e.keyCode == 13) {
-                            this.search();
+                            if(e.target.value == state.keyword) {
+                                return;
+                            }else {
+                                this.setState({
+                                    keyword: e.target.value,
+                                    singleLoad: false,
+                                    singerLoad: false,
+                                    albumLoad: false,
+                                    listLoad: false,
+                                });
+                                setTimeout(() => {
+                                    this.search();
+                                });
+
+                            }
+
                         }
                     }}/>
                     <div className="clear iconfont icon-guanbi"></div>
@@ -136,8 +151,8 @@ export default class Search  extends React.Component {
                     <div className="swiper-wrapper">
                         <div className="swiper-slide"><Single data={state.singleItem}/></div>
                         <div className="swiper-slide"><AblumSearch data={state.albumItem}/></div>
-                        <div className="swiper-slide">3</div>
-                        <div className="swiper-slide">4</div>
+                        <div className="swiper-slide"><SingerSearch data={state.singerItem}/></div>
+                        <div className="swiper-slide"><SongListSearch data={state.listItem}/></div>
                     </div>
                 </div>
             </div>
