@@ -101,6 +101,35 @@ input[placeholder] {
   overflow: hidden;
   box-shadow: 0px 6px 18px 0px rgba(73, 73, 73, 0.4);
   position: relative; }
+  .player-wrap .play-list-dialog {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: -200vh;
+    z-index: 1000; }
+    .player-wrap .play-list-dialog .mask {
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: all 250ms ease-in-out;
+      -webkit-app-region: no-drag; }
+    .player-wrap .play-list-dialog .list-wrap {
+      width: 100%;
+      height: 60vh;
+      position: absolute;
+      left: 0px;
+      bottom: -60vh;
+      background: #FFF;
+      transition: all 250ms ease-in-out;
+      -webkit-app-region: no-drag; }
+    .player-wrap .play-list-dialog .mask-active {
+      opacity: 1; }
+    .player-wrap .play-list-dialog .list-wrap-active {
+      bottom: 0px; }
+  .player-wrap .play-list-dialog-active {
+    top: 0px; }
   .player-wrap .fix-control {
     width: 100%;
     height: 50px;
@@ -109,8 +138,8 @@ input[placeholder] {
     bottom: 0px;
     left: 0px;
     z-index: 999;
-    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.06);
-    display: flex; }
+    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.05);
+    display: none; }
     .player-wrap .fix-control .play-bar {
       width: 100%;
       height: 3px;
@@ -121,7 +150,7 @@ input[placeholder] {
       .player-wrap .fix-control .play-bar .curBar {
         width: 0%;
         height: 3px;
-        background: #31C27C; }
+        background: #666; }
     .player-wrap .fix-control .cover {
       width: 50px;
       height: 50px;
@@ -132,7 +161,7 @@ input[placeholder] {
         width: 100%;
         height: 100%; }
     .player-wrap .fix-control .info {
-      width: calc(100% - 50px - 50px);
+      width: calc(100% - 50px - 48px - 40px);
       display: flex;
       flex-direction: column;
       justify-content: space-around;
@@ -155,12 +184,36 @@ input[placeholder] {
     .player-wrap .fix-control .play-icon {
       width: 48px;
       height: 48px;
+      cursor: auto;
+      -webkit-app-region: no-drag;
+      position: relative; }
+      .player-wrap .fix-control .play-icon .icon {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #666;
+        font-size: 22px; }
+      .player-wrap .fix-control .play-icon .progress {
+        width: 31px;
+        height: 31px;
+        position: absolute;
+        left: 8px;
+        top: 9px; }
+    .player-wrap .fix-control .play-list {
+      width: 40px;
+      padding-right: 5px;
+      height: 48px;
       display: flex;
       justify-content: center;
       align-items: center;
-      color: #31C27C;
+      color: #666;
       font-size: 22px;
-      cursor: pointer; }
+      cursor: pointer;
+      -webkit-app-region: no-drag; }
+  .player-wrap .fix-control-active {
+    display: flex; }
   .player-wrap .snackbar {
     max-width: 50vw;
     min-width: 30vw;
@@ -278,22 +331,14 @@ input[placeholder] {
       border-radius: 50%;
       margin: 16vh auto 0vh;
       position: relative; }
-      .player-wrap .play-ui-page .cover .progress {
-        width: 100%;
-        height: 100%; }
-        .player-wrap .play-ui-page .cover .progress svg {
-          width: 100%;
-          height: 100%; }
-          .player-wrap .play-ui-page .cover .progress svg path:nth-child(2) {
-            border-radius: 2px; }
       .player-wrap .play-ui-page .cover img {
         display: block;
-        width: 25vw;
-        height: 25vw;
+        width: 100%;
+        height: 100%;
         border-radius: 50%;
         position: absolute;
-        left: 3.5vw;
-        top: 3.5vw; }
+        left: 0px;
+        top: 0px; }
     .player-wrap .play-ui-page .wave {
       width: 100%;
       height: 100vh;
@@ -432,7 +477,7 @@ input[placeholder] {
           .player-wrap .home-page .recommend .recommoned-banner .info .play-btn {
             width: 100px;
             height: 8vw;
-            background: #31C27C;
+            background: #666;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -629,7 +674,7 @@ input[placeholder] {
           font-weight: bold; }
         .player-wrap .home-page .mysong .mysong-empty .file-btn {
           padding: 10px 20px;
-          background: #31C27C;
+          background: #666;
           color: #FFF;
           font-size: 12px;
           cursor: pointer;
@@ -654,7 +699,7 @@ input[placeholder] {
               font-size: 11px;
               margin-left: 5px; }
           .player-wrap .home-page .mysong .item-list .list-head .adddir {
-            color: #31C27C;
+            color: #666;
             margin-left: 12px;
             -webkit-app-region: no-drag;
             cursor: pointer; }
@@ -715,7 +760,7 @@ input[placeholder] {
         bottom: -26px;
         width: 56px;
         height: 56px;
-        background: #31C27C;
+        background: #666;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -766,12 +811,12 @@ input[placeholder] {
           right: 16px;
           top: 0px;
           height: 100%;
-          color: #31C27C;
+          color: #666;
           font-size: 26px; }
         .player-wrap .listDetail-page .song-list .song:hover {
           background: #FCFCFC; }
           .player-wrap .listDetail-page .song-list .song:hover .key {
-            color: #31C27C; }
+            color: #666; }
           .player-wrap .listDetail-page .song-list .song:hover:before {
             display: flex; }
         .player-wrap .listDetail-page .song-list .song:last-child .r {
@@ -869,7 +914,7 @@ input[placeholder] {
           align-items: center;
           font-size: 20px; }
         .addfile-dialog .content .list .row .checked {
-          color: #31C27C; }
+          color: #666; }
         .addfile-dialog .content .list .row span {
           display: block;
           width: calc(100% - 40px);
@@ -901,7 +946,7 @@ input[placeholder] {
         -webkit-app-region: no-drag;
         cursor: pointer; }
       .addfile-dialog .content .opts .confirm {
-        background: #31C27C;
+        background: #666;
         color: #FFF; }
 
 .progress-bar-root {
@@ -918,7 +963,7 @@ input[placeholder] {
     height: 100%; }
 
 .progress-bar-item {
-  background: #31C27C;
+  background: #666;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -958,7 +1003,7 @@ input[placeholder] {
   position: relative; }
 
 .progress-ring-item {
-  background: #31C27C;
+  background: #666;
   position: absolute;
   top: 0px;
   left: 25px;

@@ -3,7 +3,7 @@
     src: url('../font/Amble-Regular.ttf');
 }
 
-$theme: #31C27C;
+$theme: #666;
 
 * {
     padding: 0px;
@@ -127,6 +127,41 @@ input[placeholder] {
     overflow: hidden;
     box-shadow: 0px 6px 18px 0px rgba(73, 73, 73, 0.4);
     position: relative;
+    .play-list-dialog{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0px;
+        top: -200vh;
+        z-index: 1000;
+        .mask{
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.3);
+            opacity: 0;
+            transition: all 250ms ease-in-out;
+            -webkit-app-region: no-drag;
+        }
+        .list-wrap{
+            width: 100%;
+            height: 60vh;
+            position: absolute;
+            left: 0px;
+            bottom: -60vh;
+            background: #FFF;
+            transition: all 250ms ease-in-out;
+            -webkit-app-region: no-drag;
+        }
+        .mask-active{
+            opacity: 1;
+        }
+        .list-wrap-active{
+            bottom: 0px;
+        }
+    }
+    .play-list-dialog-active{
+        top: 0px;
+    }
     .fix-control {
         width: 100%;
         height: 50px;
@@ -135,8 +170,8 @@ input[placeholder] {
         bottom: 0px;
         left: 0px;
         z-index: 999;
-        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.06);
-        display: flex;
+        box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.05);
+        display: none;
         .play-bar {
             width: 100%;
             height: 3px;
@@ -162,7 +197,7 @@ input[placeholder] {
             }
         }
         .info {
-            width: calc(100% - 50px - 50px);
+            width: calc(100% - 50px - 48px - 40px);
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -188,13 +223,41 @@ input[placeholder] {
         .play-icon {
             width: 48px;
             height: 48px;
+            cursor: auto;
+            -webkit-app-region: no-drag;
+            position: relative;
+            .icon{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $theme;
+                font-size: 22px;
+            }
+            .progress{
+                width: 31px;
+                height: 31px;
+                position: absolute;
+                left: 8px;
+                top: 9px;
+            }
+        }
+        .play-list{
+            width: 40px;
+            padding-right: 5px;
+            height: 48px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: $theme;
+            color: #666;
             font-size: 22px;
             cursor: pointer;
+            -webkit-app-region: no-drag;
         }
+    }
+    .fix-control-active{
+        display: flex;
     }
     .snackbar {
         max-width: 50vw;
@@ -335,27 +398,14 @@ input[placeholder] {
             border-radius: 50%;
             margin: 16vh auto 0vh;
             position: relative;
-            .progress {
-                width: 100%;
-                height: 100%;
-                svg {
-                    width: 100%;
-                    height: 100%;
-                    path {
-                        &:nth-child(2) {
-                            border-radius: 2px;
-                        }
-                    }
-                }
-            }
             img {
                 display: block;
-                width: 25vw;
-                height: 25vw;
+                width: 100%;
+                height: 100%;
                 border-radius: 50%;
                 position: absolute;
-                left: 3.5vw;
-                top: 3.5vw;
+                left: 0px;
+                top: 0px;
             }
         }
         .wave {

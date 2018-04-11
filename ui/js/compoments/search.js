@@ -67,6 +67,7 @@ export default class Search  extends React.Component {
          */
         let state = this.state;
         let keyword = state.keyword;
+        if(!keyword) return;
         let typeMap = [1, 10, 100, 1000];
         let activeTab = state.activeTab;
         let type = typeMap[activeTab];
@@ -116,7 +117,13 @@ export default class Search  extends React.Component {
             <div className="search-page">
                 <div className="search-area">
                     <Link to="/"><div className="searchBtn iconfont icon-fanhui"></div></Link>
-                    <input type="text" placeholder="搜索音乐、歌单、歌手" onKeyDown={(e) => {
+                    <input ref="search" type="text" placeholder="搜索音乐、歌单、歌手"
+                           onChange={(e) => {
+                               this.setState({
+                                   keywordCache: e.target.value,
+                               })
+                           }}
+                           onKeyDown={(e) => {
                         if(e.keyCode == 13) {
                             if(e.target.value == state.keyword) {
                                 return;
@@ -136,7 +143,16 @@ export default class Search  extends React.Component {
 
                         }
                     }}/>
-                    <div className="clear iconfont icon-guanbi"></div>
+                    {
+                        state.keywordCache?
+                            <div className="clear iconfont icon-guanbi" onClick={() => {
+                                this.setState({
+                                    keyword: '',
+                                    keywordCache: '',
+                                });
+                                this.refs.search.value = '';
+                            }}></div>:null
+                    }
                 </div>
                 <div className="search-tab">
                     {

@@ -1,6 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import Progressbar from "progressbar.js";
 import eventEmitter from '../lib/eventEmitter';
 import * as constStr from '../lib/const';
 import store from "../store";
@@ -18,16 +17,7 @@ export default class PlayDetail extends React.Component {
     }
 
     componentDidMount() {
-        this.progress = new Progressbar.Circle('#progress', {
-            strokeWidth: 4,
-            trailWidth: 2,
-            trailColor: 'rgba(49,194,124, 0.4)',
-            color: 'rgba(49,194,124, 1)',
-        });
         this.init();
-        eventEmitter.on(constStr.PLAYPERCENT, (percent) => {
-            this.progress.animate(percent);
-        });
         eventEmitter.on(constStr.PLAYANIMATE, () => {
             this.init();
         });
@@ -105,7 +95,7 @@ export default class PlayDetail extends React.Component {
         let waveWidth = Math.ceil(this.width / (waveArr1.length - 3));
         let waveWidth2 =  Math.ceil(this.width / (waveArr2.length - 3));
         this.ctx.beginPath();
-        this.ctx.fillStyle = 'rgba(49,194,124,0.4)';
+        this.ctx.fillStyle = 'rgba(102,102,102,0.4)';
         this.ctx.moveTo(-waveWidth2, this.baseY - waveArr2[0]);
         for(let i = 1; i < waveArr2.length - 2; i ++) {
             let p0 = {x: (i - 1) * waveWidth2, y:waveArr2[i - 1]};
@@ -132,7 +122,7 @@ export default class PlayDetail extends React.Component {
 
 
         this.ctx.beginPath();
-        this.ctx.fillStyle = 'rgba(49,194,124,0.8)';
+        this.ctx.fillStyle = 'rgba(102,102,102,0.8)';
         this.ctx.moveTo(-waveWidth * 2, this.baseY - waveArr1[0]);
         for(let i = 1; i < waveArr1.length - 2; i ++) {
             let p0 = {x: (i - 2) * waveWidth, y:waveArr1[i - 1]};
@@ -188,8 +178,6 @@ export default class PlayDetail extends React.Component {
                     </div>
                 </div>
                 <div className="cover">
-                    <div className="progress" id="progress">
-                    </div>
                     <img src={songInfo.al.picUrl || __REQUESTHOST + '/defaultCover.png'}/>
                 </div>
                 <div className="wave">

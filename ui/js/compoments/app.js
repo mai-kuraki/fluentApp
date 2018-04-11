@@ -14,6 +14,7 @@ import AlbumDetail from './albumDetail';
 import store from "../store";
 import RingLoading from './ringLoading';
 import Search from './search';
+import Progressbar from "progressbar.js";
 
 
 export default class App extends React.Component {
@@ -22,6 +23,7 @@ export default class App extends React.Component {
         this.state = {
             loading: false,
             snackbar: false,
+            playListState: false,
             snackbarText: '',
             playPercent: 0,
             audioDuration: 0,
@@ -88,7 +90,13 @@ export default class App extends React.Component {
             }else {
                 this.loadingClose();
             }
-        })
+        });
+        this.progress = new Progressbar.Circle('#progress', {
+            strokeWidth: 2,
+            trailWidth: 2,
+            trailColor: 'rgba(102,102,102,0.2)',
+            color: 'rgba(102,102,102, 1)',
+        });
     }
 
     durationchange() {
@@ -106,9 +114,10 @@ export default class App extends React.Component {
             playPercent: playPercent,
             audioCurDuration: currentTime,
         });
-        if(store.getState().main.UIPage) {
-            eventEmitter.emit(constStr.PLAYPERCENT, playPercent);
-        }
+        this.progress.animate(playPercent);
+        // if(store.getState().main.UIPage) {
+        //     eventEmitter.emit(constStr.PLAYPERCENT, playPercent);
+        // }
     }
 
     getSongInfo(id) {
@@ -194,25 +203,40 @@ export default class App extends React.Component {
                         this.state.snackbar?
                             <div className="snackbar">{this.state.snackbarText}</div>:null
                     }
-                    {
-                        storeMain.UIPage?null:
-                            <div className="fix-control">
+                    <div className={`play-list-dialog ${state.playListState?'play-list-dialog-active':''}`}>
+                        <div className={`mask ${state.playListState?'mask-active':''}`} onClick={() => {
+                            this.setState({
+                                playListState: false,
+                            })
+                        }}></div>
+                        <div className={`list-wrap ${state.playListState?'list-wrap-active':''}`}></div>
+                    </div>
+                    <div className={`fix-control ${storeMain.UIPage?'':'fix-control-active'}`}>
+                        {
+                            1 === 2?
                                 <div className="play-bar">
                                     <div className="curBar" style={{width: state.playPercent * 100 + '%'}}></div>
-                                </div>
-                                <div className="cover" onClick={this.toUIPage.bind(this)}>
-                                    <img src={songInfo.al.picUrl || __REQUESTHOST + '/defaultCover.png'}/>
-                                </div>
-                                <div className="info" onClick={this.toUIPage.bind(this)}>
-                                    <div className="name">{songInfo.name || ''}</div>
-                                    <div className="singer">{songInfo.ar[0].name || ''}</div>
-                                </div>
-                                <div className={`play-icon iconfont ${storeMain.playState?'icon-weibiaoti519':'icon-bofang2'}`} onClick={(e) => {
-                                    this.switchPlay(!storeMain.playState);
-                                }}></div>
-                            </div>
-                    }
-
+                                </div>:null
+                        }
+                        <div className="cover" onClick={this.toUIPage.bind(this)}>
+                            <img src={songInfo.al.picUrl || __REQUESTHOST + '/defaultCover.png'}/>
+                        </div>
+                        <div className="info" onClick={this.toUIPage.bind(this)}>
+                            <div className="name">{songInfo.name || ''}</div>
+                            <div className="singer">{songInfo.ar[0].name || ''}</div>
+                        </div>
+                        <div className={`play-icon`} onClick={(e) => {
+                            this.switchPlay(!storeMain.playState);
+                        }}>
+                            <div className={`icon iconfont ${storeMain.playState?'icon-weibiaoti519':'icon-bofang2'}`}></div>
+                            <div className="progress" id="progress"></div>
+                        </div>
+                        <div className="play-list iconfont icon-liebiao" onClick={() => {
+                            this.setState({
+                                playListState: true,
+                            })
+                        }}></div>
+                    </div>
                     <audio id="audio"></audio>
                     <Switch>
                         {
