@@ -42206,9 +42206,9 @@ var App = function (_React$Component) {
                 audioCurDuration: currentTime
             });
             this.progress.animate(playPercent);
-            // if(store.getState().main.UIPage) {
-            //     eventEmitter.emit(constStr.PLAYPERCENT, playPercent);
-            // }
+            if (_store2.default.getState().main.UIPage) {
+                _eventEmitter2.default.emit(constStr.PLAYPERCENT, playPercent);
+            }
         }
     }, {
         key: 'getSongInfo',
@@ -42259,12 +42259,14 @@ var App = function (_React$Component) {
     }, {
         key: 'switchPlay',
         value: function switchPlay(state) {
-            if (state) {
-                this.audio.play();
-            } else {
-                this.audio.pause();
+            if (this.audio && this.audio.src) {
+                if (state) {
+                    this.audio.play();
+                } else {
+                    this.audio.pause();
+                }
+                _store2.default.dispatch(Actions.setPlayState(state));
             }
-            _store2.default.dispatch(Actions.setPlayState(state));
         }
     }, {
         key: 'toUIPage',
@@ -46787,10 +46789,17 @@ var PlayDetail = function (_React$Component) {
         var _this2 = _possibleConstructorReturn(this, (PlayDetail.__proto__ || Object.getPrototypeOf(PlayDetail)).call(this));
 
         _this2.state = {
+            mouseDown: false,
+            vMouseDown: false,
             percent: 0,
+            duration: 0,
+            currentTime: 0,
+            buffered: 0,
             init: false
         };
-        _this2.progress = null;
+        _this2.mouseDownPercent = 0;
+        _this2.mouseDown = false;
+        _this2.audio = null;
         _this2.baseY = Math.floor(window.innerHeight * 2 / 3);
         return _this2;
     }
@@ -46804,6 +46813,66 @@ var PlayDetail = function (_React$Component) {
             _eventEmitter2.default.on(constStr.PLAYANIMATE, function () {
                 _this3.init();
             });
+            _eventEmitter2.default.on(constStr.PLAYPERCENT, function (p) {
+                _this3.audioDo();
+            });
+        }
+    }, {
+        key: 'audioDo',
+        value: function audioDo() {
+            if (this.audio) {
+                var buffered = this.audio.buffered.end(0),
+                    duration = this.audio.duration,
+                    currentTime = this.audio.currentTime;
+                var playPercent = currentTime / duration;
+                if (!this.state.mouseDown) {
+                    this.setState({
+                        duration: duration,
+                        currentTime: currentTime,
+                        buffered: buffered,
+                        percent: (playPercent * 100).toFixed(2)
+                    });
+                } else {
+                    this.setState({
+                        currentTime: currentTime,
+                        buffered: buffered
+                    });
+                }
+            }
+        }
+    }, {
+        key: 'formatSeconds',
+        value: function formatSeconds(value) {
+            var theTime = parseInt(value);
+            var theTime1 = 0;
+            var theTime2 = 0;
+            if (theTime > 60) {
+                theTime1 = parseInt(theTime / 60);
+                theTime = parseInt(theTime % 60);
+                if (theTime1 > 60) {
+                    theTime2 = parseInt(theTime1 / 60);
+                    theTime1 = parseInt(theTime1 % 60);
+                }
+            }
+            var result = void 0;
+            if (parseInt(theTime) > 9) {
+                result = "" + parseInt(theTime) + "";
+            } else {
+                result = "0" + parseInt(theTime) + "";
+            }
+            if (theTime1 > 0) {
+                if (parseInt(theTime1) > 9) {
+                    result = "" + parseInt(theTime1) + ":" + result;
+                } else {
+                    result = "0" + parseInt(theTime1) + ":" + result;
+                }
+            } else {
+                result = "00:" + result;
+            }
+            if (theTime2 > 0) {
+                result = "" + parseInt(theTime2) + ":" + result;
+            }
+            return result;
         }
     }, {
         key: 'init',
@@ -46938,13 +47007,100 @@ var PlayDetail = function (_React$Component) {
     }, {
         key: 'switchPlay',
         value: function switchPlay() {
-            var storeMain = _store2.default.getState().main;
-            _eventEmitter2.default.emit(constStr.SWITCHPLAY, !storeMain.playState);
+            if (this.audio && this.audio.src) {
+                var storeMain = _store2.default.getState().main;
+                _eventEmitter2.default.emit(constStr.SWITCHPLAY, !storeMain.playState);
+            }
         }
     }, {
         key: 'goBack',
         value: function goBack() {
             _store2.default.dispatch(Actions.setPlayUiPage(false));
+        }
+    }, {
+        key: 'calcCir',
+        value: function calcCir() {
+            var percent = this.state.percent;
+            var cir = (Math.PI * 15.6 * 2 * percent / 100).toFixed(2);
+            return cir;
+        }
+    }, {
+        key: 'calcDeg',
+        value: function calcDeg() {
+            var percent = this.state.percent;
+            var deg = 360 * percent / 100;
+            return deg;
+        }
+    }, {
+        key: 'dotMouseDown',
+        value: function dotMouseDown(e) {
+            if (this.audio && this.audio.src) {
+                this.mouseDownPercent = this.state.percent;
+                this.setState({
+                    mouseDown: true
+                });
+            }
+        }
+    }, {
+        key: 'mouseMove',
+        value: function mouseMove(e) {
+            if (this.state.mouseDown && this.audio && this.audio.src) {
+                var baseX = document.getElementById('dotflag').getBoundingClientRect().left;
+                var baseY = document.getElementById('dotflag').getBoundingClientRect().top;
+                var cx = e.clientX;
+                var cy = e.clientY;
+                var offsetX = cx - baseX;
+                var offsetY = -(cy - baseY);
+                var tan = offsetX / offsetY;
+                var deg = 0;
+                if (offsetX > 0) {
+                    if (offsetY > 0) {
+                        deg = Math.abs(Math.atan(tan) / (Math.PI / 360)) / 2;
+                    } else {
+                        deg = 180 - Math.abs(Math.atan(tan) / (Math.PI / 360)) / 2;
+                    }
+                } else if (offsetX < 0) {
+                    if (offsetY > 0) {
+                        deg = 360 - Math.abs(Math.atan(tan) / (Math.PI / 360) / 2);
+                    } else {
+                        deg = 180 + Math.abs(Math.atan(tan) / (Math.PI / 360) / 2);
+                    }
+                } else if (offsetX == 0 && offsetY < 0) {
+                    deg = 180;
+                }
+                this.setState({
+                    percent: deg * (100 / 360)
+                });
+            }
+            if (this.state.vMouseDown) {
+                this.vY;
+            }
+        }
+    }, {
+        key: 'mouseUp',
+        value: function mouseUp() {
+            if (this.state.vMouseDown) {
+                this.setState({
+                    vMouseDown: false
+                });
+            }
+            if (this.state.mouseDown && this.audio && this.audio.src) {
+                this.setState({
+                    mouseDown: false
+                });
+                var percent = this.state.percent,
+                    duration = this.state.duration;
+                var currentTime = percent / 100 * duration;
+                this.audio.currentTime = currentTime;
+            }
+        }
+    }, {
+        key: 'vdotMouseDown',
+        value: function vdotMouseDown(e) {
+            this.setState({
+                vMouseDown: true
+            });
+            this.vY = e.clientY;
         }
     }, {
         key: 'render',
@@ -46960,7 +47116,7 @@ var PlayDetail = function (_React$Component) {
             }
             return _react2.default.createElement(
                 'div',
-                { className: 'play-ui-page ' + (storeMain.UIPage ? 'play-ui-page-show' : '') },
+                { className: 'play-ui-page ' + (storeMain.UIPage ? 'play-ui-page-show' : ''), onMouseMove: this.mouseMove.bind(this), onMouseUp: this.mouseUp.bind(this) },
                 _react2.default.createElement(
                     'div',
                     { className: 'windowsHead' },
@@ -46980,6 +47136,22 @@ var PlayDetail = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'cover' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'bar-wrap' },
+                        _react2.default.createElement('div', { id: 'dotflag' }),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'dot-wrap', id: 'dotWrap', style: { transform: 'rotate(' + this.calcDeg() + 'deg)' } },
+                            _react2.default.createElement('div', { className: 'dot', onMouseDown: this.dotMouseDown.bind(this) })
+                        ),
+                        _react2.default.createElement(
+                            'svg',
+                            { width: '32vw', height: '32vw' },
+                            _react2.default.createElement('circle', { cx: '16vw', cy: '16vw', r: '15.5vw', strokeWidth: '3', stroke: '#DDD', fill: 'none', className: 'track' }),
+                            _react2.default.createElement('circle', { cx: '16vw', cy: '16vw', r: '15.5vw', strokeWidth: '3', stroke: '#666', fill: 'none', className: 'thumb', strokeDasharray: this.calcCir() + 'vw 2000' })
+                        )
+                    ),
                     _react2.default.createElement('img', { src: songInfo.al.picUrl || __REQUESTHOST + '/defaultCover.png' })
                 ),
                 _react2.default.createElement(
@@ -47002,10 +47174,29 @@ var PlayDetail = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'div',
+                        { className: 'time' },
+                        this.formatSeconds(state.currentTime),
+                        ' / ',
+                        this.formatSeconds(state.duration)
+                    ),
+                    _react2.default.createElement(
+                        'div',
                         { className: 'control' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'vol' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'vol-panel' },
+                                _react2.default.createElement('div', { className: 'v-bar' }),
+                                _react2.default.createElement('div', { className: 'dot', onMouseDown: this.vdotMouseDown.bind(this) })
+                            ),
+                            _react2.default.createElement('div', { className: 'vol-icon iconfont icon-yinliang' })
+                        ),
                         _react2.default.createElement('div', { className: 'change pre iconfont icon-xiayishou1-copy' }),
-                        _react2.default.createElement('div', { className: 'play iconfont ' + (storeMain.playState ? 'icon-zanting' : 'icon-bofang'), onClick: this.switchPlay.bind(this) }),
-                        _react2.default.createElement('div', { className: 'change next iconfont icon-xiayishou1' })
+                        _react2.default.createElement('div', { className: 'play iconfont ' + (storeMain.playState ? 'icon-bofang2' : 'icon-weibiaoti519'), onClick: this.switchPlay.bind(this) }),
+                        _react2.default.createElement('div', { className: 'change next iconfont icon-xiayishou1' }),
+                        _react2.default.createElement('div', { className: 'order iconfont icon-shunxuchakan' })
                     )
                 )
             );

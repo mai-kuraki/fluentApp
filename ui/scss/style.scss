@@ -11,7 +11,7 @@ $theme: #666;
     list-style: none;
     box-sizing: border-box;
     font-family: "amble", "Microsoft YaHei", "PingFangSC-Regular", STHeiti, Helvetica, Arial, sans-serif !important;
-    user-select: none;
+    -webkit-user-select: none;
 }
 
 html {
@@ -359,6 +359,7 @@ input[placeholder] {
         padding: 1px;
         overflow: hidden;
         transition: all 250ms ease-out;
+        -webkit-user-select: none;
         .head {
             position: absolute;
             left: 0px;
@@ -396,8 +397,11 @@ input[placeholder] {
             width: 32vw;
             height: 32vw;
             border-radius: 50%;
-            margin: 16vh auto 0vh;
-            position: relative;
+            position: absolute;
+            left: 50%;
+            top: 16vh;
+            transform: translateX(-50%);
+            z-index: 11;
             img {
                 display: block;
                 width: 100%;
@@ -406,6 +410,74 @@ input[placeholder] {
                 position: absolute;
                 left: 0px;
                 top: 0px;
+                transform: scale(0.86);
+            }
+            #dotflag{
+                width: 1px;
+                height: 1px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+            }
+            .bar-wrap{
+                width: 100%;
+                height: 100%;
+                position: relative;
+                -webkit-app-region: no-drag;
+                .dot-wrap{
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0px;
+                    top: 0px;
+                    transform-origin: center;
+                    z-index: 12;
+                    transform: rotate(0deg);
+                    .dot{
+                        width: 12px;
+                        height: 12px;
+                        background: #666;
+                        border-radius: 50%;
+                        position: absolute;
+                        left: 50%;
+                        top: 0px;
+                        margin-top: 2px;
+                        transform: translate(-50%, -50%);
+                        cursor: pointer;
+                        -webkit-app-region: no-drag;
+                        &:before{
+                            content: '';
+                            display: block;
+                            width: 20px;
+                            height: 20px;
+                            background: rgba(0,0,0,.14);
+                            border-radius: 50%;
+                            position: absolute;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-50%, -50%);
+                            opacity: 0;
+                            transition: all 250ms ease;
+                        }
+                        &:hover{
+                            &:before{
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+                svg{
+                    width: 100%;
+                    height: 100%;
+                    display: block;
+                    transform-origin: center center;
+                    transform: rotate(-90deg);
+                    .thumb{
+                    }
+                    .track{
+
+                    }
+                }
             }
         }
         .wave {
@@ -422,7 +494,7 @@ input[placeholder] {
         }
         .player-panel {
             width: 100%;
-            height: 26vh;
+            height: 27vh;
             position: absolute;
             left: 0px;
             bottom: 0px;
@@ -435,8 +507,18 @@ input[placeholder] {
                 color: #FFF;
                 display: flex;
                 justify-content: center;
+                min-height: 16px;
             }
             .singer {
+                width: 100%;
+                font-size: 10px;
+                min-height: 12px;
+                color: #FFF;
+                display: flex;
+                justify-content: center;
+                margin-top: 1vh;
+            }
+            .time{
                 width: 100%;
                 font-size: 10px;
                 color: #FFF;
@@ -446,26 +528,64 @@ input[placeholder] {
             }
             .control {
                 width: 60vw;
-                margin: 2.5vh auto 0px;
+                margin: 2.2vh auto 0px;
                 display: flex;
                 height: 80px;
                 align-items: center;
                 justify-content: space-between;
                 color: #FFF;
+                .vol{
+                    position: relative;
+                    .vol-icon{
+                        font-size: 5vw;
+                        -webkit-app-region: no-drag;
+                        cursor: pointer;
+                    }
+                    .vol-panel{
+                        width: 3px;
+                        height: 20vw;
+                        background: rgba(255, 255, 255, .3);
+                        position: absolute;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        border-radius: 1px;
+                        bottom: 24px;
+                        .v-bar{
+                            width: 100%;
+                            height: 20%;
+                            border-radius: 1px;
+                            background: #FFF;
+                            position: absolute;
+                            left: 0px;
+                            bottom: 0px;
+                        }
+                        .dot{
+                            width: 6px;
+                            height: 6px;
+                            background: #FFF;
+                            position: absolute;
+                            left: 50%;
+                            bottom: 20%;
+                            transform: translate(-50%, 50%);
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .order{
+                    font-size: 5vw;
+                    -webkit-app-region: no-drag;
+                    cursor: pointer;
+                }
                 .change {
-                    font-size: 7vw;
+                    font-size: 6vw;
                     -webkit-app-region: no-drag;
                     cursor: pointer;
                 }
                 .play {
-                    font-size: 16vw;
-                    text-shadow: 0px 6px 20px rgba(73, 73, 73, 0.2);
+                    font-size: 10vw;
                     -webkit-app-region: no-drag;
                     cursor: pointer;
                     transition: all ease-in-out 250ms;
-                    &:hover {
-                        text-shadow: 0px 6px 20px rgba(73, 73, 73, 0.4);
-                    }
                 }
             }
         }

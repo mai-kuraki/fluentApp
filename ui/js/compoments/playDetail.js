@@ -9,10 +9,17 @@ export default class PlayDetail extends React.Component {
     constructor() {
         super();
         this.state = {
+            mouseDown: false,
+            vMouseDown: false,
             percent: 0,
+            duration: 0,
+            currentTime: 0,
+            buffered: 0,
             init: false,
         };
-        this.progress = null;
+        this.mouseDownPercent = 0;
+        this.mouseDown = false;
+        this.audio = null;
         this.baseY = Math.floor(window.innerHeight * 2/3);
     }
 
@@ -21,8 +28,66 @@ export default class PlayDetail extends React.Component {
         eventEmitter.on(constStr.PLAYANIMATE, () => {
             this.init();
         });
+        eventEmitter.on(constStr.PLAYPERCENT, (p) => {
+            this.audioDo();
+        })
     }
 
+    audioDo() {
+        if(this.audio) {
+            let buffered = this.audio.buffered.end(0),
+                duration = this.audio.duration,
+                currentTime = this.audio.currentTime;
+            let playPercent = currentTime / duration;
+            if(!this.state.mouseDown) {
+                this.setState({
+                    duration: duration,
+                    currentTime: currentTime,
+                    buffered: buffered,
+                    percent: (playPercent * 100).toFixed(2),
+                })
+            }else {
+                this.setState({
+                    currentTime: currentTime,
+                    buffered: buffered,
+                })
+            }
+        }
+    }
+
+
+    formatSeconds(value) {
+        let theTime = parseInt(value);
+        let theTime1 = 0;
+        let theTime2 = 0;
+        if (theTime > 60) {
+            theTime1 = parseInt(theTime / 60);
+            theTime = parseInt(theTime % 60);
+            if (theTime1 > 60) {
+                theTime2 = parseInt(theTime1 / 60);
+                theTime1 = parseInt(theTime1 % 60);
+            }
+        }
+        let result;
+        if (parseInt(theTime) > 9) {
+            result = "" + parseInt(theTime) + "";
+        } else {
+            result = "0" + parseInt(theTime) + "";
+        }
+        if (theTime1 > 0) {
+            if(parseInt(theTime1) > 9) {
+                result = "" + parseInt(theTime1) + ":" + result;
+            }else {
+                result = "0" + parseInt(theTime1) + ":" + result;
+            }
+        } else {
+            result = "00:" + result;
+        }
+        if (theTime2 > 0) {
+            result = "" + parseInt(theTime2) + ":" + result;
+        }
+        return result;
+    }
 
     init() {
         let init = this.state.init;
@@ -149,12 +214,94 @@ export default class PlayDetail extends React.Component {
     }
 
     switchPlay() {
-        let storeMain = store.getState().main;
-        eventEmitter.emit(constStr.SWITCHPLAY, !storeMain.playState);
+        if(this.audio && this.audio.src) {
+            let storeMain = store.getState().main;
+            eventEmitter.emit(constStr.SWITCHPLAY, !storeMain.playState);
+        }
     }
 
     goBack() {
         store.dispatch(Actions.setPlayUiPage(false));
+    }
+
+    calcCir() {
+        let percent = this.state.percent;
+        let cir = (Math.PI * 15.6 * 2 * percent / 100).toFixed(2);
+        return cir;
+    }
+
+    calcDeg() {
+        let percent = this.state.percent;
+        let deg = 360 * percent / 100;
+        return deg;
+    }
+
+    dotMouseDown(e) {
+        if(this.audio && this.audio.src) {
+            this.mouseDownPercent = this.state.percent;
+            this.setState({
+                mouseDown: true,
+            })
+        }
+    }
+
+    mouseMove(e) {
+        if(this.state.mouseDown && this.audio && this.audio.src) {
+            let baseX = document.getElementById('dotflag').getBoundingClientRect().left;
+            let baseY = document.getElementById('dotflag').getBoundingClientRect().top;
+            let cx = e.clientX;
+            let cy = e.clientY;
+            let offsetX = cx - baseX;
+            let offsetY = -(cy - baseY);
+            let tan = offsetX / offsetY;
+            let deg = 0;
+            if(offsetX > 0) {
+                if(offsetY > 0) {
+                    deg = Math.abs(Math.atan(tan) / (Math.PI/360)) / 2;
+                }else {
+                    deg = 180 - Math.abs(Math.atan(tan) / (Math.PI/360)) / 2;
+                }
+
+            }else if(offsetX < 0){
+                if(offsetY > 0) {
+                    deg = 360 - Math.abs(Math.atan(tan) / (Math.PI/360) / 2);
+                }else {
+                    deg = 180 + Math.abs(Math.atan(tan) / (Math.PI/360) / 2);
+                }
+            }else if(offsetX == 0 && offsetY < 0) {
+                deg = 180;
+            }
+            this.setState({
+                percent: deg * (100 / 360),
+            });
+        }
+        if(this.state.vMouseDown) {
+            this.vY
+        }
+    }
+
+    mouseUp() {
+        if(this.state.vMouseDown) {
+            this.setState({
+                vMouseDown: false,
+            })
+        }
+        if(this.state.mouseDown && this.audio && this.audio.src) {
+            this.setState({
+                mouseDown: false,
+            });
+            let percent = this.state.percent,
+                duration = this.state.duration;
+            let currentTime = percent / 100 * duration;
+            this.audio.currentTime = currentTime;
+        }
+    }
+
+    vdotMouseDown(e) {
+        this.setState({
+            vMouseDown: true,
+        });
+        this.vY = e.clientY;
     }
 
     render() {
@@ -168,7 +315,7 @@ export default class PlayDetail extends React.Component {
             songInfo.ar = [{}];
         }
         return (
-            <div className={`play-ui-page ${storeMain.UIPage?'play-ui-page-show':''}`}>
+            <div className={`play-ui-page ${storeMain.UIPage?'play-ui-page-show':''}`} onMouseMove={this.mouseMove.bind(this)} onMouseUp={this.mouseUp.bind(this)}>
                 <div className={`windowsHead`}>
                     <div className="back iconfont icon-fanhui" onClick={this.goBack.bind(this)}></div>
                     <div className="dragbar"></div>
@@ -178,6 +325,16 @@ export default class PlayDetail extends React.Component {
                     </div>
                 </div>
                 <div className="cover">
+                    <div className="bar-wrap">
+                        <div id="dotflag"></div>
+                        <div className="dot-wrap" id="dotWrap" style={{transform: `rotate(${this.calcDeg()}deg)`}}>
+                            <div className="dot" onMouseDown={this.dotMouseDown.bind(this)}></div>
+                        </div>
+                        <svg width="32vw" height="32vw">
+                            <circle cx="16vw" cy="16vw" r="15.5vw" strokeWidth="3" stroke="#DDD" fill="none" className="track"></circle>
+                            <circle cx="16vw" cy="16vw" r="15.5vw" strokeWidth="3" stroke="#666" fill="none" className="thumb" strokeDasharray={`${this.calcCir()}vw 2000`}></circle>
+                        </svg>
+                    </div>
                     <img src={songInfo.al.picUrl || __REQUESTHOST + '/defaultCover.png'}/>
                 </div>
                 <div className="wave">
@@ -186,10 +343,19 @@ export default class PlayDetail extends React.Component {
                 <div className="player-panel">
                     <div className="song-name">{songInfo.name || ''}</div>
                     <div className="singer">{songInfo.ar[0].name || ''}</div>
+                    <div className="time">{this.formatSeconds(state.currentTime)} / {this.formatSeconds(state.duration)}</div>
                     <div className="control">
+                        <div className="vol">
+                            <div className="vol-panel">
+                                <div className="v-bar"></div>
+                                <div className="dot" onMouseDown={this.vdotMouseDown.bind(this)}></div>
+                            </div>
+                            <div className="vol-icon iconfont icon-yinliang"></div>
+                        </div>
                         <div className="change pre iconfont icon-xiayishou1-copy"></div>
-                        <div className={`play iconfont ${storeMain.playState?'icon-zanting':'icon-bofang'}`} onClick={this.switchPlay.bind(this)}></div>
+                        <div className={`play iconfont ${storeMain.playState?'icon-bofang2':'icon-weibiaoti519'}`} onClick={this.switchPlay.bind(this)}></div>
                         <div className="change next iconfont icon-xiayishou1"></div>
+                        <div className="order iconfont icon-shunxuchakan"></div>
                     </div>
                 </div>
             </div>

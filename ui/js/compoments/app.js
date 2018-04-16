@@ -115,9 +115,9 @@ export default class App extends React.Component {
             audioCurDuration: currentTime,
         });
         this.progress.animate(playPercent);
-        // if(store.getState().main.UIPage) {
-        //     eventEmitter.emit(constStr.PLAYPERCENT, playPercent);
-        // }
+        if(store.getState().main.UIPage) {
+            eventEmitter.emit(constStr.PLAYPERCENT, playPercent);
+        }
     }
 
     getSongInfo(id) {
@@ -164,12 +164,14 @@ export default class App extends React.Component {
     }
 
     switchPlay(state) {
-        if(state) {
-            this.audio.play();
-        }else {
-            this.audio.pause();
+        if(this.audio && this.audio.src) {
+            if(state) {
+                this.audio.play();
+            }else {
+                this.audio.pause();
+            }
+            store.dispatch(Actions.setPlayState(state));
         }
-        store.dispatch(Actions.setPlayState(state));
     }
 
     toUIPage() {

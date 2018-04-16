@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de3c8a6a-80b8-4959-a6a9-56915af827f2" name="默认的" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/bundle_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle_app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/style.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/js/compoments/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/js/compoments/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/js/compoments/playDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/js/compoments/playDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/js/compoments/search.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/js/compoments/search.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/scss/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/ui/scss/style.scss" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -28,11 +29,8 @@
       <file leaf-file-name="singerSearch.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ui/js/compoments/singerSearch.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
+            <state relative-caret-position="139">
               <caret line="57" column="34" selection-start-line="57" selection-start-column="34" selection-end-line="57" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -40,7 +38,7 @@
       <file leaf-file-name="songListSearch.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ui/js/compoments/songListSearch.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
+            <state relative-caret-position="1104">
               <caret line="54" column="34" selection-start-line="49" selection-start-column="71" selection-end-line="54" selection-end-column="34" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
@@ -58,11 +56,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ui/js/compoments/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="96" column="45" selection-start-line="96" selection-start-column="45" selection-end-line="96" selection-end-column="45" />
+            <state relative-caret-position="374">
+              <caret line="173" column="9" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
               <folding>
                 <element signature="e#46#72#0" expanded="true" />
                 <element signature="e#198#245#0" expanded="true" />
@@ -71,44 +69,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/scss/style.scss">
+      <file leaf-file-name="playDetail.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ui/js/compoments/playDetail.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
+            <state relative-caret-position="276">
+              <caret line="278" column="19" selection-start-line="278" selection-start-column="19" selection-end-line="278" selection-end-column="19" />
               <folding>
-                <element signature="e#2508#2807#0" />
-                <element signature="e#2823#3075#0" />
-                <element signature="e#3090#3808#0" />
-                <element signature="e#4132#4156#0" />
-                <element signature="e#4093#4502#0" />
-                <element signature="e#4520#5950#0" />
-                <element signature="e#5980#6411#0" />
-                <element signature="e#10489#11082#0" />
-                <element signature="e#11109#11429#0" />
-                <element signature="e#11569#14036#0" />
-                <element signature="e#14060#15795#0" />
-                <element signature="e#15822#17932#0" />
-                <element signature="e#17948#21096#0" />
-                <element signature="e#21260#22201#0" />
-                <element signature="e#24989#29064#0" />
-                <element signature="e#36983#37576#0" />
-                <element signature="e#37939#40197#0" />
-                <element signature="e#39686#42834#0" />
-                <element signature="e#44128#48484#0" />
+                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#981#1944#0" />
+                <element signature="e#657#2180#0" />
+                <element signature="e#2197#6144#0" />
+                <element signature="e#8724#8748#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="playDetail.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/js/compoments/playDetail.js">
+      <file leaf-file-name="style.scss" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ui/scss/style.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="124" column="47" selection-start-line="124" selection-start-column="47" selection-end-line="124" selection-end-column="47" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="346">
+              <caret line="551" column="32" lean-forward="true" selection-start-line="551" selection-start-column="32" selection-end-line="551" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -126,19 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>toUIPage</find>
-      <find>init</find>
-      <find>barLoading</find>
-      <find>scanningEnd</find>
-      <find>saveDB</find>
-      <find>console</find>
-      <find>btns</find>
-      <find>.back</find>
-      <find>.home-</find>
-      <find>.cur</find>
-      <find>tab-wrapper</find>
-      <find>newest</find>
-      <find>switchTab</find>
       <find>.album</find>
       <find>single-item</find>
       <find>getNewest</find>
@@ -150,12 +118,25 @@
       <find>Progressbar</find>
       <find>fixed</find>
       <find>play-icon</find>
-      <find>PLAYPERCENT</find>
-      <find>progress</find>
       <find>waveCanvas</find>
-      <find>playPercent</find>
       <find>percent</find>
       <find>fix-control</find>
+      <find>PLAYANIMATE</find>
+      <find>player-panel</find>
+      <find>PLAYPERCENT</find>
+      <find>playPercent</find>
+      <find>audio</find>
+      <find>cover</find>
+      <find>progress</find>
+      <find>calcCir</find>
+      <find>wave</find>
+      <find>calcDotPosition</find>
+      <find>timeupdate</find>
+      <find>dotflag</find>
+      <find>-webkit-user-select</find>
+      <find>duration</find>
+      <find>baseY</find>
+      <find>switchPlay</find>
     </findStrings>
     <replaceStrings>
       <replace>let</replace>
@@ -172,7 +153,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/ui/package.json" />
         <option value="$PROJECT_DIR$/ui/js/reducers/index.js" />
         <option value="$PROJECT_DIR$/ui/webpack.config.js" />
         <option value="$PROJECT_DIR$/ui/js/compoments/app.back.js" />
@@ -220,9 +200,10 @@
         <option value="$PROJECT_DIR$/server/routes/service.js" />
         <option value="$PROJECT_DIR$/ui/js/compoments/searchSingerDetail.js" />
         <option value="$PROJECT_DIR$/ui/js/compoments/search.js" />
+        <option value="$PROJECT_DIR$/app/app.html" />
+        <option value="$PROJECT_DIR$/ui/js/compoments/app.js" />
         <option value="$PROJECT_DIR$/ui/scss/style.scss" />
         <option value="$PROJECT_DIR$/ui/js/compoments/playDetail.js" />
-        <option value="$PROJECT_DIR$/ui/js/compoments/app.js" />
       </list>
     </option>
   </component>
@@ -273,7 +254,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -285,17 +265,6 @@
               <item name="fluentApp" type="b2602c69:ProjectViewProjectNode" />
               <item name="fluentApp" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fluentApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fluentApp" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fluentApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fluentApp" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fluentApp" type="b2602c69:ProjectViewProjectNode" />
@@ -332,6 +301,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -396,15 +366,17 @@
       <workItem from="1522160270032" duration="20534000" />
       <workItem from="1522327591559" duration="32586000" />
       <workItem from="1522760826841" duration="18893000" />
-      <workItem from="1523090462404" duration="27093000" />
+      <workItem from="1523090462404" duration="27706000" />
+      <workItem from="1523714164341" duration="29608000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="226514000" />
+    <option name="totallyTimeSpent" value="256735000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1513" height="973" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.155044" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -413,17 +385,17 @@
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5011836" side_tool="true" weight="0.32966396" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.24651162" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.24534884" />
       <window_info anchor="bottom" id="运行" order="11" sideWeight="0.49881637" weight="0.32906976" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="找到" order="12" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
     </layout>
@@ -557,9 +529,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="19" column="19" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="19" />
-          <folding>
-            <element signature="e#1559#1817#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -588,10 +557,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="7" selection-start-column="7" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <marker date="1522851944653" expanded="true" signature="1588:3528" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -599,9 +564,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1104">
           <caret line="48" column="54" selection-start-line="48" selection-start-column="8" selection-end-line="48" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -609,16 +571,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="598">
           <caret line="26" column="57" selection-start-line="26" selection-start-column="57" selection-end-line="26" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/app.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
         </state>
       </provider>
     </entry>
@@ -626,9 +578,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1130">
           <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -636,9 +585,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
           <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -660,9 +606,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-345">
           <caret line="17" column="54" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -670,9 +613,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="45" column="34" selection-start-line="40" selection-start-column="80" selection-end-line="45" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -694,15 +634,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="115">
           <caret line="83" column="14" selection-start-line="83" selection-start-column="14" selection-end-line="83" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/js/compoments/songListSearch.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
+        <state relative-caret-position="1104">
           <caret line="54" column="34" selection-start-line="49" selection-start-column="71" selection-end-line="54" selection-end-column="34" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
@@ -712,11 +649,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/js/compoments/singerSearch.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
+        <state relative-caret-position="139">
           <caret line="57" column="34" selection-start-line="57" selection-start-column="34" selection-end-line="57" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -727,20 +661,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/routes/service.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="82" column="83" selection-start-line="82" selection-start-column="83" selection-end-line="82" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ui/js/compoments/search.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
           <caret line="96" column="39" selection-start-line="96" selection-start-column="39" selection-end-line="96" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -751,51 +675,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/js/compoments/playDetail.js">
+    <entry file="file://$PROJECT_DIR$/server/routes/service.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="124" column="47" selection-start-line="124" selection-start-column="47" selection-end-line="124" selection-end-column="47" />
+        <state relative-caret-position="23">
+          <caret line="1" column="40" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/app.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="5" column="88" selection-start-line="5" selection-start-column="88" selection-end-line="5" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/js/compoments/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="173" column="9" selection-start-line="173" selection-start-column="9" selection-end-line="173" selection-end-column="9" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#46#72#0" expanded="true" />
+            <element signature="e#198#245#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/scss/style.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
-          <folding>
-            <element signature="e#2508#2807#0" />
-            <element signature="e#2823#3075#0" />
-            <element signature="e#3090#3808#0" />
-            <element signature="e#4132#4156#0" />
-            <element signature="e#4093#4502#0" />
-            <element signature="e#4520#5950#0" />
-            <element signature="e#5980#6411#0" />
-            <element signature="e#10489#11082#0" />
-            <element signature="e#11109#11429#0" />
-            <element signature="e#11569#14036#0" />
-            <element signature="e#14060#15795#0" />
-            <element signature="e#15822#17932#0" />
-            <element signature="e#17948#21096#0" />
-            <element signature="e#21260#22201#0" />
-            <element signature="e#24989#29064#0" />
-            <element signature="e#36983#37576#0" />
-            <element signature="e#37939#40197#0" />
-            <element signature="e#39686#42834#0" />
-            <element signature="e#44128#48484#0" />
-          </folding>
+        <state relative-caret-position="346">
+          <caret line="551" column="32" lean-forward="true" selection-start-line="551" selection-start-column="32" selection-end-line="551" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/js/compoments/app.js">
+    <entry file="file://$PROJECT_DIR$/ui/js/compoments/playDetail.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="96" column="45" selection-start-line="96" selection-start-column="45" selection-end-line="96" selection-end-column="45" />
+        <state relative-caret-position="276">
+          <caret line="278" column="19" selection-start-line="278" selection-start-column="19" selection-end-line="278" selection-end-column="19" />
           <folding>
-            <element signature="e#46#72#0" expanded="true" />
-            <element signature="e#198#245#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#981#1944#0" />
+            <element signature="e#657#2180#0" />
+            <element signature="e#2197#6144#0" />
+            <element signature="e#8724#8748#0" />
           </folding>
         </state>
       </provider>
