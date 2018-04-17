@@ -384,7 +384,7 @@ export default class PlayDetail extends React.Component {
                             <div className={`vol-icon iconfont ${vol > 0?'icon-yinliang':'icon-jingyin'} ${state.volBarState?'vol-icon-active':''}`} data-vol={Math.floor(vol * 100)} onClick={() => {this.setState({volBarState: !state.volBarState})}}></div>
                         </div>
                         <div className="change pre iconfont icon-xiayishou1-copy"></div>
-                        <div className={`play iconfont ${storeMain.playState?'icon-bofang2':'icon-weibiaoti519'}`} onClick={this.switchPlay.bind(this)}></div>
+                        <div className={`play iconfont ${storeMain.playState?'icon-weibiaoti519':'icon-bofang2'}`} onClick={this.switchPlay.bind(this)}></div>
                         <div className="change next iconfont icon-xiayishou1"></div>
                         <div className="order iconfont icon-shunxuchakan"></div>
                     </div>
