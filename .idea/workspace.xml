@@ -6,13 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="de3c8a6a-80b8-4959-a6a9-56915af827f2" name="默认的" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/bundle_app.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/bundle_app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/style.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/style.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/js/compoments/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/js/compoments/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/js/compoments/playDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/js/compoments/playDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/scss/style.scss" beforeDir="false" afterPath="$PROJECT_DIR$/ui/scss/style.scss" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -89,7 +82,7 @@
         <entry file="file://$PROJECT_DIR$/ui/scss/style.scss">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="346">
-              <caret line="551" column="32" lean-forward="true" selection-start-line="551" selection-start-column="32" selection-end-line="551" selection-end-column="32" />
+              <caret line="551" column="32" selection-start-line="551" selection-start-column="32" selection-end-line="551" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -221,7 +214,7 @@
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/ui/package.json" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-14" />
     <option name="y" value="-14" />
     <option name="width" value="1400" />
@@ -367,16 +360,15 @@
       <workItem from="1522327591559" duration="32586000" />
       <workItem from="1522760826841" duration="18893000" />
       <workItem from="1523090462404" duration="27706000" />
-      <workItem from="1523714164341" duration="29608000" />
+      <workItem from="1523714164341" duration="29751000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="256735000" />
+    <option name="totallyTimeSpent" value="256878000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1513" height="973" extended-state="6" />
-    <editor active="true" />
+    <frame x="-6" y="-6" width="1513" height="973" extended-state="7" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.155044" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -703,7 +695,7 @@
     <entry file="file://$PROJECT_DIR$/ui/scss/style.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
-          <caret line="551" column="32" lean-forward="true" selection-start-line="551" selection-start-column="32" selection-end-line="551" selection-end-column="32" />
+          <caret line="551" column="32" selection-start-line="551" selection-start-column="32" selection-end-line="551" selection-end-column="32" />
         </state>
       </provider>
     </entry>
