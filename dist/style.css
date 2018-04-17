@@ -451,15 +451,30 @@ input[placeholder] {
             font-size: 5vw;
             -webkit-app-region: no-drag;
             cursor: pointer; }
+            .player-wrap .play-ui-page .player-panel .control .vol .vol-icon:after {
+              display: none;
+              content: attr(data-vol);
+              color: #FFF;
+              font-size: 10px;
+              position: absolute;
+              left: 50%;
+              transform: translateX(-50%);
+              bottom: -14px;
+              font-family: "amble", "Microsoft YaHei", "PingFangSC-Regular", STHeiti, Helvetica, Arial, sans-serif !important; }
+          .player-wrap .play-ui-page .player-panel .control .vol .vol-icon-active:after {
+            display: block; }
           .player-wrap .play-ui-page .player-panel .control .vol .vol-panel {
             width: 3px;
             height: 20vw;
-            background: rgba(255, 255, 255, 0.3);
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            border-radius: 1px;
-            bottom: 24px; }
+            bottom: 28px; }
+            .player-wrap .play-ui-page .player-panel .control .vol .vol-panel .v-track {
+              border-radius: 1px;
+              width: 100%;
+              height: 100%;
+              background: rgba(255, 255, 255, 0.3); }
             .player-wrap .play-ui-page .player-panel .control .vol .vol-panel .v-bar {
               width: 100%;
               height: 20%;
@@ -467,15 +482,18 @@ input[placeholder] {
               background: #FFF;
               position: absolute;
               left: 0px;
-              bottom: 0px; }
+              bottom: 0px;
+              pointer-events: none; }
             .player-wrap .play-ui-page .player-panel .control .vol .vol-panel .dot {
-              width: 6px;
-              height: 6px;
+              width: 10px;
+              height: 10px;
               background: #FFF;
               position: absolute;
               left: 50%;
               bottom: 20%;
+              border-radius: 50%;
               transform: translate(-50%, 50%);
+              z-index: 18;
               cursor: pointer; }
         .player-wrap .play-ui-page .player-panel .control .order {
           font-size: 5vw;

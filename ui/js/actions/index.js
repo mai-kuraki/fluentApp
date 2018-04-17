@@ -48,3 +48,10 @@ export function setPlayState(val) {
         value: val
     }
 }
+
+export function setVolume(val) {
+    return {
+        type: TYPE.SET_VOLUME,
+        value: val
+    }
+}

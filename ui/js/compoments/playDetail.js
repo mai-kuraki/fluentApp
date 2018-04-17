@@ -15,6 +15,7 @@ export default class PlayDetail extends React.Component {
             duration: 0,
             currentTime: 0,
             buffered: 0,
+            volBarState: false,
             init: false,
         };
         this.mouseDownPercent = 0;
@@ -276,8 +277,23 @@ export default class PlayDetail extends React.Component {
             });
         }
         if(this.state.vMouseDown) {
-            this.vY
+            this.setVol(e.clientY);
         }
+    }
+
+    setVol(clientY) {
+        let barBottom = this.refs.volPanel.getBoundingClientRect().bottom,
+            barTop = this.refs.volPanel.getBoundingClientRect().top;
+        let height = barBottom - barTop;
+        let curHeight = barBottom - clientY;
+        let vPercent = (curHeight / height).toFixed(2);
+        if(vPercent > 1) {
+            vPercent = 1;
+        }else if(vPercent < 0) {
+            vPercent = 0;
+        }
+        store.dispatch(Actions.setVolume(vPercent));
+        this.audio.volume = vPercent;
     }
 
     mouseUp() {
@@ -301,13 +317,24 @@ export default class PlayDetail extends React.Component {
         this.setState({
             vMouseDown: true,
         });
-        this.vY = e.clientY;
+    }
+
+    pageMouseDown(e) {
+        if(this.state.volBarState) {
+            let classname = e.target.getAttribute('class');
+            if(classname != 'dot' && classname != 'v-track') {
+                this.setState({
+                    volBarState: false,
+                })
+            }
+        }
     }
 
     render() {
         let state = this.state;
         let storeMain = store.getState().main;
         let songInfo = storeMain.songInfo;
+        let vol = storeMain.volume;
         if(!songInfo.hasOwnProperty('al')) {
             songInfo.al = {};
         }
@@ -315,7 +342,7 @@ export default class PlayDetail extends React.Component {
             songInfo.ar = [{}];
         }
         return (
-            <div className={`play-ui-page ${storeMain.UIPage?'play-ui-page-show':''}`} onMouseMove={this.mouseMove.bind(this)} onMouseUp={this.mouseUp.bind(this)}>
+            <div className={`play-ui-page ${storeMain.UIPage?'play-ui-page-show':''}`} onMouseDown={this.pageMouseDown.bind(this)} onMouseMove={this.mouseMove.bind(this)} onMouseUp={this.mouseUp.bind(this)}>
                 <div className={`windowsHead`}>
                     <div className="back iconfont icon-fanhui" onClick={this.goBack.bind(this)}></div>
                     <div className="dragbar"></div>
@@ -346,11 +373,15 @@ export default class PlayDetail extends React.Component {
                     <div className="time">{this.formatSeconds(state.currentTime)} / {this.formatSeconds(state.duration)}</div>
                     <div className="control">
                         <div className="vol">
-                            <div className="vol-panel">
-                                <div className="v-bar"></div>
-                                <div className="dot" onMouseDown={this.vdotMouseDown.bind(this)}></div>
-                            </div>
-                            <div className="vol-icon iconfont icon-yinliang"></div>
+                            {
+                                state.volBarState?
+                                    <div className="vol-panel" id="volPanel" ref="volPanel">
+                                        <div className="v-track" onClick={(e) => {this.setVol(e.clientY)}}></div>
+                                        <div className="v-bar" style={{height: `${vol * 100}%`}}></div>
+                                        <div className="dot" style={{bottom: `${vol * 100}%`}} onMouseDown={this.vdotMouseDown.bind(this)}></div>
+                                    </div>:null
+                            }
+                            <div className={`vol-icon iconfont ${vol > 0?'icon-yinliang':'icon-jingyin'} ${state.volBarState?'vol-icon-active':''}`} data-vol={Math.floor(vol * 100)} onClick={() => {this.setState({volBarState: !state.volBarState})}}></div>
                         </div>
                         <div className="change pre iconfont icon-xiayishou1-copy"></div>
                         <div className={`play iconfont ${storeMain.playState?'icon-bofang2':'icon-weibiaoti519'}`} onClick={this.switchPlay.bind(this)}></div>
