@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
-// import {remote} from 'electron';
+import {remote} from 'electron';
 import eventEmitter from '../lib/eventEmitter';
 import * as constStr from '../lib/const';
 import * as Actions from '../actions';
@@ -15,6 +15,11 @@ import store from "../store";
 import RingLoading from './ringLoading';
 import Search from './search';
 import Progressbar from "progressbar.js";
+
+const low = remote.require('lowdb');
+const FileSync = remote.require('lowdb/adapters/FileSync');
+const adapter = new FileSync('db.json');
+const db = low(adapter);
 
 
 export default class App extends React.Component {
@@ -58,6 +63,16 @@ export default class App extends React.Component {
         this.setState({
             loading: false,
         });
+    }
+
+    componentWillMount() {
+        let volume = db.get('volume').value();
+        if(volume) {
+            volume = parseFloat(volume);
+        }else {
+            volume = 0.5;
+        }
+        store.dispatch(Actions.setVolume(volume));
     }
 
     componentDidMount() {

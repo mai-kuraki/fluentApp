@@ -20,3 +20,4 @@ export const SET_CURRENTSONG_INFO = 'SET_CURRENTSONG_INFO';
 export const SET_PLAY_UI_PAGE = 'SET_PLAY_UI_PAGE';
 export const SET_SONG_INFO = 'SET_SONG_INFO';
 export const SET_PLAY_STATE = 'SET_PLAY_STATE';
+export const SET_VOLUME = 'SET_VOLUME';

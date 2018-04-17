@@ -455,6 +455,7 @@ var SET_CURRENTSONG_INFO = exports.SET_CURRENTSONG_INFO = 'SET_CURRENTSONG_INFO'
 var SET_PLAY_UI_PAGE = exports.SET_PLAY_UI_PAGE = 'SET_PLAY_UI_PAGE';
 var SET_SONG_INFO = exports.SET_SONG_INFO = 'SET_SONG_INFO';
 var SET_PLAY_STATE = exports.SET_PLAY_STATE = 'SET_PLAY_STATE';
+var SET_VOLUME = exports.SET_VOLUME = 'SET_VOLUME';
 
 /***/ }),
 /* 12 */
@@ -570,6 +571,7 @@ exports.setCurrentSong = setCurrentSong;
 exports.setPlayUiPage = setPlayUiPage;
 exports.setSongInfo = setSongInfo;
 exports.setPlayState = setPlayState;
+exports.setVolume = setVolume;
 
 var _const = __webpack_require__(11);
 
@@ -622,6 +624,13 @@ function setSongInfo(val) {
 function setPlayState(val) {
     return {
         type: TYPE.SET_PLAY_STATE,
+        value: val
+    };
+}
+
+function setVolume(val) {
+    return {
+        type: TYPE.SET_VOLUME,
         value: val
     };
 }
@@ -41929,6 +41938,7 @@ var initState = {
     currentSong: {},
     UIPage: false,
     songInfo: {},
+    volume: 0,
     playState: false
 };
 
@@ -41964,6 +41974,10 @@ function main() {
         case TYPE.SET_PLAY_STATE:
             return Object.assign({}, state, {
                 playState: action.value
+            });
+        case TYPE.SET_VOLUME:
+            return Object.assign({}, state, {
+                volume: action.value
             });
         default:
             return state;
@@ -42031,6 +42045,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(13);
 
+var _electron = __webpack_require__(179);
+
 var _eventEmitter = __webpack_require__(16);
 
 var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
@@ -42087,8 +42103,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Created by maikuraki on 2017/11/4.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-// import {remote} from 'electron';
 
+var low = _electron.remote.require('lowdb');
+var FileSync = _electron.remote.require('lowdb/adapters/FileSync');
+var adapter = new FileSync('db.json');
+var db = low(adapter);
 
 var App = function (_React$Component) {
     _inherits(App, _React$Component);
@@ -42144,6 +42163,17 @@ var App = function (_React$Component) {
             this.setState({
                 loading: false
             });
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            var volume = db.get('volume').value();
+            if (volume) {
+                volume = parseFloat(volume);
+            } else {
+                volume = 0.5;
+            }
+            _store2.default.dispatch(Actions.setVolume(volume));
         }
     }, {
         key: 'componentDidMount',
@@ -42831,6 +42861,8 @@ var Home = function (_React$Component) {
     }, {
         key: 'closeWindow',
         value: function closeWindow() {
+            var vol = _store2.default.getState().main.volume;
+            db.set('volume', vol).write();
             _electron.remote.getCurrentWindow().close();
         }
     }, {
@@ -46795,6 +46827,7 @@ var PlayDetail = function (_React$Component) {
             duration: 0,
             currentTime: 0,
             buffered: 0,
+            volBarState: false,
             init: false
         };
         _this2.mouseDownPercent = 0;
@@ -47073,8 +47106,24 @@ var PlayDetail = function (_React$Component) {
                 });
             }
             if (this.state.vMouseDown) {
-                this.vY;
+                this.setVol(e.clientY);
             }
+        }
+    }, {
+        key: 'setVol',
+        value: function setVol(clientY) {
+            var barBottom = this.refs.volPanel.getBoundingClientRect().bottom,
+                barTop = this.refs.volPanel.getBoundingClientRect().top;
+            var height = barBottom - barTop;
+            var curHeight = barBottom - clientY;
+            var vPercent = (curHeight / height).toFixed(2);
+            if (vPercent > 1) {
+                vPercent = 1;
+            } else if (vPercent < 0) {
+                vPercent = 0;
+            }
+            _store2.default.dispatch(Actions.setVolume(vPercent));
+            this.audio.volume = vPercent;
         }
     }, {
         key: 'mouseUp',
@@ -47100,14 +47149,28 @@ var PlayDetail = function (_React$Component) {
             this.setState({
                 vMouseDown: true
             });
-            this.vY = e.clientY;
+        }
+    }, {
+        key: 'pageMouseDown',
+        value: function pageMouseDown(e) {
+            if (this.state.volBarState) {
+                var classname = e.target.getAttribute('class');
+                if (classname != 'dot' && classname != 'v-track') {
+                    this.setState({
+                        volBarState: false
+                    });
+                }
+            }
         }
     }, {
         key: 'render',
         value: function render() {
+            var _this4 = this;
+
             var state = this.state;
             var storeMain = _store2.default.getState().main;
             var songInfo = storeMain.songInfo;
+            var vol = storeMain.volume;
             if (!songInfo.hasOwnProperty('al')) {
                 songInfo.al = {};
             }
@@ -47116,7 +47179,7 @@ var PlayDetail = function (_React$Component) {
             }
             return _react2.default.createElement(
                 'div',
-                { className: 'play-ui-page ' + (storeMain.UIPage ? 'play-ui-page-show' : ''), onMouseMove: this.mouseMove.bind(this), onMouseUp: this.mouseUp.bind(this) },
+                { className: 'play-ui-page ' + (storeMain.UIPage ? 'play-ui-page-show' : ''), onMouseDown: this.pageMouseDown.bind(this), onMouseMove: this.mouseMove.bind(this), onMouseUp: this.mouseUp.bind(this) },
                 _react2.default.createElement(
                     'div',
                     { className: 'windowsHead' },
@@ -47185,13 +47248,18 @@ var PlayDetail = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'vol' },
-                            _react2.default.createElement(
+                            state.volBarState ? _react2.default.createElement(
                                 'div',
-                                { className: 'vol-panel' },
-                                _react2.default.createElement('div', { className: 'v-bar' }),
-                                _react2.default.createElement('div', { className: 'dot', onMouseDown: this.vdotMouseDown.bind(this) })
-                            ),
-                            _react2.default.createElement('div', { className: 'vol-icon iconfont icon-yinliang' })
+                                { className: 'vol-panel', id: 'volPanel', ref: 'volPanel' },
+                                _react2.default.createElement('div', { className: 'v-track', onClick: function onClick(e) {
+                                        _this4.setVol(e.clientY);
+                                    } }),
+                                _react2.default.createElement('div', { className: 'v-bar', style: { height: vol * 100 + '%' } }),
+                                _react2.default.createElement('div', { className: 'dot', style: { bottom: vol * 100 + '%' }, onMouseDown: this.vdotMouseDown.bind(this) })
+                            ) : null,
+                            _react2.default.createElement('div', { className: 'vol-icon iconfont ' + (vol > 0 ? 'icon-yinliang' : 'icon-jingyin') + ' ' + (state.volBarState ? 'vol-icon-active' : ''), 'data-vol': Math.floor(vol * 100), onClick: function onClick() {
+                                    _this4.setState({ volBarState: !state.volBarState });
+                                } })
                         ),
                         _react2.default.createElement('div', { className: 'change pre iconfont icon-xiayishou1-copy' }),
                         _react2.default.createElement('div', { className: 'play iconfont ' + (storeMain.playState ? 'icon-bofang2' : 'icon-weibiaoti519'), onClick: this.switchPlay.bind(this) }),

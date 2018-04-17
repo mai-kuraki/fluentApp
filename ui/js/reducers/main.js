@@ -7,6 +7,7 @@ const initState = {
     currentSong: {},
     UIPage: false,
     songInfo: {},
+    volume: 0,
     playState: false,
 };
 
@@ -39,6 +40,10 @@ function main(state = initState, action) {
         case TYPE.SET_PLAY_STATE:
             return Object.assign({}, state, {
                 playState: action.value
+            });
+        case TYPE.SET_VOLUME:
+            return Object.assign({}, state, {
+                volume: action.value
             });
         default:
             return state;
