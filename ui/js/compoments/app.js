@@ -21,7 +21,10 @@ const FileSync = remote.require('lowdb/adapters/FileSync');
 const adapter = new FileSync('db.json');
 const db = low(adapter);
 
-
+const playOrderMap = [
+    {icon: 'icon-list-loop',name: '列表循环'},
+    {icon: 'icon-single-loop',name: '单曲循环'},
+    {icon: 'icon-bofangye-caozuolan-suijibofang',name: '随机播放'}];
 export default class App extends React.Component {
     constructor() {
         super();
@@ -67,12 +70,16 @@ export default class App extends React.Component {
 
     componentWillMount() {
         let volume = db.get('volume').value();
+        let playOrder = db.get('playOrder').value() || 0;
+        let playlist = db.get('playList').value() || [];
         if(volume) {
             volume = parseFloat(volume);
         }else {
             volume = 0.5;
         }
         store.dispatch(Actions.setVolume(volume));
+        store.dispatch(Actions.setPlayOrder(playOrder));
+        store.dispatch(Actions.setPlayList(playlist));
     }
 
     componentDidMount() {
@@ -135,6 +142,11 @@ export default class App extends React.Component {
         }
     }
 
+    savePlayList() {
+        let playList = store.getState().main.playList || [];
+        db.set('playList', playList).write();
+    }
+
     getSongInfo(id) {
         fetch(`${__REQUESTHOST}/api/song/detail?ids=${id}`, {
             method: 'GET',
@@ -145,7 +157,29 @@ export default class App extends React.Component {
                 let songData = {};
                 if(data.songs.length > 0) {
                     songData = data.songs[0];
-                    store.dispatch(Actions.setSongInfo(songData))
+                    store.dispatch(Actions.setSongInfo(songData));
+                    if(songData.name && songData.ar[0].name) {
+                        let playList = store.getState().main.playList || [];
+                        let songObj = {
+                            id: id,
+                            name: songData.name || '',
+                            ar: songData.ar[0].name || '',
+                            form: 'online',
+                        };
+                        let hasRepeat = false;
+                        playList.map((d,k) => {
+                            if(d.id && d.id == songObj.id) {
+                                hasRepeat = true;
+                            }
+                        });
+                        if(!hasRepeat) {
+                            playList.unshift(songObj);
+                        }
+                        store.dispatch(Actions.setPlayList(playList));
+                        setTimeout(() => {
+                            this.savePlayList();
+                        })
+                    }
                 }
             }
         })
@@ -153,12 +187,12 @@ export default class App extends React.Component {
 
     initAudio() {
         let currentSong = store.getState().main.currentSong;
-        this.getSongInfo(currentSong.id);
         let url = currentSong.url;
         if(!url){
             this.snackbarOpen('获取资源失败', 2000);
             return;
         }
+        this.getSongInfo(currentSong.id);
         url = url.replace('http://m10.music.126.net', `${__REQUESTHOST}/proxy`);
         this.audio.crossOrigin = 'anonymous';
         this.audio.src = url;
@@ -176,6 +210,26 @@ export default class App extends React.Component {
             ar: [{name: data.artist}],
         }));
         store.dispatch(Actions.setPlayState(true));
+        let playList = store.getState().main.playList || [];
+        let songObj = {
+            id: data.id,
+            name: data.name || '',
+            ar: data.artist || '',
+            form: 'local',
+        };
+        let hasRepeat = false;
+        playList.map((d,k) => {
+            if(d.id && d.id == songObj.id) {
+                hasRepeat = true;
+            }
+        });
+        if(!hasRepeat) {
+            playList.unshift(songObj);
+        }
+        store.dispatch(Actions.setPlayList(playList));
+        setTimeout(() => {
+            this.savePlayList();
+        })
     }
 
     switchPlay(state) {
@@ -226,7 +280,24 @@ export default class App extends React.Component {
                                 playListState: false,
                             })
                         }}></div>
-                        <div className={`list-wrap ${state.playListState?'list-wrap-active':''}`}></div>
+                        <div className={`list-wrap ${state.playListState?'list-wrap-active':''}`}>
+                            <div className="list-wrap-head">
+                                <div className="label" onClick={() => {eventEmitter.emit(constStr.SWITCHORDER)}}><i className={`iconfont ${playOrderMap[storeMain.playOrder].icon}`}></i>{playOrderMap[storeMain.playOrder].name} ({storeMain.playList.length || 0})</div>
+                                <div className="clear iconfont icon-shanchu"></div>
+                            </div>
+                            <div className="list-item">
+                                {
+                                    storeMain.playList.map((data, k) => {
+                                        return (
+                                            <div className={`${storeMain.currentSong.id == data.id?'row-playing':''} row`} key={k}>
+                                                <div className="info">{data.name}<span> - {data.ar}</span></div>
+                                                <span className="del iconfont icon-guanbi"></span>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
                     </div>
                     <div className={`fix-control ${storeMain.UIPage?'':'fix-control-active'}`}>
                         {

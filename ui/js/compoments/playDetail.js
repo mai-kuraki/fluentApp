@@ -4,6 +4,13 @@ import eventEmitter from '../lib/eventEmitter';
 import * as constStr from '../lib/const';
 import store from "../store";
 import * as Actions from "../actions";
+/**
+ * 0: 列表循环
+ * 1: 单曲循环
+ * 2: 随机播放
+ * @type {string[]}
+ */
+const playOrderIcon = ['icon-list-loop','icon-single-loop','icon-bofangye-caozuolan-suijibofang'];
 
 export default class PlayDetail extends React.Component {
     constructor() {
@@ -31,7 +38,10 @@ export default class PlayDetail extends React.Component {
         });
         eventEmitter.on(constStr.PLAYPERCENT, (p) => {
             this.audioDo();
-        })
+        });
+        eventEmitter.on(constStr.SWITCHORDER, () => {
+            this.switchOrder();
+        });
     }
 
     audioDo() {
@@ -330,6 +340,20 @@ export default class PlayDetail extends React.Component {
         }
     }
 
+    switchOrder() {
+        let playOrder = store.getState().main.playOrder;
+        if(playOrder == 0) {
+            playOrder = 1;
+        }else if(playOrder == 1) {
+            playOrder = 2;
+        }else if(playOrder == 2) {
+            playOrder = 0;
+        }
+        let tipItem = ['列表循环', '单曲循环', '随机播放'];
+        store.dispatch(Actions.setPlayOrder(playOrder));
+        eventEmitter.emit(constStr.SNACKBAROPEN, tipItem[playOrder]);
+    }
+
     render() {
         let state = this.state;
         let storeMain = store.getState().main;
@@ -386,7 +410,7 @@ export default class PlayDetail extends React.Component {
                         <div className="change pre iconfont icon-xiayishou1-copy"></div>
                         <div className={`play iconfont ${storeMain.playState?'icon-weibiaoti519':'icon-bofang2'}`} onClick={this.switchPlay.bind(this)}></div>
                         <div className="change next iconfont icon-xiayishou1"></div>
-                        <div className="order iconfont icon-shunxuchakan"></div>
+                        <div className={`order iconfont ${playOrderIcon[storeMain.playOrder]}`} onClick={this.switchOrder.bind(this)}></div>
                     </div>
                 </div>
             </div>

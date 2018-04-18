@@ -21,8 +21,7 @@ export default class Mysong extends React.Component {
     }
 
     getListData() {
-        let playlist = db.read().get('playlist').value();
-        console.log(playlist)
+        let playlist = db.read().get('localPlayList').value();
         if(playlist && typeof playlist == 'object') {
             this.setState({
                 playlist: playlist,

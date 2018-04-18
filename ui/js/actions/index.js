@@ -55,3 +55,17 @@ export function setVolume(val) {
         value: val
     }
 }
+
+export function setPlayOrder(val) {
+    return {
+        type: TYPE.SET_PLAYORDER,
+        value: val
+    }
+}
+
+export function setPlayList(val) {
+    return {
+        type: TYPE.SET_PLAYLIST,
+        value: val
+    }
+}

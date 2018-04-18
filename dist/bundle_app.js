@@ -446,6 +446,7 @@ var SONGLOADING = exports.SONGLOADING = 'SONGLOADING';
 var CLOSEWINDOW = exports.CLOSEWINDOW = 'CLOSEWINDOW';
 var MINWINDOW = exports.MINWINDOW = 'MINWINDOW';
 var RINGLOADING = exports.RINGLOADING = 'RINGLOADING';
+var SWITCHORDER = exports.SWITCHORDER = 'SWITCHORDER';
 
 //redux
 var SET_RECOMMEND_LIST = exports.SET_RECOMMEND_LIST = 'SET_RECOMMEND_LIST';
@@ -456,6 +457,8 @@ var SET_PLAY_UI_PAGE = exports.SET_PLAY_UI_PAGE = 'SET_PLAY_UI_PAGE';
 var SET_SONG_INFO = exports.SET_SONG_INFO = 'SET_SONG_INFO';
 var SET_PLAY_STATE = exports.SET_PLAY_STATE = 'SET_PLAY_STATE';
 var SET_VOLUME = exports.SET_VOLUME = 'SET_VOLUME';
+var SET_PLAYORDER = exports.SET_PLAYORDER = 'SET_PLAYORDER';
+var SET_PLAYLIST = exports.SET_PLAYLIST = 'SET_PLAYLIST';
 
 /***/ }),
 /* 12 */
@@ -572,6 +575,8 @@ exports.setPlayUiPage = setPlayUiPage;
 exports.setSongInfo = setSongInfo;
 exports.setPlayState = setPlayState;
 exports.setVolume = setVolume;
+exports.setPlayOrder = setPlayOrder;
+exports.setPlayList = setPlayList;
 
 var _const = __webpack_require__(11);
 
@@ -631,6 +636,20 @@ function setPlayState(val) {
 function setVolume(val) {
     return {
         type: TYPE.SET_VOLUME,
+        value: val
+    };
+}
+
+function setPlayOrder(val) {
+    return {
+        type: TYPE.SET_PLAYORDER,
+        value: val
+    };
+}
+
+function setPlayList(val) {
+    return {
+        type: TYPE.SET_PLAYLIST,
         value: val
     };
 }
@@ -41939,6 +41958,8 @@ var initState = {
     UIPage: false,
     songInfo: {},
     volume: 0,
+    playOrder: 0,
+    playList: [],
     playState: false
 };
 
@@ -41978,6 +41999,14 @@ function main() {
         case TYPE.SET_VOLUME:
             return Object.assign({}, state, {
                 volume: action.value
+            });
+        case TYPE.SET_PLAYORDER:
+            return Object.assign({}, state, {
+                playOrder: action.value
+            });
+        case TYPE.SET_PLAYLIST:
+            return Object.assign({}, state, {
+                playList: action.value
             });
         default:
             return state;
@@ -42109,6 +42138,8 @@ var FileSync = _electron.remote.require('lowdb/adapters/FileSync');
 var adapter = new FileSync('db.json');
 var db = low(adapter);
 
+var playOrderMap = [{ icon: 'icon-list-loop', name: '列表循环' }, { icon: 'icon-single-loop', name: '单曲循环' }, { icon: 'icon-bofangye-caozuolan-suijibofang', name: '随机播放' }];
+
 var App = function (_React$Component) {
     _inherits(App, _React$Component);
 
@@ -42168,12 +42199,16 @@ var App = function (_React$Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             var volume = db.get('volume').value();
+            var playOrder = db.get('playOrder').value() || 0;
+            var playlist = db.get('playList').value() || [];
             if (volume) {
                 volume = parseFloat(volume);
             } else {
                 volume = 0.5;
             }
             _store2.default.dispatch(Actions.setVolume(volume));
+            _store2.default.dispatch(Actions.setPlayOrder(playOrder));
+            _store2.default.dispatch(Actions.setPlayList(playlist));
         }
     }, {
         key: 'componentDidMount',
@@ -42241,8 +42276,16 @@ var App = function (_React$Component) {
             }
         }
     }, {
+        key: 'savePlayList',
+        value: function savePlayList() {
+            var playList = _store2.default.getState().main.playList || [];
+            db.set('playList', playList).write();
+        }
+    }, {
         key: 'getSongInfo',
         value: function getSongInfo(id) {
+            var _this4 = this;
+
             fetch(__REQUESTHOST + '/api/song/detail?ids=' + id, {
                 method: 'GET'
             }).then(function (res) {
@@ -42253,6 +42296,28 @@ var App = function (_React$Component) {
                     if (data.songs.length > 0) {
                         songData = data.songs[0];
                         _store2.default.dispatch(Actions.setSongInfo(songData));
+                        if (songData.name && songData.ar[0].name) {
+                            var playList = _store2.default.getState().main.playList || [];
+                            var songObj = {
+                                id: id,
+                                name: songData.name || '',
+                                ar: songData.ar[0].name || '',
+                                form: 'online'
+                            };
+                            var hasRepeat = false;
+                            playList.map(function (d, k) {
+                                if (d.id && d.id == songObj.id) {
+                                    hasRepeat = true;
+                                }
+                            });
+                            if (!hasRepeat) {
+                                playList.unshift(songObj);
+                            }
+                            _store2.default.dispatch(Actions.setPlayList(playList));
+                            setTimeout(function () {
+                                _this4.savePlayList();
+                            });
+                        }
                     }
                 }
             });
@@ -42261,12 +42326,12 @@ var App = function (_React$Component) {
         key: 'initAudio',
         value: function initAudio() {
             var currentSong = _store2.default.getState().main.currentSong;
-            this.getSongInfo(currentSong.id);
             var url = currentSong.url;
             if (!url) {
                 this.snackbarOpen('获取资源失败', 2000);
                 return;
             }
+            this.getSongInfo(currentSong.id);
             url = url.replace('http://m10.music.126.net', __REQUESTHOST + '/proxy');
             this.audio.crossOrigin = 'anonymous';
             this.audio.src = url;
@@ -42276,6 +42341,8 @@ var App = function (_React$Component) {
     }, {
         key: 'initLocalAudio',
         value: function initLocalAudio(data) {
+            var _this5 = this;
+
             var url = data.url;
             this.audio.src = url;
             this.audio.play();
@@ -42285,6 +42352,26 @@ var App = function (_React$Component) {
                 ar: [{ name: data.artist }]
             }));
             _store2.default.dispatch(Actions.setPlayState(true));
+            var playList = _store2.default.getState().main.playList || [];
+            var songObj = {
+                id: data.id,
+                name: data.name || '',
+                ar: data.artist || '',
+                form: 'local'
+            };
+            var hasRepeat = false;
+            playList.map(function (d, k) {
+                if (d.id && d.id == songObj.id) {
+                    hasRepeat = true;
+                }
+            });
+            if (!hasRepeat) {
+                playList.unshift(songObj);
+            }
+            _store2.default.dispatch(Actions.setPlayList(playList));
+            setTimeout(function () {
+                _this5.savePlayList();
+            });
         }
     }, {
         key: 'switchPlay',
@@ -42309,7 +42396,7 @@ var App = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this4 = this;
+            var _this6 = this;
 
             var state = this.state;
             var storeMain = _store2.default.getState().main;
@@ -42341,11 +42428,52 @@ var App = function (_React$Component) {
                         'div',
                         { className: 'play-list-dialog ' + (state.playListState ? 'play-list-dialog-active' : '') },
                         _react2.default.createElement('div', { className: 'mask ' + (state.playListState ? 'mask-active' : ''), onClick: function onClick() {
-                                _this4.setState({
+                                _this6.setState({
                                     playListState: false
                                 });
                             } }),
-                        _react2.default.createElement('div', { className: 'list-wrap ' + (state.playListState ? 'list-wrap-active' : '') })
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'list-wrap ' + (state.playListState ? 'list-wrap-active' : '') },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'list-wrap-head' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'label', onClick: function onClick() {
+                                            _eventEmitter2.default.emit(constStr.SWITCHORDER);
+                                        } },
+                                    _react2.default.createElement('i', { className: 'iconfont ' + playOrderMap[storeMain.playOrder].icon }),
+                                    playOrderMap[storeMain.playOrder].name,
+                                    ' (',
+                                    storeMain.playList.length || 0,
+                                    ')'
+                                ),
+                                _react2.default.createElement('div', { className: 'clear iconfont icon-shanchu' })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'list-item' },
+                                storeMain.playList.map(function (data, k) {
+                                    return _react2.default.createElement(
+                                        'div',
+                                        { className: (storeMain.currentSong.id == data.id ? 'row-playing' : '') + ' row', key: k },
+                                        _react2.default.createElement(
+                                            'div',
+                                            { className: 'info' },
+                                            data.name,
+                                            _react2.default.createElement(
+                                                'span',
+                                                null,
+                                                ' - ',
+                                                data.ar
+                                            )
+                                        ),
+                                        _react2.default.createElement('span', { className: 'del iconfont icon-guanbi' })
+                                    );
+                                })
+                            )
+                        )
                     ),
                     _react2.default.createElement(
                         'div',
@@ -42377,13 +42505,13 @@ var App = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'play-icon', onClick: function onClick(e) {
-                                    _this4.switchPlay(!storeMain.playState);
+                                    _this6.switchPlay(!storeMain.playState);
                                 } },
                             _react2.default.createElement('div', { className: 'icon iconfont ' + (storeMain.playState ? 'icon-weibiaoti519' : 'icon-bofang2') }),
                             _react2.default.createElement('div', { className: 'progress', id: 'progress' })
                         ),
                         _react2.default.createElement('div', { className: 'play-list iconfont icon-liebiao', onClick: function onClick() {
-                                _this4.setState({
+                                _this6.setState({
                                     playListState: true
                                 });
                             } })
@@ -42862,7 +42990,9 @@ var Home = function (_React$Component) {
         key: 'closeWindow',
         value: function closeWindow() {
             var vol = _store2.default.getState().main.volume;
+            var playOrder = _store2.default.getState().main.playOrder;
             db.set('volume', vol).write();
+            db.set('playOrder', playOrder).write();
             _electron.remote.getCurrentWindow().close();
         }
     }, {
@@ -45028,8 +45158,7 @@ var Mysong = function (_React$Component) {
     _createClass(Mysong, [{
         key: 'getListData',
         value: function getListData() {
-            var playlist = db.read().get('playlist').value();
-            console.log(playlist);
+            var playlist = db.read().get('localPlayList').value();
             if (playlist && (typeof playlist === 'undefined' ? 'undefined' : _typeof(playlist)) == 'object') {
                 this.setState({
                     playlist: playlist
@@ -46812,6 +46941,14 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+/**
+ * 0: 列表循环
+ * 1: 单曲循环
+ * 2: 随机播放
+ * @type {string[]}
+ */
+var playOrderIcon = ['icon-list-loop', 'icon-single-loop', 'icon-bofangye-caozuolan-suijibofang'];
+
 var PlayDetail = function (_React$Component) {
     _inherits(PlayDetail, _React$Component);
 
@@ -46848,6 +46985,9 @@ var PlayDetail = function (_React$Component) {
             });
             _eventEmitter2.default.on(constStr.PLAYPERCENT, function (p) {
                 _this3.audioDo();
+            });
+            _eventEmitter2.default.on(constStr.SWITCHORDER, function () {
+                _this3.switchOrder();
             });
         }
     }, {
@@ -47163,6 +47303,21 @@ var PlayDetail = function (_React$Component) {
             }
         }
     }, {
+        key: 'switchOrder',
+        value: function switchOrder() {
+            var playOrder = _store2.default.getState().main.playOrder;
+            if (playOrder == 0) {
+                playOrder = 1;
+            } else if (playOrder == 1) {
+                playOrder = 2;
+            } else if (playOrder == 2) {
+                playOrder = 0;
+            }
+            var tipItem = ['列表循环', '单曲循环', '随机播放'];
+            _store2.default.dispatch(Actions.setPlayOrder(playOrder));
+            _eventEmitter2.default.emit(constStr.SNACKBAROPEN, tipItem[playOrder]);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this4 = this;
@@ -47264,7 +47419,7 @@ var PlayDetail = function (_React$Component) {
                         _react2.default.createElement('div', { className: 'change pre iconfont icon-xiayishou1-copy' }),
                         _react2.default.createElement('div', { className: 'play iconfont ' + (storeMain.playState ? 'icon-weibiaoti519' : 'icon-bofang2'), onClick: this.switchPlay.bind(this) }),
                         _react2.default.createElement('div', { className: 'change next iconfont icon-xiayishou1' }),
-                        _react2.default.createElement('div', { className: 'order iconfont icon-shunxuchakan' })
+                        _react2.default.createElement('div', { className: 'order iconfont ' + playOrderIcon[storeMain.playOrder], onClick: this.switchOrder.bind(this) })
                     )
                 )
             );

@@ -124,6 +124,65 @@ input[placeholder] {
       background: #FFF;
       transition: all 250ms ease-in-out;
       -webkit-app-region: no-drag; }
+      .player-wrap .play-list-dialog .list-wrap .list-wrap-head {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        padding: 0px 18px;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px #F9F9F9; }
+        .player-wrap .play-list-dialog .list-wrap .list-wrap-head .label {
+          font-size: 12px;
+          display: flex; }
+          .player-wrap .play-list-dialog .list-wrap .list-wrap-head .label i {
+            font-size: 16px;
+            margin-right: 4px; }
+        .player-wrap .play-list-dialog .list-wrap .list-wrap-head .clear {
+          font-size: 16px;
+          color: #999;
+          cursor: pointer; }
+      .player-wrap .play-list-dialog .list-wrap .list-item {
+        width: 100%;
+        height: calc(100% - 40px);
+        overflow-y: auto; }
+        .player-wrap .play-list-dialog .list-wrap .list-item .row {
+          padding: 10px 0px 10px 18px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          cursor: default;
+          transition: all 250ms ease; }
+          .player-wrap .play-list-dialog .list-wrap .list-item .row:hover {
+            background: #F0F0F0; }
+          .player-wrap .play-list-dialog .list-wrap .list-item .row .info {
+            display: flex;
+            align-items: center;
+            width: calc(100% - 50px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px; }
+            .player-wrap .play-list-dialog .list-wrap .list-item .row .info span {
+              font-size: 12px;
+              color: #999; }
+          .player-wrap .play-list-dialog .list-wrap .list-item .row .del {
+            width: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #999; }
+        .player-wrap .play-list-dialog .list-wrap .list-item .row-playing {
+          background: #F0F0F0; }
+          .player-wrap .play-list-dialog .list-wrap .list-item .row-playing .info span {
+            font-weight: bold; }
+          .player-wrap .play-list-dialog .list-wrap .list-item .row-playing .info:before {
+            content: '\e6a9';
+            font-family: iconfont;
+            font-weight: normal;
+            margin-right: 10px;
+            font-size: 16px; }
     .player-wrap .play-list-dialog .mask-active {
       opacity: 1; }
     .player-wrap .play-list-dialog .list-wrap-active {
@@ -451,15 +510,30 @@ input[placeholder] {
             font-size: 5vw;
             -webkit-app-region: no-drag;
             cursor: pointer; }
+            .player-wrap .play-ui-page .player-panel .control .vol .vol-icon:after {
+              display: none;
+              content: attr(data-vol);
+              color: #FFF;
+              font-size: 10px;
+              position: absolute;
+              left: 50%;
+              transform: translateX(-50%);
+              bottom: -14px;
+              font-family: "amble", "Microsoft YaHei", "PingFangSC-Regular", STHeiti, Helvetica, Arial, sans-serif !important; }
+          .player-wrap .play-ui-page .player-panel .control .vol .vol-icon-active:after {
+            display: block; }
           .player-wrap .play-ui-page .player-panel .control .vol .vol-panel {
             width: 3px;
             height: 20vw;
-            background: rgba(255, 255, 255, 0.3);
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            border-radius: 1px;
-            bottom: 24px; }
+            bottom: 28px; }
+            .player-wrap .play-ui-page .player-panel .control .vol .vol-panel .v-track {
+              border-radius: 1px;
+              width: 100%;
+              height: 100%;
+              background: rgba(255, 255, 255, 0.3); }
             .player-wrap .play-ui-page .player-panel .control .vol .vol-panel .v-bar {
               width: 100%;
               height: 20%;
@@ -467,16 +541,18 @@ input[placeholder] {
               background: #FFF;
               position: absolute;
               left: 0px;
-              bottom: 0px; }
+              bottom: 0px;
+              pointer-events: none; }
             .player-wrap .play-ui-page .player-panel .control .vol .vol-panel .dot {
-              width: 7px;
-              height: 7px;
+              width: 10px;
+              height: 10px;
               background: #FFF;
               position: absolute;
               left: 50%;
               bottom: 20%;
               border-radius: 50%;
               transform: translate(-50%, 50%);
+              z-index: 18;
               cursor: pointer; }
         .player-wrap .play-ui-page .player-panel .control .order {
           font-size: 5vw;
