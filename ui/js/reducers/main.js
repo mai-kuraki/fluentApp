@@ -8,6 +8,8 @@ const initState = {
     UIPage: false,
     songInfo: {},
     volume: 0,
+    playOrder: 0,
+    playList: [],
     playState: false,
 };
 
@@ -44,6 +46,14 @@ function main(state = initState, action) {
         case TYPE.SET_VOLUME:
             return Object.assign({}, state, {
                 volume: action.value
+            });
+        case TYPE.SET_PLAYORDER:
+            return Object.assign({}, state, {
+                playOrder: action.value
+            });
+        case TYPE.SET_PLAYLIST:
+            return Object.assign({}, state, {
+                playList: action.value
             });
         default:
             return state;

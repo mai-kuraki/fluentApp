@@ -44,7 +44,7 @@ let scanningDir = (path, callback) => {
 
 let saveDB = (data) => {
     db.then(db => {
-        db.set('playlist', data).write().then(() => {
+        db.set('localPlayList', data).write().then(() => {
             process.send('');
         })
     });
@@ -67,6 +67,9 @@ let createRandomId = () => {
     return (Math.random()*10000000).toString(16).substr(0,4)+'-'+(new Date()).getTime()+'-'+Math.random().toString().substr(2,5);
 };
 
+let getUniqueId = () => {
+    return Math.random().toString(36).substr(3);
+};
 
 process.on('message', (dirs) => {
     db.then(db => {
@@ -90,6 +93,7 @@ process.on('message', (dirs) => {
             fs.unlinkSync(curPath);
         });
     }
+    let listItem = [];
     dirs.map((dir) => {
         if(dir.checked) {
             hasChecked = true;
@@ -98,7 +102,6 @@ process.on('message', (dirs) => {
                 let f = 0;
                 len --;
                 if(len == 0) {
-                    let listItem = [];
                     songItem.map((data, k) => {
                         let name = getFileName(data);
                         jsmediatags.read(data, {
@@ -115,6 +118,7 @@ process.on('message', (dirs) => {
                                        filename = '';
                                    }
                                     listItem.push({
+                                        id: getUniqueId(),
                                         name: name,
                                         url: data,
                                         size: tag.size,
@@ -130,6 +134,7 @@ process.on('message', (dirs) => {
                             },
                             onError: (error) => {
                                 listItem.push({
+                                    id: getUniqueId(),
                                     name: name,
                                     url: data,
                                     size: '',
@@ -149,6 +154,6 @@ process.on('message', (dirs) => {
         }
     });
     if(!hasChecked) {
-        process.send('');
+        saveDB(listItem);
     }
 });

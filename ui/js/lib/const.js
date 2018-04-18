@@ -11,6 +11,7 @@ export const SONGLOADING = 'SONGLOADING';
 export const CLOSEWINDOW = 'CLOSEWINDOW';
 export const MINWINDOW = 'MINWINDOW';
 export const RINGLOADING = 'RINGLOADING';
+export const SWITCHORDER = 'SWITCHORDER';
 
 //redux
 export const SET_RECOMMEND_LIST = 'SET_RECOMMEND_LIST';
@@ -21,3 +22,5 @@ export const SET_PLAY_UI_PAGE = 'SET_PLAY_UI_PAGE';
 export const SET_SONG_INFO = 'SET_SONG_INFO';
 export const SET_PLAY_STATE = 'SET_PLAY_STATE';
 export const SET_VOLUME = 'SET_VOLUME';
+export const SET_PLAYORDER = 'SET_PLAYORDER';
+export const SET_PLAYLIST = 'SET_PLAYLIST';

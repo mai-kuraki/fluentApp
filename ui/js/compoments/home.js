@@ -69,7 +69,9 @@ export default class Home extends React.Component {
 
     closeWindow() {
         let vol = store.getState().main.volume;
+        let playOrder = store.getState().main.playOrder;
         db.set('volume', vol).write();
+        db.set('playOrder', playOrder).write();
         remote.getCurrentWindow().close();
     }
 
