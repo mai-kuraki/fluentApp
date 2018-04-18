@@ -59,5 +59,6 @@ typings/
 
 db.json
 .idea/
+.idea
 workspace.xml
 cache/albumCover/
