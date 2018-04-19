@@ -36,12 +36,30 @@ export default class PlayDetail extends React.Component {
         eventEmitter.on(constStr.PLAYANIMATE, () => {
             this.init();
         });
-        eventEmitter.on(constStr.PLAYPERCENT, (p) => {
+        eventEmitter.on(constStr.PLAYPERCENT, () => {
             this.audioDo();
+        });
+        eventEmitter.on(constStr.UPDATETIMEPERCENT, () => {
+           this.updateTimePercent();
         });
         eventEmitter.on(constStr.SWITCHORDER, () => {
             this.switchOrder();
         });
+    }
+
+    updateTimePercent() {
+        if(this.audio) {
+            let buffered = this.audio.buffered.end(0),
+                duration = this.audio.duration,
+                currentTime = this.audio.currentTime;
+            let playPercent = currentTime / duration;
+            this.setState({
+                duration: duration,
+                currentTime: currentTime,
+                buffered: buffered,
+                percent: (playPercent * 100).toFixed(2),
+            })
+        }
     }
 
     audioDo() {

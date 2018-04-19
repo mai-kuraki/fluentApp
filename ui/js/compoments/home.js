@@ -70,8 +70,12 @@ export default class Home extends React.Component {
     closeWindow() {
         let vol = store.getState().main.volume;
         let playOrder = store.getState().main.playOrder;
+        let currentSongId = store.getState().main.currentSong.id || '';
+        let currentTime = document.getElementById('audio').currentTime;
         db.set('volume', vol).write();
         db.set('playOrder', playOrder).write();
+        db.set('currentSongId', currentSongId).write();
+        db.set('currentTime', currentTime).write();
         remote.getCurrentWindow().close();
     }
 

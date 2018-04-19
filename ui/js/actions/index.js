@@ -69,3 +69,10 @@ export function setPlayList(val) {
         value: val
     }
 }
+
+export function setShuffleList(val) {
+    return {
+        type: TYPE.SET_SHUFFLELIST,
+        value: val
+    }
+}

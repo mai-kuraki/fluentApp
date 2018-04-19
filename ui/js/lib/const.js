@@ -12,6 +12,7 @@ export const CLOSEWINDOW = 'CLOSEWINDOW';
 export const MINWINDOW = 'MINWINDOW';
 export const RINGLOADING = 'RINGLOADING';
 export const SWITCHORDER = 'SWITCHORDER';
+export const UPDATETIMEPERCENT = 'UPDATETIMEPERCENT';
 
 //redux
 export const SET_RECOMMEND_LIST = 'SET_RECOMMEND_LIST';
@@ -24,3 +25,4 @@ export const SET_PLAY_STATE = 'SET_PLAY_STATE';
 export const SET_VOLUME = 'SET_VOLUME';
 export const SET_PLAYORDER = 'SET_PLAYORDER';
 export const SET_PLAYLIST = 'SET_PLAYLIST';
+export const SET_SHUFFLELIST = 'SET_SHUFFLELIST';

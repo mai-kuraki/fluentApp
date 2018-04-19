@@ -22,5 +22,8 @@
         "swiper": "^4.2.0",
         "underscore": "^1.8.3",
         "webpack": "^3.10.0"
+    },
+    "devDependencies": {
+        "shuffle-array": "^1.0.1"
     }
 }

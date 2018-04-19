@@ -447,6 +447,7 @@ var CLOSEWINDOW = exports.CLOSEWINDOW = 'CLOSEWINDOW';
 var MINWINDOW = exports.MINWINDOW = 'MINWINDOW';
 var RINGLOADING = exports.RINGLOADING = 'RINGLOADING';
 var SWITCHORDER = exports.SWITCHORDER = 'SWITCHORDER';
+var UPDATETIMEPERCENT = exports.UPDATETIMEPERCENT = 'UPDATETIMEPERCENT';
 
 //redux
 var SET_RECOMMEND_LIST = exports.SET_RECOMMEND_LIST = 'SET_RECOMMEND_LIST';
@@ -459,6 +460,7 @@ var SET_PLAY_STATE = exports.SET_PLAY_STATE = 'SET_PLAY_STATE';
 var SET_VOLUME = exports.SET_VOLUME = 'SET_VOLUME';
 var SET_PLAYORDER = exports.SET_PLAYORDER = 'SET_PLAYORDER';
 var SET_PLAYLIST = exports.SET_PLAYLIST = 'SET_PLAYLIST';
+var SET_SHUFFLELIST = exports.SET_SHUFFLELIST = 'SET_SHUFFLELIST';
 
 /***/ }),
 /* 12 */
@@ -577,6 +579,7 @@ exports.setPlayState = setPlayState;
 exports.setVolume = setVolume;
 exports.setPlayOrder = setPlayOrder;
 exports.setPlayList = setPlayList;
+exports.setShuffleList = setShuffleList;
 
 var _const = __webpack_require__(11);
 
@@ -650,6 +653,13 @@ function setPlayOrder(val) {
 function setPlayList(val) {
     return {
         type: TYPE.SET_PLAYLIST,
+        value: val
+    };
+}
+
+function setShuffleList(val) {
+    return {
+        type: TYPE.SET_SHUFFLELIST,
         value: val
     };
 }
@@ -41960,6 +41970,7 @@ var initState = {
     volume: 0,
     playOrder: 0,
     playList: [],
+    shuffleList: [],
     playState: false
 };
 
@@ -42007,6 +42018,10 @@ function main() {
         case TYPE.SET_PLAYLIST:
             return Object.assign({}, state, {
                 playList: action.value
+            });
+        case TYPE.SET_SHUFFLELIST:
+            return Object.assign({}, state, {
+                shuffleList: action.value
             });
         default:
             return state;
@@ -42120,6 +42135,10 @@ var _progressbar = __webpack_require__(475);
 
 var _progressbar2 = _interopRequireDefault(_progressbar);
 
+var _shuffleArray = __webpack_require__(479);
+
+var _shuffleArray2 = _interopRequireDefault(_shuffleArray);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -42209,6 +42228,10 @@ var App = function (_React$Component) {
             _store2.default.dispatch(Actions.setVolume(volume));
             _store2.default.dispatch(Actions.setPlayOrder(playOrder));
             _store2.default.dispatch(Actions.setPlayList(playlist));
+            if (playOrder == 2) {
+                var shuffleList = (0, _shuffleArray2.default)(playlist, { copy: true });
+                _store2.default.dispatch(Actions.setShuffleList(shuffleList));
+            }
         }
     }, {
         key: 'componentDidMount',
@@ -42251,6 +42274,81 @@ var App = function (_React$Component) {
                 trailColor: 'rgba(102,102,102,0.2)',
                 color: 'rgba(102,102,102, 1)'
             });
+            var currentSongId = db.get('currentSongId').value();
+            if (currentSongId) {
+                this.restore(currentSongId);
+            }
+        }
+    }, {
+        key: 'id2Song',
+        value: function id2Song(id) {
+            _eventEmitter2.default.emit(constStr.RINGLOADING, true);
+            fetch(__REQUESTHOST + '/api/music/url?id=' + id, {
+                method: 'GET'
+            }).then(function (res) {
+                return res.json();
+            }).then(function (data) {
+                if (data.code == 200) {
+                    if (data.data.length > 0) {
+                        _store2.default.dispatch(Actions.setCurrentSong(data.data[0]));
+                        _eventEmitter2.default.emit(constStr.INITAUDIO);
+                    }
+                }
+                _eventEmitter2.default.emit(constStr.RINGLOADING, false);
+            });
+        }
+    }, {
+        key: 'restore',
+        value: function restore(id) {
+            var _this4 = this;
+
+            var playList = _store2.default.getState().main.playList;
+            var curSong = {};
+            playList.map(function (data, k) {
+                if (data.id == id) {
+                    curSong = data;
+                }
+            });
+            if (curSong.from == 'online') {
+                this.id2Song(curSong.id);
+            } else if (curSong.from == 'local') {
+                var localPlayList = db.get('localPlayList').value() || [];
+                localPlayList.map(function (data, k) {
+                    if (data.id == curSong.id) {
+                        _this4.initLocalAudio(data, true);
+                    }
+                });
+            }
+            var currentTime = db.get('currentTime').value() || 0;
+            if (currentTime > 0) {
+                this.audio.currentTime = currentTime;
+                this.timeupdate();
+            }
+        }
+    }, {
+        key: 'playNext',
+        value: function playNext(type) {
+            var storeMain = _store2.default.getState();
+            var playOrder = storeMain.main.playOrder,
+                playList = storeMain.main.playList,
+                currentSong = storeMain.main.currentSong,
+                nextIndex = 0;
+            var curIndex = 0;
+            playList.map(function (data, k) {
+                if (data.id == currentSong.id) {
+                    curIndex = k;
+                }
+            });
+            if (playOrder == 0) {
+                nextIndex = curIndex + type;
+                if (nextIndex < 0) {
+                    nextIndex = playList.length - 1;
+                } else if (nextIndex == playList.length) {
+                    nextIndex = 0;
+                }
+            } else if (playList == 1) {
+                nextIndex = curIndex;
+            } else if (playList == 2) {}
         }
     }, {
         key: 'durationchange',
@@ -42272,7 +42370,7 @@ var App = function (_React$Component) {
             });
             this.progress.animate(playPercent);
             if (_store2.default.getState().main.UIPage) {
-                _eventEmitter2.default.emit(constStr.PLAYPERCENT, playPercent);
+                _eventEmitter2.default.emit(constStr.PLAYPERCENT);
             }
         }
     }, {
@@ -42284,7 +42382,7 @@ var App = function (_React$Component) {
     }, {
         key: 'getSongInfo',
         value: function getSongInfo(id) {
-            var _this4 = this;
+            var _this5 = this;
 
             fetch(__REQUESTHOST + '/api/song/detail?ids=' + id, {
                 method: 'GET'
@@ -42302,7 +42400,7 @@ var App = function (_React$Component) {
                                 id: id,
                                 name: songData.name || '',
                                 ar: songData.ar[0].name || '',
-                                form: 'online'
+                                from: 'online'
                             };
                             var hasRepeat = false;
                             playList.map(function (d, k) {
@@ -42312,11 +42410,11 @@ var App = function (_React$Component) {
                             });
                             if (!hasRepeat) {
                                 playList.unshift(songObj);
+                                _store2.default.dispatch(Actions.setPlayList(playList));
+                                setTimeout(function () {
+                                    _this5.savePlayList();
+                                });
                             }
-                            _store2.default.dispatch(Actions.setPlayList(playList));
-                            setTimeout(function () {
-                                _this4.savePlayList();
-                            });
                         }
                     }
                 }
@@ -42324,7 +42422,7 @@ var App = function (_React$Component) {
         }
     }, {
         key: 'initAudio',
-        value: function initAudio() {
+        value: function initAudio(restore) {
             var currentSong = _store2.default.getState().main.currentSong;
             var url = currentSong.url;
             if (!url) {
@@ -42335,43 +42433,50 @@ var App = function (_React$Component) {
             url = url.replace('http://m10.music.126.net', __REQUESTHOST + '/proxy');
             this.audio.crossOrigin = 'anonymous';
             this.audio.src = url;
-            this.audio.play();
-            _store2.default.dispatch(Actions.setPlayState(true));
+            if (!restore) {
+                this.audio.play();
+                _store2.default.dispatch(Actions.setPlayState(true));
+            }
         }
     }, {
         key: 'initLocalAudio',
-        value: function initLocalAudio(data) {
-            var _this5 = this;
+        value: function initLocalAudio(data, restore) {
+            var _this6 = this;
 
             var url = data.url;
             this.audio.src = url;
-            this.audio.play();
-            _store2.default.dispatch(Actions.setSongInfo({
+            var o = {
+                id: data.id,
                 name: data.name,
                 al: { picUrl: data.cover },
                 ar: [{ name: data.artist }]
-            }));
-            _store2.default.dispatch(Actions.setPlayState(true));
-            var playList = _store2.default.getState().main.playList || [];
-            var songObj = {
-                id: data.id,
-                name: data.name || '',
-                ar: data.artist || '',
-                form: 'local'
             };
-            var hasRepeat = false;
-            playList.map(function (d, k) {
-                if (d.id && d.id == songObj.id) {
-                    hasRepeat = true;
+            _store2.default.dispatch(Actions.setSongInfo(o));
+            _store2.default.dispatch(Actions.setCurrentSong(o));
+            if (!restore) {
+                this.audio.play();
+                _store2.default.dispatch(Actions.setPlayState(true));
+                var playList = _store2.default.getState().main.playList || [];
+                var songObj = {
+                    id: data.id,
+                    name: data.name || '',
+                    ar: data.artist || '',
+                    from: 'local'
+                };
+                var hasRepeat = false;
+                playList.map(function (d, k) {
+                    if (d.id && d.id == songObj.id) {
+                        hasRepeat = true;
+                    }
+                });
+                if (!hasRepeat) {
+                    playList.unshift(songObj);
+                    _store2.default.dispatch(Actions.setPlayList(playList));
+                    setTimeout(function () {
+                        _this6.savePlayList();
+                    });
                 }
-            });
-            if (!hasRepeat) {
-                playList.unshift(songObj);
             }
-            _store2.default.dispatch(Actions.setPlayList(playList));
-            setTimeout(function () {
-                _this5.savePlayList();
-            });
         }
     }, {
         key: 'switchPlay',
@@ -42390,13 +42495,27 @@ var App = function (_React$Component) {
         value: function toUIPage() {
             _store2.default.dispatch(Actions.setPlayUiPage(true));
             setTimeout(function () {
+                _eventEmitter2.default.emit(constStr.UPDATETIMEPERCENT);
                 _eventEmitter2.default.emit(constStr.PLAYANIMATE);
             });
         }
     }, {
+        key: 'targetingCur',
+        value: function targetingCur() {
+            var curPlayRow = document.getElementsByClassName('row-playing');
+            if (curPlayRow.length > 0) {
+                curPlayRow = curPlayRow[0];
+                var top = curPlayRow.offsetTop - 40 * 5;
+                if (top < 0) {
+                    top = 0;
+                }
+                this.refs.songListItem.scrollTop = top;
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var _this6 = this;
+            var _this7 = this;
 
             var state = this.state;
             var storeMain = _store2.default.getState().main;
@@ -42428,7 +42547,7 @@ var App = function (_React$Component) {
                         'div',
                         { className: 'play-list-dialog ' + (state.playListState ? 'play-list-dialog-active' : '') },
                         _react2.default.createElement('div', { className: 'mask ' + (state.playListState ? 'mask-active' : ''), onClick: function onClick() {
-                                _this6.setState({
+                                _this7.setState({
                                     playListState: false
                                 });
                             } }),
@@ -42453,7 +42572,7 @@ var App = function (_React$Component) {
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: 'list-item' },
+                                { className: 'list-item', ref: 'songListItem' },
                                 storeMain.playList.map(function (data, k) {
                                     return _react2.default.createElement(
                                         'div',
@@ -42505,13 +42624,14 @@ var App = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'play-icon', onClick: function onClick(e) {
-                                    _this6.switchPlay(!storeMain.playState);
+                                    _this7.switchPlay(!storeMain.playState);
                                 } },
                             _react2.default.createElement('div', { className: 'icon iconfont ' + (storeMain.playState ? 'icon-weibiaoti519' : 'icon-bofang2') }),
                             _react2.default.createElement('div', { className: 'progress', id: 'progress' })
                         ),
                         _react2.default.createElement('div', { className: 'play-list iconfont icon-liebiao', onClick: function onClick() {
-                                _this6.setState({
+                                _this7.targetingCur();
+                                _this7.setState({
                                     playListState: true
                                 });
                             } })
@@ -42991,8 +43111,12 @@ var Home = function (_React$Component) {
         value: function closeWindow() {
             var vol = _store2.default.getState().main.volume;
             var playOrder = _store2.default.getState().main.playOrder;
+            var currentSongId = _store2.default.getState().main.currentSong.id || '';
+            var currentTime = document.getElementById('audio').currentTime;
             db.set('volume', vol).write();
             db.set('playOrder', playOrder).write();
+            db.set('currentSongId', currentSongId).write();
+            db.set('currentTime', currentTime).write();
             _electron.remote.getCurrentWindow().close();
         }
     }, {
@@ -46983,12 +47107,31 @@ var PlayDetail = function (_React$Component) {
             _eventEmitter2.default.on(constStr.PLAYANIMATE, function () {
                 _this3.init();
             });
-            _eventEmitter2.default.on(constStr.PLAYPERCENT, function (p) {
+            _eventEmitter2.default.on(constStr.PLAYPERCENT, function () {
                 _this3.audioDo();
+            });
+            _eventEmitter2.default.on(constStr.UPDATETIMEPERCENT, function () {
+                _this3.updateTimePercent();
             });
             _eventEmitter2.default.on(constStr.SWITCHORDER, function () {
                 _this3.switchOrder();
             });
+        }
+    }, {
+        key: 'updateTimePercent',
+        value: function updateTimePercent() {
+            if (this.audio) {
+                var buffered = this.audio.buffered.end(0),
+                    duration = this.audio.duration,
+                    currentTime = this.audio.currentTime;
+                var playPercent = currentTime / duration;
+                this.setState({
+                    duration: duration,
+                    currentTime: currentTime,
+                    buffered: buffered,
+                    percent: (playPercent * 100).toFixed(2)
+                });
+            }
         }
     }, {
         key: 'audioDo',
@@ -51213,6 +51356,95 @@ SemiCircle.prototype._pathString = Circle.prototype._pathString;
 SemiCircle.prototype._trailString = Circle.prototype._trailString;
 
 module.exports = SemiCircle;
+
+
+/***/ }),
+/* 479 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Randomize the order of the elements in a given array.
+ * @param {Array} arr - The given array.
+ * @param {Object} [options] - Optional configuration options.
+ * @param {Boolean} [options.copy] - Sets if should return a shuffled copy of the given array. By default it's a falsy value.
+ * @param {Function} [options.rng] - Specifies a custom random number generator.
+ * @returns {Array}
+ */
+function shuffle(arr, options) {
+
+  if (!Array.isArray(arr)) {
+    throw new Error('shuffle expect an array as parameter.');
+  }
+
+  options = options || {};
+
+  var collection = arr,
+      len = arr.length,
+      rng = options.rng || Math.random,
+      random,
+      temp;
+
+  if (options.copy === true) {
+    collection = arr.slice();
+  }
+
+  while (len) {
+    random = Math.floor(rng() * len);
+    len -= 1;
+    temp = collection[len];
+    collection[len] = collection[random];
+    collection[random] = temp;
+  }
+
+  return collection;
+};
+
+/**
+ * Pick one or more random elements from the given array.
+ * @param {Array} arr - The given array.
+ * @param {Object} [options] - Optional configuration options.
+ * @param {Number} [options.picks] - Specifies how many random elements you want to pick. By default it picks 1.
+ * @param {Function} [options.rng] - Specifies a custom random number generator.
+ * @returns {Object}
+ */
+shuffle.pick = function(arr, options) {
+
+  if (!Array.isArray(arr)) {
+    throw new Error('shuffle.pick() expect an array as parameter.');
+  }
+
+  options = options || {};
+
+  var rng = options.rng || Math.random,
+      picks = options.picks || 1;
+
+  if (typeof picks === 'number' && picks !== 1) {
+    var len = arr.length,
+        collection = arr.slice(),
+        random = [],
+        index;
+
+    while (picks && len) {
+      index = Math.floor(rng() * len);
+      random.push(collection[index]);
+      collection.splice(index, 1);
+      len -= 1;
+      picks -= 1;
+    }
+
+    return random;
+  }
+
+  return arr[Math.floor(rng() * arr.length)];
+};
+
+/**
+ * Expose
+ */
+module.exports = shuffle;
 
 
 /***/ })
