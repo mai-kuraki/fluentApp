@@ -13,10 +13,7 @@ import * as Actions from '../actions';
 import _ from 'underscore';
 import * as constStr from "../lib/const";
 
-const low = remote.require('lowdb');
-const FileSync = remote.require('lowdb/adapters/FileSync');
-const adapter = new FileSync('db.json');
-const db = low(adapter);
+import db from './db';
 
 
 export default class Home extends React.Component {

@@ -85,10 +85,26 @@ export default class SearchAlbumDetail extends React.Component {
         this.props.goback();
     }
 
+    saveToList() {
+        let songs = this.state.songs;
+        let item = [];
+        eventEmitter.emit(constStr.RINGLOADING, true);
+        songs.map((data, k) => {
+            item.push({
+                id: data.id,
+                name: data.name || '',
+                ar: data.ar[0].name || '',
+                from: 'online'
+            })
+        });
+        // eventEmitter.emit(constStr.BATCHADD, item);
+    }
+
     render() {
         let state = this.state;
         let songs = state.songs,
             album = state.album;
+        let currentSong = store.getState().main.currentSong || {};
         return(
             <div className="listDetail-page">
                 <div className={`windowsHead ${state.scrollState?'':'windowsHead-transparent'}`}>
@@ -101,7 +117,7 @@ export default class SearchAlbumDetail extends React.Component {
                 </div>
                 <div className="wrap" onScroll={this.scroll.bind(this)}>
                     <div className="listCoverBanner">
-                        <div className="play iconfont icon-bofang2"></div>
+                        <div className="play iconfont icon-tianjiaqiyedangan" onClick={this.saveToList.bind(this)}></div>
                         <div className="cover">
                             <img src={album.picUrl || ''} draggable={false}/>
                         </div>
@@ -114,7 +130,7 @@ export default class SearchAlbumDetail extends React.Component {
                         {
                             songs.map((data, k) => {
                                 return (
-                                    <div className="song" key={k} onDoubleClick={this.id2Song.bind(this, data.id)}>
+                                    <div className={`song ${currentSong.id == data.id?'song-active':''}`} key={k} onDoubleClick={this.id2Song.bind(this, data.id)}>
                                         <div className="key">{k + 1}</div>
                                         <div className="r">
                                             <div className="name">{data.name || ''}</div>

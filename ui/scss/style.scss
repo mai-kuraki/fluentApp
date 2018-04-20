@@ -881,6 +881,7 @@ input[placeholder] {
                     cursor: pointer;
                     -webkit-app-region: no-drag;
                     transition: all 250ms ease;
+                    position: relative;
                     &:hover {
                         background: #F0F0F0;
                     }
@@ -916,6 +917,26 @@ input[placeholder] {
                             }
                         }
                     }
+                }
+                .song-itembox-active{
+                    .info {
+                        width: calc(100% - 70px);
+                    }
+                    &:before {
+                        content: '\e6a9';
+                        font-family: iconfont;
+                        position: absolute;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        right: 16px;
+                        top: 0px;
+                        height: 100%;
+                        color: $theme;
+                        font-size: 26px;
+                    }
+                    position: relative;
+                    background: #F0F0F0;
                 }
             }
         }
@@ -1111,6 +1132,26 @@ input[placeholder] {
                         }
                     }
                 }
+                .song-itembox-active{
+                    .info {
+                        width: calc(100% - 70px);
+                    }
+                    &:before {
+                        content: '\e6a9';
+                        font-family: iconfont;
+                        position: absolute;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        right: 16px;
+                        top: 0px;
+                        height: 100%;
+                        color: $theme;
+                        font-size: 26px;
+                    }
+                    position: relative;
+                    background: #F0F0F0;
+                }
             }
         }
     }
@@ -1140,10 +1181,31 @@ input[placeholder] {
                 justify-content: center;
                 color: #FFF;
                 padding-left: 4px;
-                font-size: 22px;
+                font-size: 28px;
                 cursor: pointer;
                 -webkit-app-region: no-drag;
                 z-index: 9;
+                &:after{
+                    content: '添加到歌单';
+                    display: block;
+                    padding: 3px 8px;
+                    color: #FFF;
+                    background: rgba(0,0,0,.7);
+                    position: absolute;
+                    left: -152%;
+                    top: 50%;
+                    opacity: 0;
+                    transform: translate(10%, -50%);
+                    transition: all 250ms ease;
+                    font-size: 12px;
+                    pointer-events: none;
+                }
+                &:hover{
+                    &:after{
+                        transform: translate(0%, -50%);
+                        opacity: 1;
+                    }
+                }
             }
             .cover {
                 width: 100%;
@@ -1182,26 +1244,11 @@ input[placeholder] {
                 display: flex;
                 -webkit-app-region: no-drag;
                 position: relative;
-                &:before {
-                    content: '\e60a';
-                    font-family: iconfont;
-                    position: absolute;
-                    display: none;
-                    justify-content: center;
-                    align-items: center;
-                    right: 16px;
-                    top: 0px;
-                    height: 100%;
-                    color: $theme;
-                    font-size: 26px;
-                }
+                transition: all 250ms ease;
                 &:hover {
                     background: #FCFCFC;
                     .key {
                         color: $theme;
-                    }
-                    &:before {
-                        display: flex;
                     }
                 }
                 &:last-child {
@@ -1243,6 +1290,28 @@ input[placeholder] {
                         text-overflow: ellipsis;
                         white-space: normal;
                     }
+                }
+            }
+            .song-active{
+                &:before {
+                    content: '\e6a9';
+                    font-family: iconfont;
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    right: 16px;
+                    top: 0px;
+                    height: 100%;
+                    color: $theme;
+                    font-size: 26px;
+                }
+                background: #F0F0F0;
+                &:hover {
+                    background: #F0F0F0;
+                }
+                .key {
+                    color: $theme;
                 }
             }
         }
@@ -1512,6 +1581,7 @@ input[placeholder] {
     display: flex;
     justify-content: center;
     align-items: center;
+    pointer-events: none;
 }
 .search-page{
     width: 100%;
@@ -1654,6 +1724,26 @@ input[placeholder] {
                     }
                 }
             }
+            .song-itembox-active{
+                .info {
+                    width: calc(100% - 70px);
+                }
+                &:before {
+                    content: '\e6a9';
+                    font-family: iconfont;
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    right: 16px;
+                    top: 0px;
+                    height: 100%;
+                    color: $theme;
+                    font-size: 26px;
+                }
+                position: relative;
+                background: #F0F0F0;
+            }
         }
     }
     .singer-item {
@@ -1704,6 +1794,26 @@ input[placeholder] {
                         }
                     }
                 }
+            }
+            .song-itembox-active{
+                .info {
+                    width: calc(100% - 70px);
+                }
+                &:before {
+                    content: '\e6a9';
+                    font-family: iconfont;
+                    position: absolute;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    right: 16px;
+                    top: 0px;
+                    height: 100%;
+                    color: $theme;
+                    font-size: 26px;
+                }
+                position: relative;
+                background: #F0F0F0;
             }
         }
     }

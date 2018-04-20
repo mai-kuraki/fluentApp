@@ -5,10 +5,7 @@ import store from '../store';
 import * as Actions from '../actions';
 import eventEmitter from "../lib/eventEmitter";
 import * as constStr from "../lib/const";
-const low = remote.require('lowdb');
-const FileSync = remote.require('lowdb/adapters/FileSync');
-const adapter = new FileSync('db.json');
-const db = low(adapter);
+import db from './db';
 
 
 export default class Mysong extends React.Component {
@@ -56,6 +53,7 @@ export default class Mysong extends React.Component {
 
     render() {
         let state = this.state;
+        let currentSong = store.getState().main.currentSong || {};
         return (
             <div className="mysong">
                 {
@@ -79,7 +77,7 @@ export default class Mysong extends React.Component {
                             {
                                 state.playlist.map((data, k) => {
                                     return(
-                                        <div key={k} className="song-itembox" onDoubleClick={this.playLocal.bind(this, data)}>
+                                        <div key={k} className={`song-itembox ${currentSong.id == data.id?'song-itembox-active':''}`} onDoubleClick={this.playLocal.bind(this, data)}>
                                             <div className="cover"><img src={data.cover || '/defaultCover.png'}/></div>
                                             <div className="info">
                                                 <div className="name">{data.name}</div>

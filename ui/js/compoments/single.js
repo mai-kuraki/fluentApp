@@ -27,13 +27,14 @@ export default class Single  extends React.Component {
 
     render() {
         let data = this.props.data;
+        let currentSong = store.getState().main.currentSong || {};
         return (
             <div className="single-item">
                 <div className="item-list">
                     {
                         data.map((data, k) => {
                             return(
-                                <div key={k} className="song-itembox" onDoubleClick={this.id2Song.bind(this, data.id)}>
+                                <div key={k} className={`song-itembox ${currentSong.id == data.id?'song-itembox-active':''}`} onDoubleClick={this.id2Song.bind(this, data.id)}>
                                     <div className="cover"><img src={data.album.artist.img1v1Url}/></div>
                                     <div className="info">
                                         <div className="name">{data.name}</div>

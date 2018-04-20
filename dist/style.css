@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
   font-family: "amble";
   src: url("../font/Amble-Regular.ttf"); }
@@ -729,7 +730,8 @@ input[placeholder] {
           display: flex;
           cursor: pointer;
           -webkit-app-region: no-drag;
-          transition: all 250ms ease; }
+          transition: all 250ms ease;
+          position: relative; }
           .player-wrap .home-page .newest .item-list .song-itembox:hover {
             background: #F0F0F0; }
           .player-wrap .home-page .newest .item-list .song-itembox .cover {
@@ -758,6 +760,23 @@ input[placeholder] {
               .player-wrap .home-page .newest .item-list .song-itembox .info .singer i {
                 margin-right: 4px;
                 align-items: center; }
+        .player-wrap .home-page .newest .item-list .song-itembox-active {
+          position: relative;
+          background: #F0F0F0; }
+          .player-wrap .home-page .newest .item-list .song-itembox-active .info {
+            width: calc(100% - 70px); }
+          .player-wrap .home-page .newest .item-list .song-itembox-active:before {
+            content: '\e6a9';
+            font-family: iconfont;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            right: 16px;
+            top: 0px;
+            height: 100%;
+            color: #666;
+            font-size: 26px; }
     .player-wrap .home-page .album {
       width: 100%;
       height: 100%;
@@ -918,6 +937,23 @@ input[placeholder] {
               .player-wrap .home-page .mysong .item-list .song-itembox .info .singer i {
                 margin-right: 4px;
                 align-items: center; }
+        .player-wrap .home-page .mysong .item-list .song-itembox-active {
+          position: relative;
+          background: #F0F0F0; }
+          .player-wrap .home-page .mysong .item-list .song-itembox-active .info {
+            width: calc(100% - 70px); }
+          .player-wrap .home-page .mysong .item-list .song-itembox-active:before {
+            content: '\e6a9';
+            font-family: iconfont;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            right: 16px;
+            top: 0px;
+            height: 100%;
+            color: #666;
+            font-size: 26px; }
   .player-wrap .listDetail-page {
     width: 100%;
     height: 100%;
@@ -943,10 +979,27 @@ input[placeholder] {
         justify-content: center;
         color: #FFF;
         padding-left: 4px;
-        font-size: 22px;
+        font-size: 28px;
         cursor: pointer;
         -webkit-app-region: no-drag;
         z-index: 9; }
+        .player-wrap .listDetail-page .listCoverBanner .play:after {
+          content: '添加到歌单';
+          display: block;
+          padding: 3px 8px;
+          color: #FFF;
+          background: rgba(0, 0, 0, 0.7);
+          position: absolute;
+          left: -152%;
+          top: 50%;
+          opacity: 0;
+          transform: translate(10%, -50%);
+          transition: all 250ms ease;
+          font-size: 12px;
+          pointer-events: none; }
+        .player-wrap .listDetail-page .listCoverBanner .play:hover:after {
+          transform: translate(0%, -50%);
+          opacity: 1; }
       .player-wrap .listDetail-page .listCoverBanner .cover {
         width: 100%;
         height: 100%;
@@ -977,25 +1030,12 @@ input[placeholder] {
         padding: 0px 0px;
         display: flex;
         -webkit-app-region: no-drag;
-        position: relative; }
-        .player-wrap .listDetail-page .song-list .song:before {
-          content: '\e60a';
-          font-family: iconfont;
-          position: absolute;
-          display: none;
-          justify-content: center;
-          align-items: center;
-          right: 16px;
-          top: 0px;
-          height: 100%;
-          color: #666;
-          font-size: 26px; }
+        position: relative;
+        transition: all 250ms ease; }
         .player-wrap .listDetail-page .song-list .song:hover {
           background: #FCFCFC; }
           .player-wrap .listDetail-page .song-list .song:hover .key {
             color: #666; }
-          .player-wrap .listDetail-page .song-list .song:hover:before {
-            display: flex; }
         .player-wrap .listDetail-page .song-list .song:last-child .r {
           border-bottom: none; }
         .player-wrap .listDetail-page .song-list .song .key {
@@ -1029,6 +1069,24 @@ input[placeholder] {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: normal; }
+      .player-wrap .listDetail-page .song-list .song-active {
+        background: #F0F0F0; }
+        .player-wrap .listDetail-page .song-list .song-active:before {
+          content: '\e6a9';
+          font-family: iconfont;
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          right: 16px;
+          top: 0px;
+          height: 100%;
+          color: #666;
+          font-size: 26px; }
+        .player-wrap .listDetail-page .song-list .song-active:hover {
+          background: #F0F0F0; }
+        .player-wrap .listDetail-page .song-list .song-active .key {
+          color: #666; }
 
 .addfile-dialog {
   width: calc(100vw - 50px);
@@ -1245,7 +1303,8 @@ input[placeholder] {
   z-index: 9999;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  pointer-events: none; }
 
 .search-page {
   width: 100%;
@@ -1367,6 +1426,23 @@ input[placeholder] {
             .search-page .single-item .item-list .song-itembox .info .singer i {
               margin-right: 4px;
               align-items: center; }
+      .search-page .single-item .item-list .song-itembox-active {
+        position: relative;
+        background: #F0F0F0; }
+        .search-page .single-item .item-list .song-itembox-active .info {
+          width: calc(100% - 70px); }
+        .search-page .single-item .item-list .song-itembox-active:before {
+          content: '\e6a9';
+          font-family: iconfont;
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          right: 16px;
+          top: 0px;
+          height: 100%;
+          color: #666;
+          font-size: 26px; }
   .search-page .singer-item {
     width: 100%;
     height: 100%;
@@ -1409,6 +1485,23 @@ input[placeholder] {
               color: #C8C9CC;
               margin-left: 5px;
               font-size: 13px; }
+      .search-page .singer-item .item-list .song-itembox-active {
+        position: relative;
+        background: #F0F0F0; }
+        .search-page .singer-item .item-list .song-itembox-active .info {
+          width: calc(100% - 70px); }
+        .search-page .singer-item .item-list .song-itembox-active:before {
+          content: '\e6a9';
+          font-family: iconfont;
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          right: 16px;
+          top: 0px;
+          height: 100%;
+          color: #666;
+          font-size: 26px; }
   .search-page .album {
     width: 100%;
     height: 100%;

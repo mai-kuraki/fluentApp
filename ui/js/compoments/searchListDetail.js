@@ -87,6 +87,7 @@ export default class SearchListDetail extends React.Component {
         let state = this.state;
         let listData = state.listData;
         let tracks = listData.tracks || [];
+        let currentSong = store.getState().main.currentSong || {};
         return(
             <div className="listDetail-page">
                 <div className={`windowsHead ${state.scrollState?'':'windowsHead-transparent'}`}>
@@ -99,7 +100,11 @@ export default class SearchListDetail extends React.Component {
                 </div>
                 <div className="wrap" onScroll={this.scroll.bind(this)}>
                     <div className="listCoverBanner">
-                        <div className="play iconfont icon-bofang2"></div>
+                        <div className="play iconfont icon-tianjiaqiyedangan" onClick={() => {
+                            if(tracks.length > 0) {
+                                this.id2Song(tracks[0].id);
+                            }
+                        }}></div>
                         <div className="cover">
                             <img src={listData.coverImgUrl || ''} draggable={false}/>
                         </div>
@@ -112,7 +117,7 @@ export default class SearchListDetail extends React.Component {
                         {
                             tracks.map((data, k) => {
                                 return (
-                                    <div className="song" key={k} onDoubleClick={this.id2Song.bind(this, data.id)}>
+                                    <div className={`song ${currentSong.id == data.id?'song-active':''}`} key={k} onDoubleClick={this.id2Song.bind(this, data.id)}>
                                         <div className="key">{k + 1}</div>
                                         <div className="r">
                                             <div className="name">{data.name || ''}</div>

@@ -70,6 +70,13 @@ export function setPlayList(val) {
     }
 }
 
+export function setLocalPlayList(val) {
+    return {
+        type: TYPE.SET_LOCALPLAYLIST,
+        value: val
+    }
+}
+
 export function setShuffleList(val) {
     return {
         type: TYPE.SET_SHUFFLELIST,

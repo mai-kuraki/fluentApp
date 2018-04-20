@@ -89,6 +89,7 @@ export default class SearchSingerDetail extends React.Component {
         let state = this.state;
         let hotSongs = state.hotSongs,
             artist = state.artist;
+        let currentSong = store.getState().main.currentSong || {};
         return(
             <div className="listDetail-page">
                 <div className={`windowsHead ${state.scrollState?'':'windowsHead-transparent'}`}>
@@ -113,7 +114,7 @@ export default class SearchSingerDetail extends React.Component {
                         {
                             hotSongs.map((data, k) => {
                                 return (
-                                    <div className="song" key={k} onDoubleClick={this.id2Song.bind(this, data.id)}>
+                                    <div className={`song ${currentSong.id == data.id?'song-active':''}`} key={k} onDoubleClick={this.id2Song.bind(this, data.id)}>
                                         <div className="key">{k + 1}</div>
                                         <div className="r">
                                             <div className="name">{data.name || ''}</div>

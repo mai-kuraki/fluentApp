@@ -48,7 +48,7 @@ export default class PlayDetail extends React.Component {
     }
 
     updateTimePercent() {
-        if(this.audio) {
+        if(this.audio && this.audio.readyState > 1) {
             let buffered = this.audio.buffered.end(0),
                 duration = this.audio.duration,
                 currentTime = this.audio.currentTime;
@@ -63,7 +63,7 @@ export default class PlayDetail extends React.Component {
     }
 
     audioDo() {
-        if(this.audio) {
+        if(this.audio && this.audio.readyState > 1) {
             let buffered = this.audio.buffered.end(0),
                 duration = this.audio.duration,
                 currentTime = this.audio.currentTime;
@@ -130,7 +130,7 @@ export default class PlayDetail extends React.Component {
             this.canvas.width = this.width,
             this.canvas.height = this.height;
             this.ctx.beginPath();
-            this.ctx.fillStyle = 'rgba(49,194,124,0.8)';
+            this.ctx.fillStyle = 'rgba(102,102,102,0.8)';
             this.ctx.moveTo(0, this.baseY);
             this.ctx.lineTo(this.width, this.baseY);
             this.ctx.lineTo(this.width, this.height);
@@ -370,6 +370,10 @@ export default class PlayDetail extends React.Component {
         let tipItem = ['列表循环', '单曲循环', '随机播放'];
         store.dispatch(Actions.setPlayOrder(playOrder));
         eventEmitter.emit(constStr.SNACKBAROPEN, tipItem[playOrder]);
+        let shuffleList = store.getState().main.shuffleList;
+        if(shuffleList && shuffleList == 0) {
+            eventEmitter.emit(constStr.CREATESHUFFLE);
+        }
     }
 
     render() {
@@ -425,9 +429,9 @@ export default class PlayDetail extends React.Component {
                             }
                             <div className={`vol-icon iconfont ${vol > 0?'icon-yinliang':'icon-jingyin'} ${state.volBarState?'vol-icon-active':''}`} data-vol={Math.floor(vol * 100)} onClick={() => {this.setState({volBarState: !state.volBarState})}}></div>
                         </div>
-                        <div className="change pre iconfont icon-xiayishou1-copy"></div>
+                        <div className="change pre iconfont icon-xiayishou1-copy" onClick={() => {eventEmitter.emit(constStr.NEXT, -1)}}></div>
                         <div className={`play iconfont ${storeMain.playState?'icon-weibiaoti519':'icon-bofang2'}`} onClick={this.switchPlay.bind(this)}></div>
-                        <div className="change next iconfont icon-xiayishou1"></div>
+                        <div className="change next iconfont icon-xiayishou1" onClick={() => {eventEmitter.emit(constStr.NEXT, 1)}}></div>
                         <div className={`order iconfont ${playOrderIcon[storeMain.playOrder]}`} onClick={this.switchOrder.bind(this)}></div>
                     </div>
                 </div>

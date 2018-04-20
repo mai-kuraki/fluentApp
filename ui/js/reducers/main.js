@@ -10,6 +10,7 @@ const initState = {
     volume: 0,
     playOrder: 0,
     playList: [],
+    localPlayList: [],
     shuffleList: [],
     playState: false,
 };
@@ -59,6 +60,10 @@ function main(state = initState, action) {
         case TYPE.SET_SHUFFLELIST:
             return Object.assign({}, state, {
                 shuffleList: action.value
+            });
+        case TYPE.SET_LOCALPLAYLIST:
+            return Object.assign({}, state, {
+                localPlayList: action.value
             });
         default:
             return state;

@@ -38,6 +38,7 @@ export default class SingerSearch  extends React.Component {
 
     render() {
         let data = this.props.data;
+        let currentSong = store.getState().main.currentSong || {};
         return (
             <div className="singer-item">
                 {
@@ -50,7 +51,7 @@ export default class SingerSearch  extends React.Component {
                     {
                         data.map((data, k) => {
                             return(
-                                <div key={k} className="song-itembox" onClick={() => {
+                                <div key={k} className={`song-itembox ${currentSong.id == data.id?'song-itembox-active':''}`} onClick={() => {
                                     this.setState({
                                         curId: data.id,
                                         detailShow: true,

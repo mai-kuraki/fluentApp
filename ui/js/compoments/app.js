@@ -17,10 +17,7 @@ import Search from './search';
 import Progressbar from "progressbar.js";
 import shuffleArray from 'shuffle-array';
 
-const low = remote.require('lowdb');
-const FileSync = remote.require('lowdb/adapters/FileSync');
-const adapter = new FileSync('db.json');
-const db = low(adapter);
+import db from './db';
 
 const playOrderMap = [
     {icon: 'icon-list-loop',name: '列表循环'},
@@ -73,6 +70,7 @@ export default class App extends React.Component {
         let volume = db.get('volume').value();
         let playOrder = db.get('playOrder').value() || 0;
         let playlist = db.get('playList').value() || [];
+        let localPlayList = db.get('localPlayList').value() || [];
         if(volume) {
             volume = parseFloat(volume);
         }else {
@@ -81,9 +79,9 @@ export default class App extends React.Component {
         store.dispatch(Actions.setVolume(volume));
         store.dispatch(Actions.setPlayOrder(playOrder));
         store.dispatch(Actions.setPlayList(playlist));
+        store.dispatch(Actions.setLocalPlayList(localPlayList));
         if(playOrder == 2) {
-            let shuffleList = shuffleArray(playlist, {copy: true });
-            store.dispatch(Actions.setShuffleList(shuffleList));
+            this.createShuffeList();
         }
     }
 
@@ -96,11 +94,16 @@ export default class App extends React.Component {
             this.timeupdate();
         });
         this.audio.addEventListener('ended', () => {
-            // this.handlePlay();
-            // this.handleNext();
+            this.playNext(1);
         });
-        eventEmitter.on(constStr.INITAUDIO, () => {
-            this.initAudio();
+        eventEmitter.on(constStr.NEXT, (type) => {
+            this.playNext(type)
+        });
+        eventEmitter.on(constStr.BATCHADD, (item) => {
+            this.batchAddToPlayList(item);
+        });
+        eventEmitter.on(constStr.INITAUDIO, (restore) => {
+            this.initAudio(restore);
         });
         eventEmitter.on(constStr.INITLOCALAUDIO, (data) => {
             this.initLocalAudio(data);
@@ -118,6 +121,9 @@ export default class App extends React.Component {
                 this.loadingClose();
             }
         });
+        eventEmitter.on(constStr.CREATESHUFFLE, () => {
+           this.createShuffeList();
+        });
         this.progress = new Progressbar.Circle('#progress', {
             strokeWidth: 2,
             trailWidth: 2,
@@ -130,7 +136,24 @@ export default class App extends React.Component {
         }
     }
 
-    id2Song(id) {
+    createShuffeList() {
+        let playlist = db.get('playList').value() || [];
+        let shuffleList = shuffleArray(playlist, {copy: true });
+        store.dispatch(Actions.setShuffleList(shuffleList));
+    }
+
+    insertSongToShuffleList(item) {
+        if(!item) return;
+        let shuffleList = store.getState().main.shuffleList;
+        let len = shuffleList.length;
+        item.map((data, k) => {
+            let insertPosition = Math.floor(len * Math.random());
+            shuffleList = shuffleList.splice(insertPosition, 0, data);
+        });
+        store.dispatch(Actions.setShuffleList(shuffleList));
+    }
+
+    id2Song(id, restore) {
         eventEmitter.emit(constStr.RINGLOADING, true);
         fetch(`${__REQUESTHOST}/api/music/url?id=${id}`, {
             method: 'GET',
@@ -140,7 +163,7 @@ export default class App extends React.Component {
             if(data.code == 200) {
                 if(data.data.length > 0) {
                     store.dispatch(Actions.setCurrentSong(data.data[0]));
-                    eventEmitter.emit(constStr.INITAUDIO);
+                    eventEmitter.emit(constStr.INITAUDIO, restore);
                 }
             }
             eventEmitter.emit(constStr.RINGLOADING, false);
@@ -156,9 +179,9 @@ export default class App extends React.Component {
             }
         });
         if(curSong.from == 'online') {
-            this.id2Song(curSong.id);
+            this.id2Song(curSong.id, true);
         }else if(curSong.from == 'local') {
-            let localPlayList = db.get('localPlayList').value() || [];
+            let localPlayList = store.getState().main.localPlayList || [];
             localPlayList.map((data, k) => {
                 if(data.id == curSong.id) {
                     this.initLocalAudio(data, true);
@@ -173,28 +196,52 @@ export default class App extends React.Component {
     }
 
     playNext(type) {
-        let storeMain = store.getState();
-        let playOrder = storeMain.main.playOrder,
-            playList = storeMain.main.playList,
-            currentSong = storeMain.main.currentSong,
-            nextIndex = 0;
-        let curIndex = 0;
-        playList.map((data, k) => {
-            if(data.id == currentSong.id) {
-                curIndex = k;
-            }
-        });
-        if(playOrder == 0) {
+        let storeMain = store.getState().main;
+        let playOrder = storeMain.playOrder,
+            playList = storeMain.playList,
+            shuffleList = storeMain.shuffleList,
+            currentSong = storeMain.currentSong,
+            nextIndex = 0,
+            curIndex = 0,
+            nextSong;
+        if(playOrder < 2) {
+            playList.map((data, k) => {
+                if(data.id == currentSong.id) {
+                    curIndex = k;
+                }
+            });
+        }else {
+            shuffleList.map((data, k) => {
+                if(data.id == currentSong.id) {
+                    curIndex = k;
+                }
+            });
+        }
+
+        if(playOrder == 0 || playOrder == 2) {
             nextIndex = curIndex + type;
             if(nextIndex < 0) {
                 nextIndex = playList.length - 1;
             }else if(nextIndex == playList.length) {
                 nextIndex = 0;
             }
-        }else if(playList == 1) {
+        }else if(playOrder == 1) {
             nextIndex = curIndex;
-        }else if(playList == 2) {
-
+        }
+        if(playOrder < 2) {
+            nextSong = playList[nextIndex];
+        }else {
+            nextSong = shuffleList[nextIndex];
+        }
+        if(nextSong.from == 'online') {
+            this.id2Song(nextSong.id);
+        }else if(nextSong.from == 'local') {
+            let localPlayList = store.getState().main.localPlayList || [];
+            localPlayList.map((data, k) => {
+                if(data.id == nextSong.id) {
+                    this.initLocalAudio(data);
+                }
+            })
         }
     }
 
@@ -217,6 +264,32 @@ export default class App extends React.Component {
         if(store.getState().main.UIPage) {
             eventEmitter.emit(constStr.PLAYPERCENT);
         }
+    }
+
+    batchAddToPlayList(item) {
+        let playList = store.getState().main.playList || [];
+        let addItem = [];
+        item.map((data, k) => {
+            let repeat = false;
+            playList.map((d, j) => {
+                if(data.id == d.id) {
+                    repeat = true;
+                }
+            });
+            if(!repeat) {
+                addItem.push(data);
+            }
+        });
+        playList = addItem.concat(playList);
+        store.dispatch(Actions.setPlayList(playList));
+        setTimeout(() => {
+            this.savePlayList();
+            eventEmitter.emit(constStr.RINGLOADING, false);
+            eventEmitter.emit(constStr.SNACKBAROPEN, '添加成功!');
+            if(store.getState().main.shuffleList.length > 0) {
+                this.insertSongToShuffleList(addItem)
+            }
+        });
     }
 
     savePlayList() {
@@ -254,6 +327,9 @@ export default class App extends React.Component {
                             store.dispatch(Actions.setPlayList(playList));
                             setTimeout(() => {
                                 this.savePlayList();
+                                if(store.getState().main.shuffleList.length > 0) {
+                                    this.insertSongToShuffleList(songObj)
+                                }
                             })
                         }
                     }
@@ -274,6 +350,7 @@ export default class App extends React.Component {
         this.audio.crossOrigin = 'anonymous';
         this.audio.src = url;
         if(!restore) {
+            this.audio.currentTime = 0;
             this.audio.play();
             store.dispatch(Actions.setPlayState(true));
         }
@@ -291,6 +368,7 @@ export default class App extends React.Component {
         store.dispatch(Actions.setSongInfo(o));
         store.dispatch(Actions.setCurrentSong(o));
         if(!restore) {
+            this.audio.currentTime = 0;
             this.audio.play();
             store.dispatch(Actions.setPlayState(true));
             let playList = store.getState().main.playList || [];
@@ -311,6 +389,9 @@ export default class App extends React.Component {
                 store.dispatch(Actions.setPlayList(playList));
                 setTimeout(() => {
                     this.savePlayList();
+                    if(store.getState().main.shuffleList.length > 0) {
+                        this.insertSongToShuffleList(songObj)
+                    }
                 })
             }
         }
@@ -344,6 +425,19 @@ export default class App extends React.Component {
                 top = 0;
             }
             this.refs.songListItem.scrollTop = top;
+        }
+    }
+
+    listToPlay(data) {
+        if(data.from == 'local') {
+            let localPlayList = store.getState().main.localPlayList || [];
+            localPlayList.map((song, k) => {
+                if(data.id == song.id) {
+                    this.initLocalAudio(song);
+                }
+            })
+        }else if(data.from == 'online') {
+            this.id2Song(data.id);
         }
     }
 
@@ -386,7 +480,7 @@ export default class App extends React.Component {
                                 {
                                     storeMain.playList.map((data, k) => {
                                         return (
-                                            <div className={`${storeMain.currentSong.id == data.id?'row-playing':''} row`} key={k}>
+                                            <div className={`${storeMain.currentSong.id == data.id?'row-playing':''} row`} key={k} onDoubleClick={this.listToPlay.bind(this, data)}>
                                                 <div className="info">{data.name}<span> - {data.ar}</span></div>
                                                 <span className="del iconfont icon-guanbi"></span>
                                             </div>

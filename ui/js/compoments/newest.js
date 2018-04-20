@@ -45,13 +45,14 @@ export default class Newest  extends React.Component {
 
     render() {
         let newestList = store.getState().main.newestList || [];
+        let currentSong = store.getState().main.currentSong || {};
         return (
             <div className="newest">
                 <div className="item-list">
                     {
                         newestList.map((data, k) => {
                             return(
-                                <div key={k} className="song-itembox" onDoubleClick={this.id2Song.bind(this, data.id)}>
+                                <div key={k} className={`song-itembox ${currentSong.id == data.id?'song-itembox-active':''}`} onDoubleClick={this.id2Song.bind(this, data.id)}>
                                     <div className="cover"><img src={data.song.album.picUrl}/></div>
                                     <div className="info">
                                         <div className="name">{data.song.name}</div>
