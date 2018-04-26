@@ -42405,6 +42405,10 @@ var App = function (_React$Component) {
                 nextIndex = 0,
                 curIndex = 0,
                 nextSong = void 0;
+            if (playList.length == 0) {
+                this.resetPlayer();
+                return;
+            }
             if (playOrder < 2) {
                 playList.map(function (data, k) {
                     if (data.id == currentSong.id) {
@@ -42444,6 +42448,14 @@ var App = function (_React$Component) {
                     }
                 });
             }
+        }
+    }, {
+        key: 'resetPlayer',
+        value: function resetPlayer() {
+            _store2.default.dispatch(Actions.setCurrentSong({}));
+            _store2.default.dispatch(Actions.setSongInfo({}));
+            _store2.default.dispatch(Actions.setPlayState(false));
+            this.audio.src = 'null';
         }
     }, {
         key: 'durationchange',
@@ -42494,6 +42506,8 @@ var App = function (_React$Component) {
                 _eventEmitter2.default.emit(constStr.SNACKBAROPEN, '添加成功!');
                 if (_store2.default.getState().main.shuffleList.length > 0) {
                     _this6.insertSongToShuffleList(addItem);
+                } else {
+                    _this6.createShuffeList();
                 }
             });
         }
@@ -42613,7 +42627,7 @@ var App = function (_React$Component) {
     }, {
         key: 'switchPlay',
         value: function switchPlay(state) {
-            if (this.audio && this.audio.src) {
+            if (this.audio && this.audio.src && this.audio.src.indexOf('/null') == -1) {
                 if (state) {
                     this.audio.play();
                 } else {
@@ -42661,9 +42675,28 @@ var App = function (_React$Component) {
             }
         }
     }, {
+        key: 'delList',
+        value: function delList(id, key) {
+            var _this10 = this;
+
+            var playList = _store2.default.getState().main.playList || [];
+            if (id === 'all') {
+                playList = [];
+            } else {
+                if (playList[key].id == id) {
+                    playList.splice(key, 1);
+                }
+            }
+            _store2.default.dispatch(Actions.setPlayList(playList));
+            setTimeout(function () {
+                _this10.savePlayList();
+                _this10.playNext(1);
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var _this10 = this;
+            var _this11 = this;
 
             var state = this.state;
             var storeMain = _store2.default.getState().main;
@@ -42695,7 +42728,7 @@ var App = function (_React$Component) {
                         'div',
                         { className: 'play-list-dialog ' + (state.playListState ? 'play-list-dialog-active' : '') },
                         _react2.default.createElement('div', { className: 'mask ' + (state.playListState ? 'mask-active' : ''), onClick: function onClick() {
-                                _this10.setState({
+                                _this11.setState({
                                     playListState: false
                                 });
                             } }),
@@ -42716,7 +42749,7 @@ var App = function (_React$Component) {
                                     storeMain.playList.length || 0,
                                     ')'
                                 ),
-                                _react2.default.createElement('div', { className: 'clear iconfont icon-shanchu' })
+                                _react2.default.createElement('div', { className: 'clear iconfont icon-shanchu', onClick: this.delList.bind(this, 'all') })
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -42724,7 +42757,7 @@ var App = function (_React$Component) {
                                 storeMain.playList.map(function (data, k) {
                                     return _react2.default.createElement(
                                         'div',
-                                        { className: (storeMain.currentSong.id == data.id ? 'row-playing' : '') + ' row', key: k, onDoubleClick: _this10.listToPlay.bind(_this10, data) },
+                                        { className: (storeMain.currentSong.id == data.id ? 'row-playing' : '') + ' row', key: k, onDoubleClick: _this11.listToPlay.bind(_this11, data) },
                                         _react2.default.createElement(
                                             'div',
                                             { className: 'info' },
@@ -42736,7 +42769,7 @@ var App = function (_React$Component) {
                                                 data.ar
                                             )
                                         ),
-                                        _react2.default.createElement('span', { className: 'del iconfont icon-guanbi' })
+                                        _react2.default.createElement('span', { className: 'del iconfont icon-guanbi', onClick: _this11.delList.bind(_this11, data.id, k) })
                                     );
                                 })
                             )
@@ -42772,14 +42805,14 @@ var App = function (_React$Component) {
                         _react2.default.createElement(
                             'div',
                             { className: 'play-icon', onClick: function onClick(e) {
-                                    _this10.switchPlay(!storeMain.playState);
+                                    _this11.switchPlay(!storeMain.playState);
                                 } },
                             _react2.default.createElement('div', { className: 'icon iconfont ' + (storeMain.playState ? 'icon-weibiaoti519' : 'icon-bofang2') }),
                             _react2.default.createElement('div', { className: 'progress', id: 'progress' })
                         ),
                         _react2.default.createElement('div', { className: 'play-list iconfont icon-liebiao', onClick: function onClick() {
-                                _this10.targetingCur();
-                                _this10.setState({
+                                _this11.targetingCur();
+                                _this11.setState({
                                     playListState: true
                                 });
                             } })
@@ -47867,6 +47900,22 @@ var ListDetail = function (_React$Component) {
             this.props.history.goBack();
         }
     }, {
+        key: 'saveToList',
+        value: function saveToList() {
+            var tracks = this.state.listData.tracks || [];
+            var item = [];
+            _eventEmitter2.default.emit(constStr.RINGLOADING, true);
+            tracks.map(function (data, k) {
+                item.push({
+                    id: data.id,
+                    name: data.name || '',
+                    ar: data.artists[0].name || '',
+                    from: 'online'
+                });
+            });
+            _eventEmitter2.default.emit(constStr.BATCHADD, item);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
@@ -47900,11 +47949,7 @@ var ListDetail = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'listCoverBanner' },
-                        _react2.default.createElement('div', { className: 'play iconfont icon-tianjiaqiyedangan', onClick: function onClick() {
-                                if (tracks.length > 0) {
-                                    _this3.id2Song(tracks[0].id);
-                                }
-                            } }),
+                        _react2.default.createElement('div', { className: 'play iconfont icon-tianjiaqiyedangan', onClick: this.saveToList.bind(this) }),
                         _react2.default.createElement(
                             'div',
                             { className: 'cover' },
@@ -48103,6 +48148,22 @@ var AlbumDetail = function (_React$Component) {
             this.props.history.goBack();
         }
     }, {
+        key: 'saveToList',
+        value: function saveToList() {
+            var songs = this.state.songs;
+            var item = [];
+            _eventEmitter2.default.emit(constStr.RINGLOADING, true);
+            songs.map(function (data, k) {
+                item.push({
+                    id: data.id,
+                    name: data.name || '',
+                    ar: data.ar[0].name || '',
+                    from: 'online'
+                });
+            });
+            _eventEmitter2.default.emit(constStr.BATCHADD, item);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
@@ -48136,11 +48197,7 @@ var AlbumDetail = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'listCoverBanner' },
-                        _react2.default.createElement('div', { className: 'play iconfont icon-tianjiaqiyedangan', onClick: function onClick() {
-                                if (songs.length > 0) {
-                                    _this3.id2Song(songs[0].id);
-                                }
-                            } }),
+                        _react2.default.createElement('div', { className: 'play iconfont icon-tianjiaqiyedangan', onClick: this.saveToList.bind(this) }),
                         _react2.default.createElement(
                             'div',
                             { className: 'cover' },
@@ -48929,7 +48986,7 @@ var SearchAlbumDetail = function (_React$Component) {
                     from: 'online'
                 });
             });
-            // eventEmitter.emit(constStr.BATCHADD, item);
+            _eventEmitter2.default.emit(constStr.BATCHADD, item);
         }
     }, {
         key: 'render',
@@ -49683,6 +49740,22 @@ var SearchListDetail = function (_React$Component) {
             this.props.goback();
         }
     }, {
+        key: 'saveToList',
+        value: function saveToList() {
+            var tracks = this.state.listData.tracks || [];
+            var item = [];
+            _eventEmitter2.default.emit(constStr.RINGLOADING, true);
+            tracks.map(function (data, k) {
+                item.push({
+                    id: data.id,
+                    name: data.name || '',
+                    ar: data.artists[0].name || '',
+                    from: 'online'
+                });
+            });
+            _eventEmitter2.default.emit(constStr.BATCHADD, item);
+        }
+    }, {
         key: 'render',
         value: function render() {
             var _this3 = this;
@@ -49716,11 +49789,7 @@ var SearchListDetail = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'listCoverBanner' },
-                        _react2.default.createElement('div', { className: 'play iconfont icon-tianjiaqiyedangan', onClick: function onClick() {
-                                if (tracks.length > 0) {
-                                    _this3.id2Song(tracks[0].id);
-                                }
-                            } }),
+                        _react2.default.createElement('div', { className: 'play iconfont icon-tianjiaqiyedangan', onClick: this.saveToList.bind(this) }),
                         _react2.default.createElement(
                             'div',
                             { className: 'cover' },

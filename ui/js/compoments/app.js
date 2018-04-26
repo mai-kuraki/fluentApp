@@ -204,6 +204,10 @@ export default class App extends React.Component {
             nextIndex = 0,
             curIndex = 0,
             nextSong;
+        if(playList.length == 0) {
+            this.resetPlayer();
+            return;
+        }
         if(playOrder < 2) {
             playList.map((data, k) => {
                 if(data.id == currentSong.id) {
@@ -243,6 +247,13 @@ export default class App extends React.Component {
                 }
             })
         }
+    }
+
+    resetPlayer() {
+        store.dispatch(Actions.setCurrentSong({}));
+        store.dispatch(Actions.setSongInfo({}));
+        store.dispatch(Actions.setPlayState(false));
+        this.audio.src = 'null';
     }
 
     durationchange() {
@@ -288,6 +299,8 @@ export default class App extends React.Component {
             eventEmitter.emit(constStr.SNACKBAROPEN, '添加成功!');
             if(store.getState().main.shuffleList.length > 0) {
                 this.insertSongToShuffleList(addItem)
+            }else {
+                this.createShuffeList();
             }
         });
     }
@@ -398,7 +411,7 @@ export default class App extends React.Component {
     }
 
     switchPlay(state) {
-        if(this.audio && this.audio.src) {
+        if(this.audio && this.audio.src && this.audio.src.indexOf('/null') == -1) {
             if(state) {
                 this.audio.play();
             }else {
@@ -441,6 +454,22 @@ export default class App extends React.Component {
         }
     }
 
+    delList(id, key) {
+        let playList = store.getState().main.playList || [];
+        if(id === 'all') {
+            playList = [];
+        }else {
+            if(playList[key].id == id) {
+                playList.splice(key, 1);
+            }
+        }
+        store.dispatch(Actions.setPlayList(playList));
+        setTimeout(() => {
+            this.savePlayList();
+            this.playNext(1);
+        });
+    }
+
     render() {
         let state = this.state;
         let storeMain = store.getState().main;
@@ -474,7 +503,7 @@ export default class App extends React.Component {
                         <div className={`list-wrap ${state.playListState?'list-wrap-active':''}`}>
                             <div className="list-wrap-head">
                                 <div className="label" onClick={() => {eventEmitter.emit(constStr.SWITCHORDER)}}><i className={`iconfont ${playOrderMap[storeMain.playOrder].icon}`}></i>{playOrderMap[storeMain.playOrder].name} ({storeMain.playList.length || 0})</div>
-                                <div className="clear iconfont icon-shanchu"></div>
+                                <div className="clear iconfont icon-shanchu" onClick={this.delList.bind(this, 'all')}></div>
                             </div>
                             <div className="list-item" ref="songListItem">
                                 {
@@ -482,7 +511,7 @@ export default class App extends React.Component {
                                         return (
                                             <div className={`${storeMain.currentSong.id == data.id?'row-playing':''} row`} key={k} onDoubleClick={this.listToPlay.bind(this, data)}>
                                                 <div className="info">{data.name}<span> - {data.ar}</span></div>
-                                                <span className="del iconfont icon-guanbi"></span>
+                                                <span className="del iconfont icon-guanbi" onClick={this.delList.bind(this, data.id, k)}></span>
                                             </div>
                                         )
                                     })

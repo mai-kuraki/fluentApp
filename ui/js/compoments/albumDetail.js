@@ -85,6 +85,21 @@ export default class AlbumDetail extends React.Component {
         this.props.history.goBack();
     }
 
+    saveToList() {
+        let songs = this.state.songs;
+        let item = [];
+        eventEmitter.emit(constStr.RINGLOADING, true);
+        songs.map((data, k) => {
+            item.push({
+                id: data.id,
+                name: data.name || '',
+                ar: data.ar[0].name || '',
+                from: 'online'
+            })
+        });
+        eventEmitter.emit(constStr.BATCHADD, item);
+    }
+
     render() {
         let state = this.state;
         let songs = state.songs,
@@ -102,11 +117,7 @@ export default class AlbumDetail extends React.Component {
                 </div>
                 <div className="wrap" onScroll={this.scroll.bind(this)}>
                     <div className="listCoverBanner">
-                        <div className="play iconfont icon-tianjiaqiyedangan" onClick={() => {
-                            if(songs.length > 0) {
-                                this.id2Song(songs[0].id);
-                            }
-                        }}></div>
+                        <div className="play iconfont icon-tianjiaqiyedangan" onClick={this.saveToList.bind(this)}></div>
                         <div className="cover">
                             <img src={album.picUrl || ''} draggable={false}/>
                         </div>

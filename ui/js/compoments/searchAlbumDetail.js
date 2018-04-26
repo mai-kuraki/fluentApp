@@ -97,7 +97,7 @@ export default class SearchAlbumDetail extends React.Component {
                 from: 'online'
             })
         });
-        // eventEmitter.emit(constStr.BATCHADD, item);
+        eventEmitter.emit(constStr.BATCHADD, item);
     }
 
     render() {
