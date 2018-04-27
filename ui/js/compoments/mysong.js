@@ -1,6 +1,7 @@
 import React from 'react';
 import {remote, ipcRenderer} from 'electron';
 import {Link} from 'react-router-dom';
+import LazyImg from 'lazy-img-react';
 import store from '../store';
 import * as Actions from '../actions';
 import eventEmitter from "../lib/eventEmitter";
@@ -78,7 +79,7 @@ export default class Mysong extends React.Component {
                                 state.playlist.map((data, k) => {
                                     return(
                                         <div key={k} className={`song-itembox ${currentSong.id == data.id?'song-itembox-active':''}`} onDoubleClick={this.playLocal.bind(this, data)}>
-                                            <div className="cover"><img src={data.cover || '/defaultCover.png'}/></div>
+                                            <div className="cover"><LazyImg src={data.cover || '/defaultCover.png'} placeholder={__REQUESTHOST + '/placeholderCover.png'}/></div>
                                             <div className="info">
                                                 <div className="name">{data.name}</div>
                                                 <div className="singer"><i className="iconfont icon-computer_icon"></i>{data.artist || '未知'}-{data.album || '未知'}</div>

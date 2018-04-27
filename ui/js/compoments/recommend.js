@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import LazyImg from 'lazy-img-react';
 import store from '../store';
 import * as Actions from '../actions';
 import * as constStr from "../lib/const";
@@ -11,7 +12,10 @@ export default class Recommend  extends React.Component {
     }
 
     componentDidMount() {
-        this.getRecommend();
+        setTimeout(() => {
+            this.getRecommend();
+        },4000);
+
     }
 
     getRecommend() {
@@ -39,6 +43,10 @@ export default class Recommend  extends React.Component {
         return str
     }
 
+    loadingMore() {
+
+    }
+
     render() {
         let recommendList = store.getState().main.recommendList || [];
         return (
@@ -48,7 +56,7 @@ export default class Recommend  extends React.Component {
                         <div className="recommoned-banner">
                             <div className="cover">
                                 <i className="list-tag"><em className="iconfont icon-iconset0271"></em>{this.getPlayCount(recommendList[0].playCount)}</i>
-                                <img src={recommendList[0].picUrl || ''}/>
+                                <LazyImg src={recommendList[0].picUrl || ''} placeholder={__REQUESTHOST + '/placeholderCover.png'}/>
                             </div>
                             <div className="info">
                                 <div className="name">{recommendList[0].name || ''}</div>
@@ -67,7 +75,7 @@ export default class Recommend  extends React.Component {
                                     <Link to={`/listDetail/${data.id}`} key={k}>
                                         <div className="album-itembox">
                                             <div className="cover">
-                                                <img src={data.picUrl} />
+                                                <LazyImg src={data.picUrl} placeholder={__REQUESTHOST + '/placeholderCover.png'} />
                                             </div>
                                             <div className="r">
                                                 <div className="desc">{data.name}</div>
@@ -81,6 +89,12 @@ export default class Recommend  extends React.Component {
                                 )
                             }
                         })
+                    }
+                    {
+                        recommendList.length > 2?
+                            <div className="loadingmore">
+                                <div className="iconfont icon-fanhui-copy" onClick={this.loadingMore.bind(this)}></div>
+                            </div>:null
                     }
                 </div>
             </div>

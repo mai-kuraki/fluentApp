@@ -24,6 +24,7 @@
         "webpack": "^3.10.0"
     },
     "devDependencies": {
+        "lazy-img-react": "^1.0.0",
         "shuffle-array": "^1.0.1"
     }
 }

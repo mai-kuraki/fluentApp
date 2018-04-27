@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import SearchSingerDetail from './searchSingerDetail';
+import LazyImg from 'lazy-img-react';
 import store from '../store';
 import * as Actions from '../actions';
 import eventEmitter from "../lib/eventEmitter";
@@ -57,7 +58,7 @@ export default class SingerSearch  extends React.Component {
                                         detailShow: true,
                                     })
                                 }}>
-                                    <div className="cover"><img src={data.img1v1Url}/></div>
+                                    <div className="cover"><LazyImg src={(data.img1v1Url.indexOf('5639395138885805') > -1)?`${__REQUESTHOST}/defaultSinger.png`:data.img1v1Url} placeholder={__REQUESTHOST + '/placeholderCover.png'}/></div>
                                     <div className="info">
                                         <div className="name">{data.name}<i>{data.trans?`(${data.trans})`:''}</i></div>
                                     </div>

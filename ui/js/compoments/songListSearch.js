@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import SearchListDetail from './searchListDetail';
+import LazyImg from 'lazy-img-react';
 import store from '../store';
 import * as Actions from '../actions';
 import * as constStr from "../lib/const";
@@ -54,7 +55,7 @@ export default class SongListSearch  extends React.Component {
                                     })
                                 }}>
                                     <div className="cover">
-                                        <img src={data.coverImgUrl} />
+                                        <LazyImg src={data.coverImgUrl} placeholder={__REQUESTHOST + '/placeholderCover.png'}/>
                                     </div>
                                     <div className="r">
                                         <div className="desc">{data.name}</div>

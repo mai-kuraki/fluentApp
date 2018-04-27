@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import LazyImg from 'lazy-img-react';
 import store from '../store';
 import * as Actions from '../actions';
 import eventEmitter from "../lib/eventEmitter";
@@ -35,7 +36,7 @@ export default class Single  extends React.Component {
                         data.map((data, k) => {
                             return(
                                 <div key={k} className={`song-itembox ${currentSong.id == data.id?'song-itembox-active':''}`} onDoubleClick={this.id2Song.bind(this, data.id)}>
-                                    <div className="cover"><img src={data.album.artist.img1v1Url}/></div>
+                                    <div className="cover"><LazyImg src={(data.album.artist.img1v1Url.indexOf('5639395138885805') > -1)?`${__REQUESTHOST}/defaultSinger.png`:data.album.artist.img1v1Url} placeholder={__REQUESTHOST + '/placeholderCover.png'}/></div>
                                     <div className="info">
                                         <div className="name">{data.name}</div>
                                         <div className="singer">{data.artists[0].name}</div>

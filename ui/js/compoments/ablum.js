@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import LazyImg from 'lazy-img-react';
 import store from '../store';
 import * as Actions from '../actions';
 import * as constStr from "../lib/const";
@@ -39,7 +40,7 @@ export default class Ablum  extends React.Component {
                                 <Link to={`/albumDetail/${data.id}`} key={k}>
                                 <div className="album-itembox clearfix">
                                     <div className="cover">
-                                        <img src={data.picUrl}/>
+                                        <LazyImg src={data.picUrl} placeholder={__REQUESTHOST + '/placeholderCover.png'}/>
                                     </div>
                                     <div className="info">
                                         <div className="name">{data.name}</div>

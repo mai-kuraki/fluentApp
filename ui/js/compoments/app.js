@@ -146,7 +146,7 @@ export default class App extends React.Component {
         if(!item) return;
         let shuffleList = store.getState().main.shuffleList;
         let len = shuffleList.length;
-        item.map((data, k) => {
+        (item || []).map((data, k) => {
             let insertPosition = Math.floor(len * Math.random());
             shuffleList = shuffleList.splice(insertPosition, 0, data);
         });

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import SearchAlbumDetail from './searchAlbumDetail';
+import LazyImg from 'lazy-img-react';
 import store from '../store';
 import * as Actions from '../actions';
 import * as constStr from "../lib/const";
@@ -45,7 +46,7 @@ export default class AblumSearch  extends React.Component {
                                     })
                                 }}>
                                     <div className="cover">
-                                        <img src={data.picUrl}/>
+                                        <LazyImg src={data.picUrl} placeholder={__REQUESTHOST + '/placeholderCover.png'}/>
                                     </div>
                                     <div className="info">
                                         <div className="name">{data.name}</div>

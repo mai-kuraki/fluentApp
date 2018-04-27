@@ -42340,7 +42340,7 @@ var App = function (_React$Component) {
             if (!item) return;
             var shuffleList = _store2.default.getState().main.shuffleList;
             var len = shuffleList.length;
-            item.map(function (data, k) {
+            (item || []).map(function (data, k) {
                 var insertPosition = Math.floor(len * Math.random());
                 shuffleList = shuffleList.splice(insertPosition, 0, data);
             });
@@ -44966,6 +44966,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(13);
 
+var _lazyImgReact = __webpack_require__(482);
+
+var _lazyImgReact2 = _interopRequireDefault(_lazyImgReact);
+
 var _store = __webpack_require__(14);
 
 var _store2 = _interopRequireDefault(_store);
@@ -45004,7 +45008,11 @@ var Recommend = function (_React$Component) {
     _createClass(Recommend, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.getRecommend();
+            var _this2 = this;
+
+            setTimeout(function () {
+                _this2.getRecommend();
+            }, 4000);
         }
     }, {
         key: 'getRecommend',
@@ -45034,9 +45042,12 @@ var Recommend = function (_React$Component) {
             return str;
         }
     }, {
+        key: 'loadingMore',
+        value: function loadingMore() {}
+    }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             var recommendList = _store2.default.getState().main.recommendList || [];
             return _react2.default.createElement(
@@ -45054,7 +45065,7 @@ var Recommend = function (_React$Component) {
                             _react2.default.createElement('em', { className: 'iconfont icon-iconset0271' }),
                             this.getPlayCount(recommendList[0].playCount)
                         ),
-                        _react2.default.createElement('img', { src: recommendList[0].picUrl || '' })
+                        _react2.default.createElement(_lazyImgReact2.default, { src: recommendList[0].picUrl || '', placeholder: __REQUESTHOST + '/placeholderCover.png' })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -45095,7 +45106,7 @@ var Recommend = function (_React$Component) {
                                     _react2.default.createElement(
                                         'div',
                                         { className: 'cover' },
-                                        _react2.default.createElement('img', { src: data.picUrl })
+                                        _react2.default.createElement(_lazyImgReact2.default, { src: data.picUrl, placeholder: __REQUESTHOST + '/placeholderCover.png' })
                                     ),
                                     _react2.default.createElement(
                                         'div',
@@ -45112,14 +45123,19 @@ var Recommend = function (_React$Component) {
                                             _react2.default.createElement(
                                                 'span',
                                                 null,
-                                                _this2.getPlayCount(data.playCount)
+                                                _this3.getPlayCount(data.playCount)
                                             )
                                         )
                                     )
                                 )
                             );
                         }
-                    })
+                    }),
+                    recommendList.length > 2 ? _react2.default.createElement(
+                        'div',
+                        { className: 'loadingmore' },
+                        _react2.default.createElement('div', { className: 'iconfont icon-fanhui-copy', onClick: this.loadingMore.bind(this) })
+                    ) : null
                 )
             );
         }
@@ -45148,6 +45164,10 @@ var _react = __webpack_require__(2);
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(13);
+
+var _lazyImgReact = __webpack_require__(482);
+
+var _lazyImgReact2 = _interopRequireDefault(_lazyImgReact);
 
 var _store = __webpack_require__(14);
 
@@ -45240,7 +45260,7 @@ var Newest = function (_React$Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'cover' },
-                                _react2.default.createElement('img', { src: data.song.album.picUrl })
+                                _react2.default.createElement(_lazyImgReact2.default, { src: data.song.album.picUrl, placeholder: __REQUESTHOST + '/placeholderCover.png' })
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -45286,6 +45306,10 @@ var _react = __webpack_require__(2);
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(13);
+
+var _lazyImgReact = __webpack_require__(482);
+
+var _lazyImgReact2 = _interopRequireDefault(_lazyImgReact);
 
 var _store = __webpack_require__(14);
 
@@ -45362,7 +45386,7 @@ var Ablum = function (_React$Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: 'cover' },
-                                    _react2.default.createElement('img', { src: data.picUrl })
+                                    _react2.default.createElement(_lazyImgReact2.default, { src: data.picUrl, placeholder: __REQUESTHOST + '/placeholderCover.png' })
                                 ),
                                 _react2.default.createElement(
                                     'div',
@@ -45413,6 +45437,10 @@ var _react2 = _interopRequireDefault(_react);
 var _electron = __webpack_require__(84);
 
 var _reactRouterDom = __webpack_require__(13);
+
+var _lazyImgReact = __webpack_require__(482);
+
+var _lazyImgReact2 = _interopRequireDefault(_lazyImgReact);
 
 var _store = __webpack_require__(14);
 
@@ -45557,7 +45585,7 @@ var Mysong = function (_React$Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'cover' },
-                                _react2.default.createElement('img', { src: data.cover || '/defaultCover.png' })
+                                _react2.default.createElement(_lazyImgReact2.default, { src: data.cover || '/defaultCover.png', placeholder: __REQUESTHOST + '/placeholderCover.png' })
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -48604,6 +48632,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(13);
 
+var _lazyImgReact = __webpack_require__(482);
+
+var _lazyImgReact2 = _interopRequireDefault(_lazyImgReact);
+
 var _store = __webpack_require__(14);
 
 var _store2 = _interopRequireDefault(_store);
@@ -48675,7 +48707,7 @@ var Single = function (_React$Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'cover' },
-                                _react2.default.createElement('img', { src: data.album.artist.img1v1Url })
+                                _react2.default.createElement(_lazyImgReact2.default, { src: data.album.artist.img1v1Url.indexOf('5639395138885805') > -1 ? __REQUESTHOST + '/defaultSinger.png' : data.album.artist.img1v1Url, placeholder: __REQUESTHOST + '/placeholderCover.png' })
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -48725,6 +48757,10 @@ var _reactRouterDom = __webpack_require__(13);
 var _searchAlbumDetail = __webpack_require__(471);
 
 var _searchAlbumDetail2 = _interopRequireDefault(_searchAlbumDetail);
+
+var _lazyImgReact = __webpack_require__(482);
+
+var _lazyImgReact2 = _interopRequireDefault(_lazyImgReact);
 
 var _store = __webpack_require__(14);
 
@@ -48806,7 +48842,7 @@ var AblumSearch = function (_React$Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'cover' },
-                                _react2.default.createElement('img', { src: data.picUrl })
+                                _react2.default.createElement(_lazyImgReact2.default, { src: data.picUrl, placeholder: __REQUESTHOST + '/placeholderCover.png' })
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -49105,6 +49141,10 @@ var _searchSingerDetail = __webpack_require__(473);
 
 var _searchSingerDetail2 = _interopRequireDefault(_searchSingerDetail);
 
+var _lazyImgReact = __webpack_require__(482);
+
+var _lazyImgReact2 = _interopRequireDefault(_lazyImgReact);
+
 var _store = __webpack_require__(14);
 
 var _store2 = _interopRequireDefault(_store);
@@ -49199,7 +49239,7 @@ var SingerSearch = function (_React$Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'cover' },
-                                _react2.default.createElement('img', { src: data.img1v1Url })
+                                _react2.default.createElement(_lazyImgReact2.default, { src: data.img1v1Url.indexOf('5639395138885805') > -1 ? __REQUESTHOST + '/defaultSinger.png' : data.img1v1Url, placeholder: __REQUESTHOST + '/placeholderCover.png' })
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -49481,6 +49521,10 @@ var _searchListDetail = __webpack_require__(475);
 
 var _searchListDetail2 = _interopRequireDefault(_searchListDetail);
 
+var _lazyImgReact = __webpack_require__(482);
+
+var _lazyImgReact2 = _interopRequireDefault(_lazyImgReact);
+
 var _store = __webpack_require__(14);
 
 var _store2 = _interopRequireDefault(_store);
@@ -49570,7 +49614,7 @@ var SongListSearch = function (_React$Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: 'cover' },
-                                _react2.default.createElement('img', { src: data.coverImgUrl })
+                                _react2.default.createElement(_lazyImgReact2.default, { src: data.coverImgUrl, placeholder: __REQUESTHOST + '/placeholderCover.png' })
                             ),
                             _react2.default.createElement(
                                 'div',
@@ -51706,6 +51750,1227 @@ shuffle.pick = function(arr, options) {
  */
 module.exports = shuffle;
 
+
+/***/ }),
+/* 481 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _lodash = __webpack_require__(483);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * @param { element } this.container container dom
+ * @param { Array<element> } this.images collection of image dom
+ */
+var Base = function (_React$Component) {
+  _inherits(Base, _React$Component);
+
+  function Base(props) {
+    _classCallCheck(this, Base);
+
+    var _this = _possibleConstructorReturn(this, (Base.__proto__ || Object.getPrototypeOf(Base)).call(this, props));
+
+    _this.scrollHandler = function () {
+      var containerRect = void 0;
+      if (_this.container === window) {
+        containerRect = {
+          top: 0,
+          height: document.documentElement.clientHeight,
+          bottom: document.documentElement.clientHeight
+        };
+      } else {
+        containerRect = _this.container.getBoundingClientRect();
+      }
+      _this.images.forEach(function (img) {
+        var imgRect = img.getBoundingClientRect();
+        var offset = img.getAttribute('data-offset') - 0 || 0;
+        if (imgRect.top - containerRect.top < containerRect.height + offset && containerRect.bottom - imgRect.bottom < containerRect.height + offset) {
+          img.src = img.getAttribute('data-src');
+          _this.images = _this.images.filter(function (v) {
+            return v !== img;
+          });
+        }
+      });
+      if (!_this.images.length) _this.unbind();
+    };
+
+    _this.observe = function () {
+      var offset = _this.images[0].getAttribute('data-offset') - 0 || 0;
+      _this.io = new IntersectionObserver(function (items) {
+        items.forEach(function (elm) {
+          if (elm.intersectionRatio > 0) {
+            elm.target.src = elm.target.getAttribute('data-src');
+            _this.images = _this.images.filter(function (v) {
+              return v !== elm.target;
+            });
+            _this.io.unobserve(elm.target);
+          }
+        });
+      }, {
+        threshold: [0.000001],
+        root: _this.container === window ? null : _this.container,
+        rootMargin: offset + 'px 0px'
+      });
+      _this.images.forEach(function (img) {
+        _this.io.observe(img);
+      });
+    };
+
+    _this.unobserve = function () {
+      if (_this.io) _this.io.disconnect();
+    };
+
+    _this.scrollHandler = (0, _lodash2.default)(_this.scrollHandler, 200);
+    return _this;
+  }
+
+  _createClass(Base, [{
+    key: 'findContainer',
+    value: function findContainer(node) {
+      function getParent(elm) {
+        if (!elm || elm.nodeType === 9) return null;
+        if (elm.getAttribute('data-lazy-container')) return elm;
+        return getParent(elm.parentNode);
+      }
+      return getParent(node);
+    }
+  }, {
+    key: 'rebind',
+    value: function rebind() {
+      this.unbind();
+      this.bind();
+    }
+  }, {
+    key: 'bind',
+    value: function bind() {
+      if (window.IntersectionObserver) {
+        this.observe();
+      } else {
+        this.container.addEventListener('scroll', this.scrollHandler);
+        if (this.container === window) this.container.addEventListener('resize', this.scrollHandler);
+        this.scrollHandler();
+      }
+    }
+  }, {
+    key: 'unbind',
+    value: function unbind() {
+      if (window.IntersectionObserver) {
+        this.unobserve();
+      } else {
+        this.container.removeEventListener('scroll', this.scrollHandler);
+        if (this.container === window) this.container.removeEventListener('resize', this.scrollHandler);
+      }
+    }
+  }]);
+
+  return Base;
+}(_react2.default.Component);
+
+exports.default = Base;
+
+/***/ }),
+/* 482 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(391);
+
+var _propTypes = __webpack_require__(19);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _base = __webpack_require__(481);
+
+var _base2 = _interopRequireDefault(_base);
+
+var _container = __webpack_require__(484);
+
+var _container2 = _interopRequireDefault(_container);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var LazyImg = function (_Base) {
+  _inherits(LazyImg, _Base);
+
+  function LazyImg() {
+    _classCallCheck(this, LazyImg);
+
+    return _possibleConstructorReturn(this, (LazyImg.__proto__ || Object.getPrototypeOf(LazyImg)).apply(this, arguments));
+  }
+
+  _createClass(LazyImg, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var containerComponent = this.props.container;
+      if (containerComponent) {
+        this.isWindowMode = false;
+        containerComponent.addImage((0, _reactDom.findDOMNode)(this));
+        containerComponent.reinit();
+      } else {
+        this.images = [(0, _reactDom.findDOMNode)(this)];
+        var container = this.findContainer(this.images[0]);
+        if (!container) {
+          this.container = window;
+          this.isWindowMode = true;
+          this.bind();
+        } else {
+          this.isWindowMode = false;
+        }
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.src !== prevProps.src) {
+        var image = (0, _reactDom.findDOMNode)(this);
+        image.setAttribute('src', this.props.placeholder);
+        if (this.isWindowMode) {
+          this.addImage(image);
+          this.rebind();
+        } else {
+          var containerComponent = this.props.container;
+          if (containerComponent) {
+            containerComponent.addImage(image);
+            containerComponent.reinit();
+          }
+        }
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      if (this.isWindowMode) {
+        this.unbind();
+      }
+    }
+  }, {
+    key: 'addImage',
+    value: function addImage(image) {
+      if (this.images.indexOf(image) === -1) {
+        this.images.push(image);
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          src = _props.src,
+          placeholder = _props.placeholder,
+          offset = _props.offset;
+
+      var props = _extends({}, this.props);
+      ['key', 'container', 'src', 'placeholder', 'offset'].forEach(function (v) {
+        return delete props[v];
+      });
+      return _react2.default.createElement('img', _extends({}, props, {
+        src: placeholder,
+        'data-lazy-img': true,
+        'data-src': src,
+        'data-offset': offset
+      }));
+    }
+  }]);
+
+  return LazyImg;
+}(_base2.default);
+
+LazyImg.propTypes = {
+  src: _propTypes2.default.string,
+  placeholder: _propTypes2.default.string,
+  offset: _propTypes2.default.number,
+  container: _propTypes2.default.object
+};
+LazyImg.defaultProps = {
+  src: '',
+  placeholder: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2M4c+bMfwAIMANkq3cY2wAAAABJRU5ErkJggg==',
+  offset: 0,
+  container: null
+};
+LazyImg.Container = _container2.default;
+exports.default = LazyImg;
+
+/***/ }),
+/* 483 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+/**
+ * Creates a throttled function that only invokes `func` at most once per
+ * every `wait` milliseconds. The throttled function comes with a `cancel`
+ * method to cancel delayed `func` invocations and a `flush` method to
+ * immediately invoke them. Provide `options` to indicate whether `func`
+ * should be invoked on the leading and/or trailing edge of the `wait`
+ * timeout. The `func` is invoked with the last arguments provided to the
+ * throttled function. Subsequent calls to the throttled function return the
+ * result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the throttled function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.throttle` and `_.debounce`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to throttle.
+ * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=true]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new throttled function.
+ * @example
+ *
+ * // Avoid excessively updating the position while scrolling.
+ * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
+ *
+ * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
+ * var throttled = _.throttle(renewToken, 300000, { 'trailing': false });
+ * jQuery(element).on('click', throttled);
+ *
+ * // Cancel the trailing throttled invocation.
+ * jQuery(window).on('popstate', throttled.cancel);
+ */
+function throttle(func, wait, options) {
+  var leading = true,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  if (isObject(options)) {
+    leading = 'leading' in options ? !!options.leading : leading;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+  return debounce(func, wait, {
+    'leading': leading,
+    'maxWait': wait,
+    'trailing': trailing
+  });
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = throttle;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(65)))
+
+/***/ }),
+/* 484 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(391);
+
+var _lodash = __webpack_require__(485);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _base = __webpack_require__(481);
+
+var _base2 = _interopRequireDefault(_base);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Container = function (_Base) {
+  _inherits(Container, _Base);
+
+  function Container(props) {
+    _classCallCheck(this, Container);
+
+    var _this = _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).call(this, props));
+
+    _this.reinit = (0, _lodash2.default)(_this.reinit, 0);
+    return _this;
+  }
+
+  _createClass(Container, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.container = (0, _reactDom.findDOMNode)(this);
+      this.images = this.getImages(this.container);
+      if (this.images.length) {
+        this.isWindowMode = false;
+        this.bind();
+      } else {
+        this.isWindowMode = true;
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      if (!this.isWindowMode) this.unbind();
+    }
+  }, {
+    key: 'getImages',
+    value: function getImages(container) {
+      var _this2 = this;
+
+      var images = container.querySelectorAll('img[data-lazy-img]');
+      return Array.prototype.slice.call(images).filter(function (v) {
+        return _this2.findContainer(v) === container;
+      });
+    }
+  }, {
+    key: 'addImage',
+    value: function addImage(image) {
+      if (this.images.indexOf(image) === -1) {
+        this.images.push(image);
+      }
+    }
+  }, {
+    key: 'reinit',
+    value: function reinit() {
+      this.images = this.images.filter(function (v) {
+        return document.documentElement.contains(v);
+      });
+      this.rebind();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var children = this.props.children;
+
+      return _react2.default.createElement(
+        'div',
+        _extends({}, this.props, {
+          'data-lazy-container': true
+        }),
+        children
+      );
+    }
+  }]);
+
+  return Container;
+}(_base2.default);
+
+exports.default = Container;
+
+/***/ }),
+/* 485 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = debounce;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(65)))
 
 /***/ })
 /******/ ]);

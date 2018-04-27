@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import LazyImg from 'lazy-img-react';
 import store from '../store';
 import * as Actions from '../actions';
 import eventEmitter from "../lib/eventEmitter";
@@ -53,7 +54,7 @@ export default class Newest  extends React.Component {
                         newestList.map((data, k) => {
                             return(
                                 <div key={k} className={`song-itembox ${currentSong.id == data.id?'song-itembox-active':''}`} onDoubleClick={this.id2Song.bind(this, data.id)}>
-                                    <div className="cover"><img src={data.song.album.picUrl}/></div>
+                                    <div className="cover"><LazyImg src={data.song.album.picUrl} placeholder={__REQUESTHOST + '/placeholderCover.png'}/></div>
                                     <div className="info">
                                         <div className="name">{data.song.name}</div>
                                         <div className="singer">{data.song.artists[0].name}</div>

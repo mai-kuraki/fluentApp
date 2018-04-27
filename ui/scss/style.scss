@@ -1963,3 +1963,24 @@ input[placeholder] {
         background: #FFF;
     }
 }
+
+.loadingmore{
+    width: 100%;
+    padding: 10px 0px;
+    display: flex;
+    justify-content: center;
+    div{
+        width: 20vw;
+        height: 32px;
+        display: flex;
+        color: #999;
+        font-size: 20px;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 250ms ease;
+        &:hover{
+            background: #F0F0F0;
+        }
+    }
+}
