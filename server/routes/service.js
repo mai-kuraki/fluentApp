@@ -34,7 +34,7 @@ let rpUtil = {
 module.exports = {
     search: (req, res) => {
         let args = req.query;
-        rpUtil.get(`${requestHost}/search?keywords=${encodeURIComponent(args.keywords)}&offset=${args.offset || 0}&type=${args.type || 1}`, null, req, res, (body) => {
+        rpUtil.get(`${requestHost}/search?keywords=${encodeURIComponent(args.keywords)}&offset=${args.offset || 0}&type=${args.type || 1}&limit=${args.limit || 30}`, null, req, res, (body) => {
             res.json(body);
         });
     },
@@ -72,7 +72,10 @@ module.exports = {
         });
     },
     topAlbum: (req, res) => {
-        rpUtil.get(`${requestHost}/top/album`, null, req, res, (body) => {
+        let args = req.query;
+        let offset = args.offset | 0;
+        let limit = args.limit || 30;
+        rpUtil.get(`${requestHost}/top/album?offset=${offset}&limit=${limit}`, null, req, res, (body) => {
             res.json(body);
         });
     },

@@ -11,10 +11,6 @@ export default class Newest  extends React.Component {
         super();
     }
 
-    componentDidMount() {
-        this.getNewest();
-    }
-
     getNewest() {
         eventEmitter.emit(constStr.RINGLOADING, true);
         fetch(`${__REQUESTHOST}/api/personalized/newsong`, {
@@ -63,7 +59,13 @@ export default class Newest  extends React.Component {
                             )
                         })
                     }
-
+                    {
+                        newestList.length == 0?
+                            <div className="loadingempty">
+                                <span className="iconfont icon-wujilu"></span>
+                                <p>~空空如也~</p>
+                            </div>:null
+                    }
                 </div>
             </div>
         )

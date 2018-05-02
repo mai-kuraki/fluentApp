@@ -28,6 +28,7 @@ export default class Single  extends React.Component {
 
     render() {
         let data = this.props.data;
+        let count = this.props.count;
         let currentSong = store.getState().main.currentSong || {};
         return (
             <div className="single-item">
@@ -45,7 +46,22 @@ export default class Single  extends React.Component {
                             )
                         })
                     }
-
+                    {
+                        data.length < count?
+                            <div className="loadingmore iconfont icon-fanhui-copy" onClick={() => {this.props.load()}}>
+                            </div>:null
+                    }
+                    {
+                        (data.length == count && data.length > 0)?
+                            <div className="loadingend">没有了~~</div>:null
+                    }
+                    {
+                        data.length == 0?
+                            <div className="loadingempty">
+                                <span className="iconfont icon-wujilu"></span>
+                                <p>~空空如也~</p>
+                            </div>:null
+                    }
                 </div>
             </div>
         )

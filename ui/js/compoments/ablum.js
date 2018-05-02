@@ -9,23 +9,59 @@ import eventEmitter from "../lib/eventEmitter";
 export default class Ablum  extends React.Component {
     constructor() {
         super();
-    }
-
-    componentDidMount() {
-        this.getAlbum();
+        this.state = {
+            offset: 0,
+            limit: 30,
+            loading: false,
+            total: 0,
+        }
     }
 
     getAlbum() {
+        this.setState({
+            loading: true,
+        });
         eventEmitter.emit(constStr.RINGLOADING, true);
-        fetch(`${__REQUESTHOST}/api/top/album`, {
+        fetch(`${__REQUESTHOST}/api/top/album?offset=${this.state.offset}&limit=${this.state.limit}`, {
             method: 'GET',
         }).then((res) => {
             return res.json();
         }).then(data => {
             if(data.code == 200) {
-                store.dispatch(Actions.setAlbum(data.albums || []));
+                this.setState({
+                    total: data.total,
+                    loading: false,
+                });
+                let albumList = store.getState().main.albumList || [];
+                albumList = albumList.concat(data.albums || []);
+                store.dispatch(Actions.setAlbum(albumList));
+            }else {
+                this.doFailed();
             }
             eventEmitter.emit(constStr.RINGLOADING, false);
+        }).catch((err) => {
+            console.error(err);
+            eventEmitter.emit(constStr.RINGLOADING, false);
+            this.doFailed();
+        })
+    }
+
+    doFailed() {
+        if(this.state.offset > 0) {
+            this.setState({
+                offset: this.state.offset - 1,
+                loading: false,
+            })
+        }
+    }
+
+    loadingMore() {
+        if(this.state.loading)return;
+        this.setState({
+            offset: this.state.offset + 1,
+        });
+        setTimeout(() => {
+            this.getAlbum();
         })
     }
 
@@ -51,7 +87,22 @@ export default class Ablum  extends React.Component {
                             )
                         })
                     }
-
+                    {
+                        albumList.length < this.state.total?
+                            <div className="loadingmore iconfont icon-fanhui-copy" onClick={this.loadingMore.bind(this)}>
+                            </div>:null
+                    }
+                    {
+                        (albumList.length == this.state.total && albumList.length > 0)?
+                            <div className="loadingend">没有了~~</div>:null
+                    }
+                    {
+                        albumList.length == 0?
+                            <div className="loadingempty">
+                                <span className="iconfont icon-wujilu"></span>
+                                <p>~空空如也~</p>
+                            </div>:null
+                    }
                 </div>
             </div>
         )

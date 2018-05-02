@@ -71,6 +71,12 @@ export default class App extends React.Component {
         let playOrder = db.get('playOrder').value() || 0;
         let playlist = db.get('playList').value() || [];
         let localPlayList = db.get('localPlayList').value() || [];
+        let recommendCatch = db.get('recommendCatch').value() || [];
+        let newestCatch = db.get('newestCatch').value() || [];
+        let albumCatch = db.get('albumCatch').value() || [];
+        store.dispatch(Actions.setRecommend(recommendCatch));
+        store.dispatch(Actions.setNewest(newestCatch));
+        store.dispatch(Actions.setAlbum(albumCatch));
         if(volume) {
             volume = parseFloat(volume);
         }else {

@@ -11,13 +11,6 @@ export default class Recommend  extends React.Component {
         super();
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.getRecommend();
-        },4000);
-
-    }
-
     getRecommend() {
         eventEmitter.emit(constStr.RINGLOADING, true);
         fetch(`${__REQUESTHOST}/api/personalized`, {
@@ -41,10 +34,6 @@ export default class Recommend  extends React.Component {
             str = num;
         }
         return str
-    }
-
-    loadingMore() {
-
     }
 
     render() {
@@ -91,9 +80,10 @@ export default class Recommend  extends React.Component {
                         })
                     }
                     {
-                        recommendList.length > 2?
-                            <div className="loadingmore">
-                                <div className="iconfont icon-fanhui-copy" onClick={this.loadingMore.bind(this)}></div>
+                        recommendList.length == 0?
+                            <div className="loadingempty">
+                                <span className="iconfont icon-wujilu"></span>
+                                <p>~空空如也~</p>
                             </div>:null
                     }
                 </div>

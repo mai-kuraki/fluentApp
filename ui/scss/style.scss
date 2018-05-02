@@ -1911,7 +1911,7 @@ input[placeholder] {
             overflow-y: auto;
             -webkit-app-region: no-drag;
             margin-top: 16px;
-            padding-bottom: 68px;
+            padding-bottom: 86px;
             .album-itembox {
                 width: 100%;
                 padding: 8px 18px;
@@ -1966,21 +1966,33 @@ input[placeholder] {
 
 .loadingmore{
     width: 100%;
-    padding: 10px 0px;
+    padding: 14px 0px;
     display: flex;
     justify-content: center;
-    div{
-        width: 20vw;
-        height: 32px;
-        display: flex;
-        color: #999;
-        font-size: 20px;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: all 250ms ease;
-        &:hover{
-            background: #F0F0F0;
-        }
+    cursor: pointer;
+    transition: all 250ms ease;
+    &:hover{
+        background: #F0F0F0;
+    }
+}
+.loadingend{
+    width: 100%;
+    padding: 14px 0px;
+    display: flex;
+    justify-content: center;
+    color: #ECECEC;
+}
+.loadingempty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #ECECEC;
+    height: 60vh;
+    span{
+        font-size: 20vw;
+    }
+    p{
+        font-size: 14px;
     }
 }

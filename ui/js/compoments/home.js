@@ -7,6 +7,7 @@ import Newest from './newest';
 import Album from './ablum';
 import Mysong from './mysong';
 import BarLoading from './barLoading';
+import Moment from 'moment'
 import eventEmitter from '../lib/eventEmitter';
 import store from '../store';
 import * as Actions from '../actions';
@@ -24,10 +25,13 @@ export default class Home extends React.Component {
             activeTab: 0,
             addedDir: [],
             addFileDialog: false,
+            recommendLoad: false,
+            newestLoad: false,
+            albumLoad: false,
             tabs: [
                 {id: 0, name: '推荐歌单'},
                 {id: 1, name: '最新单曲'},
-                {id: 2, name: '推荐专辑'},
+                {id: 2, name: '新碟上架'},
                 {id: 3, name: '本地歌曲'},
             ]
         }
@@ -64,7 +68,47 @@ export default class Home extends React.Component {
         })
     }
 
-    closeWindow() {
+    componentWillMount() {
+        let catchTimestamp = db.get('catchTimestamp').value() || 0;
+        let albumOffsetCatch = db.get('albumOffsetCatch').value() || 0;
+        let albumTotalCatch = db.get('albumTotalCatch').value() || 0;
+        let now = new Date().getTime();
+        if(Moment(catchTimestamp).isSame(now, 'day')) {
+            let recommendList = store.getState().main.recommendList || [],
+                newestList = store.getState().main.newestList || [],
+                albumList = store.getState().main.albumList || [];
+            let recommendLoad = false,
+                newestLoad = false,
+                albumLoad = false;
+            if(recommendList.length > 0) {
+                recommendLoad = true;
+            }
+            if(newestList.length > 0) {
+                newestLoad = true;
+            }
+            if(albumList.length > 0) {
+                albumLoad = true;
+                setTimeout(() => {
+                    this.refs.album.setState({
+                        offset: albumOffsetCatch,
+                        total: albumTotalCatch,
+                    });
+                }, 500)
+            }
+            this.setState({
+                recommendLoad: recommendLoad,
+                newestLoad: newestLoad,
+                albumLoad: albumLoad,
+            });
+            setTimeout(() => {
+                this.initList();
+            });
+        }else {
+            this.initList();
+        }
+    }
+
+    catchData() {
         let vol = store.getState().main.volume;
         let playOrder = store.getState().main.playOrder;
         let currentSongId = store.getState().main.currentSong.id || '';
@@ -73,11 +117,47 @@ export default class Home extends React.Component {
         db.set('playOrder', playOrder).write();
         db.set('currentSongId', currentSongId).write();
         db.set('currentTime', currentTime).write();
+        let recommendList = store.getState().main.recommendList || [];
+        let newestList = store.getState().main.newestList || [];
+        let albumList = store.getState().main.albumList || [];
+        let albumTotal = this.refs.album.state.total;
+        let albumOffset = this.refs.album.state.offset;
+        let catchTimestamp = new Date().getTime();
+        db.set('recommendCatch', recommendList).write();
+        db.set('newestCatch', newestList).write();
+        db.set('albumCatch', albumList).write();
+        db.set('albumOffsetCatch', albumOffset).write();
+        db.set('albumTotalCatch', albumTotal).write();
+        db.set('catchTimestamp', catchTimestamp).write();
+    }
+
+    closeWindow() {
+        this.catchData();
         remote.getCurrentWindow().close();
     }
 
     minWindow() {
         remote.getCurrentWindow().minimize();
+    }
+
+    initList() {
+        let activeTab = this.state.activeTab;
+        if(activeTab == 0 && !this.state.recommendLoad) {
+            this.refs.recommend.getRecommend();
+            this.setState({
+                recommendLoad: true,
+            });
+        }else if(activeTab == 1 && !this.state.newestLoad) {
+            this.refs.newest.getNewest();
+            this.setState({
+                newestLoad: true,
+            });
+        }else if(activeTab == 2 && !this.state.albumLoad) {
+            this.refs.album.getAlbum();
+            this.setState({
+                albumLoad: true,
+            });
+        }
     }
 
     componentDidMount() {
@@ -106,6 +186,9 @@ export default class Home extends React.Component {
                     this.setState({
                         activeTab: this.mySwiper.activeIndex
                     });
+                    setTimeout(() => {
+                        this.initList();
+                    })
                 },
             },
         });
@@ -213,10 +296,10 @@ export default class Home extends React.Component {
                 }
                 <div className="home-tab-wrapper">
                     <div className="swiper-wrapper">
-                        <div className="swiper-slide"><Recommend/></div>
-                        <div className="swiper-slide"><Newest/></div>
-                        <div className="swiper-slide"><Album/></div>
-                        <div className="swiper-slide"><Mysong/></div>
+                        <div className="swiper-slide"><Recommend ref="recommend" active={state.activeTab}/></div>
+                        <div className="swiper-slide"><Newest ref="newest" active={state.activeTab}/></div>
+                        <div className="swiper-slide"><Album ref="album" active={state.activeTab}/></div>
+                        <div className="swiper-slide"><Mysong ref="mysong" active={state.activeTab}/></div>
                     </div>
                 </div>
             </div>

@@ -1581,7 +1581,7 @@ input[placeholder] {
       overflow-y: auto;
       -webkit-app-region: no-drag;
       margin-top: 16px;
-      padding-bottom: 68px; }
+      padding-bottom: 86px; }
       .search-page .songlist .item-list .album-itembox {
         width: 100%;
         padding: 8px 18px;
@@ -1624,20 +1624,31 @@ input[placeholder] {
 
 .loadingmore {
   width: 100%;
-  padding: 10px 0px;
+  padding: 14px 0px;
   display: flex;
-  justify-content: center; }
-  .loadingmore div {
-    width: 20vw;
-    height: 32px;
-    display: flex;
-    color: #999;
-    font-size: 20px;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 250ms ease; }
-    .loadingmore div:hover {
-      background: #F0F0F0; }
+  justify-content: center;
+  cursor: pointer;
+  transition: all 250ms ease; }
+  .loadingmore:hover {
+    background: #F0F0F0; }
+
+.loadingend {
+  width: 100%;
+  padding: 14px 0px;
+  display: flex;
+  justify-content: center;
+  color: #ECECEC; }
+
+.loadingempty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #ECECEC;
+  height: 60vh; }
+  .loadingempty span {
+    font-size: 20vw; }
+  .loadingempty p {
+    font-size: 14px; }
 
 /*# sourceMappingURL=style.css.map */

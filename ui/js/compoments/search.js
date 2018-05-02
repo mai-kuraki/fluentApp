@@ -27,10 +27,20 @@ export default class Search  extends React.Component {
             singerLoad: false,
             albumLoad: false,
             listLoad: false,
+            limit: 30,
             singleItem: [],
+            singleCount: 0,
+            singleOffset: 0,
             singerItem: [],
+            singerCount: 0,
+            singerOffset: 0,
             albumItem: [],
+            albumCount: 0,
+            albumOffset: 0,
             listItem: [],
+            listCount: 0,
+            listOffset: 0,
+            loading: false,
         }
     }
 
@@ -57,7 +67,7 @@ export default class Search  extends React.Component {
         })
     }
 
-    search() {
+    search(paging) {
         /**
          * 1: 单曲
          * 10: 专辑
@@ -69,16 +79,22 @@ export default class Search  extends React.Component {
         let keyword = state.keyword;
         if(!keyword) return;
         let typeMap = [1, 10, 100, 1000];
+        let typeKey = ['single', 'album', 'singer', 'list'];
         let activeTab = state.activeTab;
         let type = typeMap[activeTab];
-        if((type == 1 && state.singleLoad) ||
-            (type == 10 && state.albumLoad) ||
-            (type == 100 && state.singerLoad) ||
-            (type == 1000 && state.listLoad)) {
-            return;
+        if(!paging) {
+            if((type == 1 && state.singleLoad) ||
+                (type == 10 && state.albumLoad) ||
+                (type == 100 && state.singerLoad) ||
+                (type == 1000 && state.listLoad)) {
+                return;
+            };
         }
         eventEmitter.emit(constStr.RINGLOADING, true);
-        fetch(`${__REQUESTHOST}/api/search?keywords=${keyword}&type=${type}`, {
+        this.setState({
+            loading: true,
+        });
+        fetch(`${__REQUESTHOST}/api/search?keywords=${keyword}&type=${type}&offset=${state[`${typeKey[activeTab]}Offset`] || 0}&limit=${state.limit}`, {
             method: 'GET',
         }).then((res) => {
             return res.json();
@@ -87,29 +103,65 @@ export default class Search  extends React.Component {
                 if(type == 1) {
                     this.setState({
                         singleLoad: true,
-                        singleItem: data.result.songs || [],
+                        singleItem: (state.singleItem || []).concat(data.result.songs || []),
+                        singleCount: data.result.songCount,
                     })
                 }else if(type == 10) {
                     this.setState({
                         albumLoad: true,
-                        albumItem: data.result.albums || [],
+                        albumItem: (state.albumItem || []).concat(data.result.albums || []),
+                        albumCount: data.result.albumCount,
                     })
                 }else if(type == 100) {
                     this.setState({
                         singerLoad: true,
-                        singerItem: data.result.artists || [],
+                        singerItem: (state.singerItem || []).concat(data.result.artists || []),
+                        singerCount: data.result.artistCount,
                     })
                 }else if(type == 1000) {
                     this.setState({
                         listLoad: true,
-                        listItem: data.result.playlists || [],
+                        listItem: (state.listItem || []).concat(data.result.playlists || []),
+                        listCount: data.result.playlistCount
                     })
                 }
+            }else {
+                this.doFailed();
             }
+            this.setState({
+                loading: false,
+            });
             eventEmitter.emit(constStr.RINGLOADING, false);
+        }).catch((err) => {
+            this.setState({
+                loading: false,
+            });
+            this.doFailed();
         })
     }
 
+    doFailed() {
+        let typeKey = ['single', 'album', 'singer', 'list'];
+        let activeTab = this.state.activeTab;
+        let curOffset = this.state[`${typeKey[activeTab]}Offset`];
+        if(curOffset > 0) {
+            let newOffset = {};
+            newOffset[`${typeKey[activeTab]}Offset`] = curOffset - 1;
+            this.setState(newOffset);
+        }
+    }
+
+    loadingMore() {
+        let typeKey = ['single', 'album', 'singer', 'list'];
+        let activeTab = this.state.activeTab;
+        let curOffset = this.state[`${typeKey[activeTab]}Offset`];
+        let newOffset = {};
+        newOffset[`${typeKey[activeTab]}Offset`] = curOffset + 1;
+        this.setState(newOffset);
+        setTimeout(() => {
+            this.search(true);
+        });
+    }
 
     render() {
         let state = this.state;
@@ -165,10 +217,10 @@ export default class Search  extends React.Component {
                 </div>
                 <div className="search-tab-wrapper">
                     <div className="swiper-wrapper">
-                        <div className="swiper-slide"><Single data={state.singleItem}/></div>
-                        <div className="swiper-slide"><AblumSearch data={state.albumItem}/></div>
-                        <div className="swiper-slide"><SingerSearch data={state.singerItem}/></div>
-                        <div className="swiper-slide"><SongListSearch data={state.listItem}/></div>
+                        <div className="swiper-slide"><Single data={state.singleItem} load={this.loadingMore.bind(this)} count={state.singleCount}/></div>
+                        <div className="swiper-slide"><AblumSearch data={state.albumItem} load={this.loadingMore.bind(this)} count={state.albumCount}/></div>
+                        <div className="swiper-slide"><SingerSearch data={state.singerItem} load={this.loadingMore.bind(this)} count={state.singerCount}/></div>
+                        <div className="swiper-slide"><SongListSearch data={state.listItem} load={this.loadingMore.bind(this)} count={state.listCount}/></div>
                     </div>
                 </div>
             </div>

@@ -88,6 +88,13 @@ export default class Mysong extends React.Component {
                                     )
                                 })
                             }
+                            {
+                                state.playlist.length == 0?
+                                    <div className="loadingempty">
+                                        <span className="iconfont icon-wujilu"></span>
+                                        <p>~空空如也~</p>
+                                    </div>:null
+                            }
                         </div>:null
                 }
             </div>
