@@ -4,7 +4,8 @@
     "description": "microsoft fluent design app",
     "main": "main.js",
     "scripts": {
-        "start": "electron app/main.js"
+        "start": "electron app/main.js",
+        "package": "electron-packager ./ fluentApp --platform=win32 --out=../ --arch=x64 --electron-version=1.4.13 --icon=./app/icon.ico"
     },
     "repository": {
         "type": "git",
@@ -22,5 +23,9 @@
         "jsmediatags": "^3.8.1",
         "lowdb": "^1.0.0",
         "underscore": "^1.8.3"
+    },
+    "devDependencies": {
+        "grunt-electron-installer": "^2.1.0",
+        "grunt": "^1.0.2"
     }
 }

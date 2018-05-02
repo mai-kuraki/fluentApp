@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain, Tray} = require('electron');
+const {app, BrowserWindow, ipcMain, Tray, Menu} = require('electron');
 const path = require('path');
 const url = require('url');
 const child_process = require('child_process');
@@ -16,7 +16,7 @@ function createWindow () {
         webPreferences: {
             nodeIntegrationInWorker: true
         },
-        icon: path.join(__dirname, 'icon256.icns')
+        icon: path.join(__dirname, 'icon.ico')
     });
 
     win.loadURL(url.format({
@@ -34,6 +34,56 @@ function createWindow () {
     win.on('ready-to-show',function() {
         win.show();
     });
+
+    win.setThumbarButtons([
+        {
+            tooltip: '上一曲',
+            icon: path.join(__dirname, 'prev.png'),
+            flags: [
+                'nobackground'
+            ],
+            click: () => { console.log('button1 clicked') }
+        },
+        {
+            tooltip: '播放',
+            icon: path.join(__dirname, 'play.png'),
+            flags: [
+                'nobackground'
+            ],
+            click: () => { console.log('button1 clicked') }
+        },
+        {
+            tooltip: '下一曲',
+            icon: path.join(__dirname, 'next.png'),
+            flags: [
+                'nobackground'
+            ],
+            click: () => { console.log('button2 clicked.') }
+        }
+    ]);
+
+    let tray = new Tray(path.join(__dirname, 'icon.ico'));
+    const contextMenu = Menu.buildFromTemplate([
+        {label: 'Item1', type: 'radio'},
+        {label: 'Item2', type: 'radio'},
+        {label: 'Item3', type: 'radio', checked: true},
+        {label: 'Item4', type: 'radio'}
+    ]);
+    tray.setToolTip('This is my application.');
+    tray.setContextMenu(contextMenu)
+}
+
+app.setName('fluentApp');
+
+const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
+    if (win) {
+        if (win.isMinimized()) win.restore();
+        win.focus()
+    }
+});
+
+if (isSecondInstance) {
+    app.quit()
 }
 
 app.on('ready', createWindow);

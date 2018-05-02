@@ -102,9 +102,11 @@ export default class Home extends React.Component {
             });
             setTimeout(() => {
                 this.initList();
-            });
+            }, 300);
         }else {
-            this.initList();
+            setTimeout(() => {
+                this.initList();
+            }, 500);
         }
     }
 
