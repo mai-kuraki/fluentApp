@@ -1,14 +1,13 @@
-const {app, BrowserWindow, ipcMain, dialog} = require('electron');
+const {app, BrowserWindow, ipcMain, Tray} = require('electron');
 const path = require('path');
 const url = require('url');
 const child_process = require('child_process');
 
 let win;
-
 function createWindow () {
     win = new BrowserWindow({
         frame: false,
-        width: 800,
+        width: 400,
         height: 670,
         transparent: true,
         resizable: false,
@@ -16,7 +15,8 @@ function createWindow () {
         backgroundColor: '#00FFFFFF',
         webPreferences: {
             nodeIntegrationInWorker: true
-        }
+        },
+        icon: path.join(__dirname, 'icon256.icns')
     });
 
     win.loadURL(url.format({
@@ -25,7 +25,7 @@ function createWindow () {
         slashes: true
     }));
 
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     win.on('closed', () => {
         win = null;
