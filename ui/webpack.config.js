@@ -1,15 +1,13 @@
-/**
- * Created by maikuraki on 2016/11/7.
- */
-var webpack = require('webpack');
-var path = require('path');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var config = {
+const webpack = require('webpack');
+const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const config = {
     entry: {
         app: ['babel-polyfill','./js/app.js']
     },
     output: {
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve(__dirname, '../app/dist'),
         filename: 'bundle_[name].js'
     },
     resolve: {
@@ -31,11 +29,11 @@ var config = {
         ]
     },
     externals: [
-        (function () {
+        (() => {
           var IGNORES = [
             'electron'
           ];
-          return function (context, request, callback) {
+          return (context, request, callback) => {
             if (IGNORES.indexOf(request) >= 0) {
               return callback(null, "require('" + request + "')");
             }
@@ -45,16 +43,12 @@ var config = {
       ],
     plugins: [
         new ExtractTextPlugin("bundle_style.css"),
-        // new webpack.DefinePlugin({
-        //     'process.env': {
-        //         'NODE_ENV': JSON.stringify('production')
-        //     }
-        // }),
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: true
-        //     }
-        // })
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new UglifyJSPlugin()
     ]
 };
 

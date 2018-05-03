@@ -105,7 +105,7 @@ app.on('activate', () => {
 });
 
 ipcMain.on('scanningDir', (e, dirs) => {
-    const cp = child_process.fork('app/scanFile.js');
+    const cp = child_process.fork('./scanFile.js');
     cp.on('message', () => {
         e.sender.send('scanningEnd');
         cp.disconnect();

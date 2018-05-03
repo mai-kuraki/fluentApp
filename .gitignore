@@ -62,3 +62,4 @@ db.json
 .idea
 workspace.xml
 cache/albumCover/
+/app/cache

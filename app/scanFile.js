@@ -6,6 +6,7 @@ const jsmediatags = require('jsmediatags');
 const fs = require('fs');
 const _ = require('underscore');
 const btoa = require('btoa');
+const path = require('path');
 
 let songItem = [];
 const extItem = ['MP3', 'WAV', 'APE ', 'AAC', 'FLAC', 'OGG', 'WMA'];
@@ -124,7 +125,8 @@ process.on('message', (dirs) => {
                                         size: tag.size,
                                         album: tag.tags.album,
                                         artist: tag.tags.artist,
-                                        cover: `../${filename}`
+                                        cover: `./${filename}`
+                                        // cover: path.join(__dirname, filename),
                                     });
                                     f ++;
                                     if(f == songItem.length) {
