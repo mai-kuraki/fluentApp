@@ -4,10 +4,11 @@ const url = require('url');
 const child_process = require('child_process');
 
 let win;
-function createWindow () {
+
+function createWindow() {
     win = new BrowserWindow({
         frame: false,
-        width: 800,
+        width: 400,
         height: 670,
         transparent: true,
         resizable: false,
@@ -25,13 +26,13 @@ function createWindow () {
         slashes: true
     }));
 
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     win.on('closed', () => {
         win = null;
     });
 
-    win.on('ready-to-show',function() {
+    win.on('ready-to-show', function () {
         win.show();
     });
 
@@ -42,7 +43,9 @@ function createWindow () {
             flags: [
                 'nobackground'
             ],
-            click: () => { console.log('button1 clicked') }
+            click: () => {
+                console.log('button1 clicked')
+            }
         },
         {
             tooltip: '播放',
@@ -50,7 +53,9 @@ function createWindow () {
             flags: [
                 'nobackground'
             ],
-            click: () => { console.log('button1 clicked') }
+            click: () => {
+                console.log('button1 clicked')
+            }
         },
         {
             tooltip: '下一曲',
@@ -58,7 +63,9 @@ function createWindow () {
             flags: [
                 'nobackground'
             ],
-            click: () => { console.log('button2 clicked.') }
+            click: () => {
+                console.log('button2 clicked.')
+            }
         }
     ]);
 
@@ -112,3 +119,48 @@ ipcMain.on('scanningDir', (e, dirs) => {
     });
     cp.send(dirs);
 });
+
+
+let handleStartupEvent = () => {
+    let install = () => {
+        let updateDotExe = path.resolve(path.dirname(process.execPath), '..', 'update.exe');
+        let target = path.basename(process.execPath);
+        let child = child_process.spawn(updateDotExe, ["--createShortcut", target], {detached: true});
+        child.on('close', (code) => {
+            app.quit();
+        });
+    };
+    let uninstall = () => {
+        let updateDotExe = path.resolve(path.dirname(process.execPath), '..', 'update.exe');
+        let target = path.basename(process.execPath);
+        let child = child_process.spawn(updateDotExe, ["--removeShortcut", target], {detached: true});
+        child.on('close', (code) => {
+            app.quit();
+        });
+    };
+
+    if (process.platform !== 'win32') {
+        return false;
+    }
+
+    let squirrelCommand = process.argv[1];
+
+    switch (squirrelCommand) {
+        case '--squirrel-install':
+        case '--squirrel-updated':
+            install();
+            return true;
+        case '--squirrel-uninstall':
+            uninstall();
+            app.quit();
+            return true;
+        case '--squirrel-obsolete':
+            app.quit();
+            return true;
+    };
+
+};
+
+if (handleStartupEvent()) {
+    return;
+}

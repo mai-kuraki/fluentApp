@@ -53,3 +53,4 @@ const config = {
 };
 
 module.exports = config;
+//electron-packager ./ fluentApp --platform=win32 --out=../../build --arch=x64 --electron-version=1.4.13 --icon=./icon.ico --ignore=/"(cache|db.json)" --overwrite
