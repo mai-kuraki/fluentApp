@@ -8,7 +8,7 @@ let win;
 function createWindow() {
     win = new BrowserWindow({
         frame: false,
-        width: 400,
+        width: 800,
         height: 670,
         transparent: true,
         resizable: false,
@@ -26,7 +26,7 @@ function createWindow() {
         slashes: true
     }));
 
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
     win.on('closed', () => {
         win = null;
@@ -44,7 +44,7 @@ function createWindow() {
                 'nobackground'
             ],
             click: () => {
-                console.log('button1 clicked')
+                win.webContents.send('pre');
             }
         },
         {
@@ -54,7 +54,7 @@ function createWindow() {
                 'nobackground'
             ],
             click: () => {
-                console.log('button1 clicked')
+                win.webContents.send('switch');
             }
         },
         {
@@ -64,7 +64,7 @@ function createWindow() {
                 'nobackground'
             ],
             click: () => {
-                console.log('button2 clicked.')
+                win.webContents.send('next');
             }
         }
     ]);
@@ -77,7 +77,7 @@ function createWindow() {
         {label: 'Item4', type: 'radio'}
     ]);
     tray.setToolTip('This is my application.');
-    tray.setContextMenu(contextMenu)
+    tray.setContextMenu(contextMenu);
 }
 
 app.setName('fluentApp');
@@ -118,6 +118,10 @@ ipcMain.on('scanningDir', (e, dirs) => {
         cp.disconnect();
     });
     cp.send(dirs);
+});
+
+ipcMain.on('playSwitch', (e, state) => {
+    console.log(state)
 });
 
 

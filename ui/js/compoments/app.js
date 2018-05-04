@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
-import {remote} from 'electron';
+import {remote, ipcRenderer} from 'electron';
 import eventEmitter from '../lib/eventEmitter';
 import * as constStr from '../lib/const';
 import * as Actions from '../actions';
@@ -101,6 +101,15 @@ export default class App extends React.Component {
         });
         this.audio.addEventListener('ended', () => {
             this.playNext(1);
+        });
+        ipcRenderer.on('next', () => {
+            this.playNext(1);
+        });
+        ipcRenderer.on('pre', () => {
+            this.playNext(-1);
+        });
+        ipcRenderer.on('switch', () => {
+            this.switchPlay(!store.getState().main.playState);
         });
         eventEmitter.on(constStr.NEXT, (type) => {
             this.playNext(type)
@@ -424,6 +433,7 @@ export default class App extends React.Component {
                 this.audio.pause();
             }
             store.dispatch(Actions.setPlayState(state));
+            ipcRenderer.send('playSwitch', state);
         }
     }
 
