@@ -474,7 +474,8 @@ input[placeholder] {
       bottom: 0px;
       z-index: 9;
       background: none;
-      padding: 1px 20px; }
+      padding: 1px 20px;
+      -webkit-app-region: no-drag; }
       .player-wrap .play-ui-page .player-panel .song-name {
         width: 100%;
         font-size: 14px;
@@ -857,7 +858,8 @@ input[placeholder] {
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column; }
+        flex-direction: column;
+        -webkit-app-region: no-drag; }
         .player-wrap .home-page .mysong .mysong-empty .loading {
           width: 60vw; }
         .player-wrap .home-page .mysong .mysong-empty .loading-text {

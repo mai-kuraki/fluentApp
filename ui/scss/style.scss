@@ -576,6 +576,7 @@ input[placeholder] {
             z-index: 9;
             background: none;
             padding: 1px 20px;
+            -webkit-app-region: no-drag;
             .song-name {
                 width: 100%;
                 font-size: 14px;
@@ -1036,6 +1037,7 @@ input[placeholder] {
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
+                -webkit-app-region: no-drag;
                 .loading {
                     width: 60vw;
                 }
