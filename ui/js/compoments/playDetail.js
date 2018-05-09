@@ -341,7 +341,8 @@ export default class PlayDetail extends React.Component {
         }else if(vPercent < 0) {
             vPercent = 0;
         }
-        store.dispatch(Actions.setVolume(vPercent));
+        document.getElementById('vBar').style.height = `${vPercent * 100}%`;
+        document.getElementById('dot').style.bottom = `${vPercent * 100}%`;
         this.audio.volume = vPercent;
     }
 
@@ -349,7 +350,9 @@ export default class PlayDetail extends React.Component {
         if(this.state.vMouseDown) {
             this.setState({
                 vMouseDown: false,
-            })
+            });
+            let vPercent = this.audio.volume;
+            store.dispatch(Actions.setVolume(vPercent));
         }
         if(this.state.mouseDown && this.audio && this.audio.src) {
             this.setState({
@@ -444,11 +447,11 @@ export default class PlayDetail extends React.Component {
                                 state.volBarState?
                                     <div className="vol-panel" id="volPanel" ref="volPanel">
                                         <div className="v-track" onClick={(e) => {this.setVol(e.clientY)}}></div>
-                                        <div className="v-bar" style={{height: `${vol * 100}%`}}></div>
-                                        <div className="dot" style={{bottom: `${vol * 100}%`}} onMouseDown={this.vdotMouseDown.bind(this)}></div>
+                                        <div className="v-bar" id="vBar" style={{height: `${vol * 100}%`}}></div>
+                                        <div className="dot" id="dot" style={{bottom: `${vol * 100}%`}} onMouseDown={this.vdotMouseDown.bind(this)}></div>
                                     </div>:null
                             }
-                            <div className={`vol-icon iconfont ${vol > 0?'icon-yinliang':'icon-jingyin'} ${state.volBarState?'vol-icon-active':''}`} data-vol={Math.floor(vol * 100)} onClick={() => {this.setState({volBarState: !state.volBarState})}}></div>
+                            <div className={`vol-icon iconfont ${vol > 0?'icon-yinliang':'icon-jingyin'} ${state.volBarState?'vol-icon-active':''}`} id="dataVol" data-vol={Math.floor(vol * 100)} onClick={() => {this.setState({volBarState: !state.volBarState})}}></div>
                         </div>
                         <div className="change pre iconfont icon-xiayishou1-copy" onClick={() => {eventEmitter.emit(constStr.NEXT, -1)}}></div>
                         <div className={`play iconfont ${storeMain.playState?'icon-weibiaoti519':'icon-bofang2'}`} onClick={this.switchPlay.bind(this)}></div>
