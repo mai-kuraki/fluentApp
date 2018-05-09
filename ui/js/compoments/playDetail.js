@@ -151,18 +151,15 @@ export default class PlayDetail extends React.Component {
 
     animate() {
          let con = () => {
-             // console.log(new Date().getTime())
             let array = new Uint8Array(this.analyser.frequencyBinCount);
             this.analyser.getByteFrequencyData(array);
             this.draw(array);
-             // console.log(new Date().getTime())
             this.timer = requestAnimationFrame(con);
         };
         this.timer = requestAnimationFrame(con);
     }
 
     draw(array){
-        console.log('dddd')
         this.ctx.clearRect(0,0,this.width, this.height);
         //array的长度为1024, 总共取10个关键点,关键点左右边各取五个点作为过渡,波浪更为自然;
         let waveArr1 = [],waveArr2 = [],waveTemp = [],leftTemp = [],rightTemp = [],waveStep = 50,leftStep = 70, rightStep = 90;
@@ -170,7 +167,6 @@ export default class PlayDetail extends React.Component {
         let leftStepArr = [70, 141, 212, 283, 354];
         let rightStepArr = [90, 181, 272, 363, 454];
         waveStepArr.map((key) => {
-            let data = array[key];
             waveTemp.push(array[key] / 2.6);
         });
         leftStepArr.map((key) => {
@@ -438,7 +434,7 @@ export default class PlayDetail extends React.Component {
                     <canvas id="waveCanvas"></canvas>
                 </div>
                 <div className="player-panel">
-                    <div className="song-name">{songInfo.name || ''}</div>
+                    <div className="song-name" title={songInfo.name || ''}>{songInfo.name || ''}</div>
                     <div className="singer">{songInfo.ar[0].name || ''}</div>
                     <div className="time">{this.formatSeconds(state.currentTime)} / {this.formatSeconds(state.duration)}</div>
                     <div className="control">

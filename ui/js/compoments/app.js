@@ -252,6 +252,7 @@ export default class App extends React.Component {
         }else {
             nextSong = shuffleList[nextIndex];
         }
+        // console.log(nextSong)
         if(nextSong.from == 'online') {
             this.id2Song(nextSong.id);
         }else if(nextSong.from == 'local') {
@@ -282,7 +283,7 @@ export default class App extends React.Component {
         let currentTime = this.audio.currentTime;
         let audioDuration = this.state.audioDuration;
         let playPercent = currentTime / audioDuration;
-        //会造成动画卡顿
+        //连续setState会造成动画卡顿,直接操作DOM性能比较高
         // this.setState({
         //     playPercent: playPercent,
         //     audioCurDuration: currentTime,
@@ -357,7 +358,7 @@ export default class App extends React.Component {
                             setTimeout(() => {
                                 this.savePlayList();
                                 if(store.getState().main.shuffleList.length > 0) {
-                                    this.insertSongToShuffleList(songObj)
+                                    this.insertSongToShuffleList([songObj])
                                 }
                             })
                         }
@@ -419,7 +420,7 @@ export default class App extends React.Component {
                 setTimeout(() => {
                     this.savePlayList();
                     if(store.getState().main.shuffleList.length > 0) {
-                        this.insertSongToShuffleList(songObj)
+                        this.insertSongToShuffleList([songObj])
                     }
                 })
             }

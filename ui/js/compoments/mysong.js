@@ -36,6 +36,18 @@ export default class Mysong extends React.Component {
         });
         ipcRenderer.on('scanningEnd', (e) => {
             eventEmitter.emit(constStr.BARLOADING, false);
+            let playlist = db.read().get('playList').value() || [];
+            let localPlayList = db.read().get('localPlayList').value() || [];
+            let temp = [];
+            if(localPlayList.length > 0) {
+                localPlayList.map((d, k) => {
+                    if(d.form != 'local') {
+                        temp.push(d);
+                    }
+                })
+            }
+            store.dispatch(Actions.setPlayList(playlist));
+            store.dispatch(Actions.setLocalPlayList(temp));
             this.setState({
                 barLoading: false,
             });

@@ -45,6 +45,14 @@ let scanningDir = (path, callback) => {
 
 let saveDB = (data) => {
     db.then(db => {
+        let playList = db.get('playList').value();
+        let newList = [];
+        playList.map((d, k) => {
+           if(d.from != 'local') {
+               newList.push(d);
+           }
+        });
+        db.set('playList', newList).write();
         db.set('localPlayList', data).write().then(() => {
             process.send('');
         })

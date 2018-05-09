@@ -482,7 +482,11 @@ input[placeholder] {
         color: #FFF;
         display: flex;
         justify-content: center;
-        min-height: 16px; }
+        min-height: 16px;
+        height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
       .player-wrap .play-ui-page .player-panel .singer {
         width: 100%;
         font-size: 10px;
