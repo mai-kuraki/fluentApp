@@ -101,27 +101,43 @@ export default class Search  extends React.Component {
         }).then(data => {
             if(data.code == 200) {
                 if(type == 1) {
+                    let arr = [];
+                    if(paging) {
+                        arr = state.singleItem || [];
+                    }
                     this.setState({
                         singleLoad: true,
-                        singleItem: (state.singleItem || []).concat(data.result.songs || []),
+                        singleItem: arr.concat(data.result.songs || []),
                         singleCount: data.result.songCount,
                     })
                 }else if(type == 10) {
+                    let arr = [];
+                    if(paging) {
+                        arr = state.albumItem || [];
+                    }
                     this.setState({
                         albumLoad: true,
-                        albumItem: (state.albumItem || []).concat(data.result.albums || []),
+                        albumItem: arr.concat(data.result.albums || []),
                         albumCount: data.result.albumCount,
                     })
                 }else if(type == 100) {
+                    let arr = [];
+                    if(paging) {
+                        arr = state.singerItem || [];
+                    }
                     this.setState({
                         singerLoad: true,
-                        singerItem: (state.singerItem || []).concat(data.result.artists || []),
+                        singerItem: arr.concat(data.result.artists || []),
                         singerCount: data.result.artistCount,
                     })
                 }else if(type == 1000) {
+                    let arr = [];
+                    if(paging) {
+                        arr = state.listItem || [];
+                    }
                     this.setState({
                         listLoad: true,
-                        listItem: (state.listItem || []).concat(data.result.playlists || []),
+                        listItem: arr.concat(data.result.playlists || []),
                         listCount: data.result.playlistCount
                     })
                 }
