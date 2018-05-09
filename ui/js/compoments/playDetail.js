@@ -25,6 +25,7 @@ export default class PlayDetail extends React.Component {
             volBarState: false,
             init: false,
         };
+        this.timer;
         this.mouseDownPercent = 0;
         this.mouseDown = false;
         this.audio = null;
@@ -34,7 +35,7 @@ export default class PlayDetail extends React.Component {
     componentDidMount() {
         this.init();
         eventEmitter.on(constStr.PLAYANIMATE, () => {
-            this.init();
+            this.animate();
         });
         eventEmitter.on(constStr.PLAYPERCENT, () => {
             this.audioDo();
@@ -144,43 +145,62 @@ export default class PlayDetail extends React.Component {
             this.source.connect(this.analyser);
             this.setState({
                 init: true,
-            })
+            });
         }
-        function con() {
-            if(store.getState().main.UIPage) {
-                let array = new Uint8Array(_this.analyser.frequencyBinCount);
-                _this.analyser.getByteFrequencyData(array);
-                _this.draw(array);
-                requestAnimationFrame(con);
-            }
-        }
-        requestAnimationFrame(con)
+    }
+
+    animate() {
+         let con = () => {
+             // console.log(new Date().getTime())
+            let array = new Uint8Array(this.analyser.frequencyBinCount);
+            this.analyser.getByteFrequencyData(array);
+            this.draw(array);
+             // console.log(new Date().getTime())
+            this.timer = requestAnimationFrame(con);
+        };
+        this.timer = requestAnimationFrame(con);
     }
 
     draw(array){
+        console.log('dddd')
         this.ctx.clearRect(0,0,this.width, this.height);
         //array的长度为1024, 总共取10个关键点,关键点左右边各取五个点作为过渡,波浪更为自然;
         let waveArr1 = [],waveArr2 = [],waveTemp = [],leftTemp = [],rightTemp = [],waveStep = 50,leftStep = 70, rightStep = 90;
-        array.map((data, k) => {
-            if(waveStep == 50 && waveTemp.length < 9) {
-                waveTemp.push(data / 2.6);
-                waveStep = 0;
-            }else{
-                waveStep ++;
-            }
-            if(leftStep == 0 && leftTemp.length < 5) {
-                leftTemp.unshift(Math.floor(data / 4.8));
-                leftStep = 70;
-            }else {
-                leftStep --;
-            }
-            if(rightStep == 0 && rightTemp.length < 5) {
-                rightTemp.push(Math.floor(data / 4.8));
-                rightStep = 90;
-            }else {
-                rightStep --;
-            }
+        let waveStepArr = [0, 51, 102, 153, 204, 255, 306, 357, 408];
+        let leftStepArr = [70, 141, 212, 283, 354];
+        let rightStepArr = [90, 181, 272, 363, 454];
+        waveStepArr.map((key) => {
+            let data = array[key];
+            waveTemp.push(array[key] / 2.6);
         });
+        leftStepArr.map((key) => {
+            leftTemp.unshift(Math.floor(array[key] / 4.8));
+        });
+        rightStepArr.map((key) => {
+            rightTemp.push(Math.floor(array[key] / 4.8));
+        });
+        // array.map((data, k) => {
+        //     if(waveStep == 50 && waveTemp.length < 9) {
+        //         // console.log(k)
+        //         waveTemp.push(data / 2.6);
+        //         waveStep = 0;
+        //     }else{
+        //         waveStep ++;
+        //     }
+        //     if(leftStep == 0 && leftTemp.length < 5) {
+        //         leftTemp.unshift(Math.floor(data / 4.8));
+        //         leftStep = 70;
+        //     }else {
+        //         leftStep --;
+        //     }
+        //     if(rightStep == 0 && rightTemp.length < 5) {
+        //         console.log(k)
+        //         rightTemp.push(Math.floor(data / 4.8));
+        //         rightStep = 90;
+        //     }else {
+        //         rightStep --;
+        //     }
+        // });
         waveArr1 = leftTemp.concat(waveTemp).concat(rightTemp);
         waveArr2 = leftTemp.concat(rightTemp);
         waveArr2.map((data, k) => {
@@ -251,6 +271,7 @@ export default class PlayDetail extends React.Component {
 
     goBack() {
         store.dispatch(Actions.setPlayUiPage(false));
+        cancelAnimationFrame(this.timer);
     }
 
     calcCir() {

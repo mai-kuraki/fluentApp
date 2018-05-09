@@ -43,12 +43,12 @@ const config = {
       ],
     plugins: [
         new ExtractTextPlugin("bundle_style.css"),
-        // new webpack.DefinePlugin({
-        //     'process.env': {
-        //         'NODE_ENV': JSON.stringify('production')
-        //     }
-        // }),
-        // new UglifyJSPlugin()
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new UglifyJSPlugin()
     ]
 };
 

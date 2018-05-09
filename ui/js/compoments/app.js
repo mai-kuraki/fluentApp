@@ -282,10 +282,11 @@ export default class App extends React.Component {
         let currentTime = this.audio.currentTime;
         let audioDuration = this.state.audioDuration;
         let playPercent = currentTime / audioDuration;
-        this.setState({
-            playPercent: playPercent,
-            audioCurDuration: currentTime,
-        });
+        //会造成动画卡顿
+        // this.setState({
+        //     playPercent: playPercent,
+        //     audioCurDuration: currentTime,
+        // });
         this.progress.animate(playPercent);
         if(store.getState().main.UIPage) {
             eventEmitter.emit(constStr.PLAYPERCENT);
@@ -536,12 +537,6 @@ export default class App extends React.Component {
                         </div>
                     </div>
                     <div className={`fix-control ${storeMain.UIPage?'':'fix-control-active'}`}>
-                        {
-                            1 === 2?
-                                <div className="play-bar">
-                                    <div className="curBar" style={{width: state.playPercent * 100 + '%'}}></div>
-                                </div>:null
-                        }
                         <div className="cover" onClick={this.toUIPage.bind(this)}>
                             <img src={songInfo.al.picUrl || __REQUESTHOST + '/defaultCover.png'}/>
                         </div>
