@@ -8,7 +8,7 @@ let win;
 function createWindow() {
     win = new BrowserWindow({
         frame: false,
-        width: 800,
+        width: 400,
         height: 670,
         transparent: true,
         resizable: false,
@@ -26,7 +26,7 @@ function createWindow() {
         slashes: true
     }));
 
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 
     win.on('closed', () => {
         win = null;
