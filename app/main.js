@@ -1,9 +1,42 @@
-const {app, BrowserWindow, ipcMain, Tray, Menu} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 const url = require('url');
 const child_process = require('child_process');
 
 let win;
+
+let thumbarButtons = [
+    {
+        tooltip: '上一曲',
+        icon: path.join(__dirname, 'prev.png'),
+        flags: [
+            'nobackground'
+        ],
+        click: () => {
+            win.webContents.send('pre');
+        }
+    },
+    {
+        tooltip: '播放',
+        icon: path.join(__dirname, 'play.png'),
+        flags: [
+            'nobackground'
+        ],
+        click: () => {
+            win.webContents.send('switch');
+        }
+    },
+    {
+        tooltip: '下一曲',
+        icon: path.join(__dirname, 'next.png'),
+        flags: [
+            'nobackground'
+        ],
+        click: () => {
+            win.webContents.send('next');
+        }
+    }
+]
 
 function createWindow() {
     win = new BrowserWindow({
@@ -36,48 +69,7 @@ function createWindow() {
         win.show();
     });
 
-    win.setThumbarButtons([
-        {
-            tooltip: '上一曲',
-            icon: path.join(__dirname, 'prev.png'),
-            flags: [
-                'nobackground'
-            ],
-            click: () => {
-                win.webContents.send('pre');
-            }
-        },
-        {
-            tooltip: '播放',
-            icon: path.join(__dirname, 'play.png'),
-            flags: [
-                'nobackground'
-            ],
-            click: () => {
-                win.webContents.send('switch');
-            }
-        },
-        {
-            tooltip: '下一曲',
-            icon: path.join(__dirname, 'next.png'),
-            flags: [
-                'nobackground'
-            ],
-            click: () => {
-                win.webContents.send('next');
-            }
-        }
-    ]);
-
-    let tray = new Tray(path.join(__dirname, 'icon.ico'));
-    const contextMenu = Menu.buildFromTemplate([
-        {label: 'Item1', type: 'radio'},
-        {label: 'Item2', type: 'radio'},
-        {label: 'Item3', type: 'radio', checked: true},
-        {label: 'Item4', type: 'radio'}
-    ]);
-    tray.setToolTip('This is my application.');
-    tray.setContextMenu(contextMenu);
+    win.setThumbarButtons(thumbarButtons);
 }
 
 app.setName('fluentApp');
@@ -121,7 +113,9 @@ ipcMain.on('scanningDir', (e, dirs) => {
 });
 
 ipcMain.on('playSwitch', (e, state) => {
-    console.log(state)
+    let icon = state?'paused.png':'play.png';
+    thumbarButtons[1].icon = path.join(__dirname, icon);
+    win.setThumbarButtons(thumbarButtons);
 });
 
 
