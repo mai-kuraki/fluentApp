@@ -1205,6 +1205,7 @@ input[placeholder] {
                     transition: all 250ms ease;
                     font-size: 12px;
                     pointer-events: none;
+                    font-family: "amble", "Microsoft YaHei", "PingFangSC-Regular", STHeiti, Helvetica, Arial, sans-serif !important;
                 }
                 &:hover{
                     &:after{
@@ -1587,7 +1588,7 @@ input[placeholder] {
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none;
+    //pointer-events: none;
 }
 .search-page{
     width: 100%;

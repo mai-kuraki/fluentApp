@@ -1002,7 +1002,8 @@ input[placeholder] {
           transform: translate(10%, -50%);
           transition: all 250ms ease;
           font-size: 12px;
-          pointer-events: none; }
+          pointer-events: none;
+          font-family: "amble", "Microsoft YaHei", "PingFangSC-Regular", STHeiti, Helvetica, Arial, sans-serif !important; }
         .player-wrap .listDetail-page .listCoverBanner .play:hover:after {
           transform: translate(0%, -50%);
           opacity: 1; }
@@ -1309,8 +1310,7 @@ input[placeholder] {
   z-index: 9999;
   display: flex;
   justify-content: center;
-  align-items: center;
-  pointer-events: none; }
+  align-items: center; }
 
 .search-page {
   width: 100%;

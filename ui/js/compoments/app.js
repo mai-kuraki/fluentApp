@@ -55,12 +55,23 @@ export default class App extends React.Component {
     }
 
     loadingOpen() {
+        if(this.loadingTimer) {
+            clearTimeout(this.loadingTimer);
+        }
         this.setState({
             loading: true,
         });
+        //如果请求超过10s则认为请求超时,关闭loading动画
+        this.loadingTimer = setTimeout(() => {
+            this.loadingClose();
+            this.snackbarOpen('请求超时!', 1500);
+        }, 10000);
     }
 
     loadingClose() {
+        if(this.loadingTimer) {
+            clearTimeout(this.loadingTimer);
+        }
         this.setState({
             loading: false,
         });
