@@ -13,3 +13,6 @@ grunt.config.init({
 
 grunt.loadNpmTasks('grunt-electron-installer');
 grunt.registerTask('default', ['create-windows-installer']);
+/**
+ * 样例文件,Gruntfile.js作用于fluentApp-win32-x64(构建后文件夹)
+ */

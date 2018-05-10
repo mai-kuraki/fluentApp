@@ -43,14 +43,13 @@ const config = {
       ],
     plugins: [
         new ExtractTextPlugin("bundle_style.css"),
-        // new webpack.DefinePlugin({
-        //     'process.env': {
-        //         'NODE_ENV': JSON.stringify('production')
-        //     }
-        // }),
-        // new UglifyJSPlugin()
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new UglifyJSPlugin()
     ]
 };
 
 module.exports = config;
-//electron-packager ./ fluentApp --platform=win32 --out=../../build --arch=x64 --electron-version=1.4.13 --icon=./icon.ico --ignore=/"(cache|db.json)" --overwrite

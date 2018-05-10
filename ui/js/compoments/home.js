@@ -73,6 +73,9 @@ export default class Home extends React.Component {
         let albumOffsetCatch = db.get('albumOffsetCatch').value() || 0;
         let albumTotalCatch = db.get('albumTotalCatch').value() || 0;
         let now = new Date().getTime();
+        /**
+         * 首页数据一天一更新,载入后先判断缓存的数据是否在当天如果不在了再去获取更新
+         */
         if(Moment(catchTimestamp).isSame(now, 'day')) {
             let recommendList = store.getState().main.recommendList || [],
                 newestList = store.getState().main.newestList || [],
