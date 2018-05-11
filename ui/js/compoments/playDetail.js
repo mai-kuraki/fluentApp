@@ -23,10 +23,8 @@ export default class PlayDetail extends React.Component {
             currentTime: 0,
             buffered: 0,
             volBarState: false,
-            init: false,
         };
         this.timer;
-        this.mouseDownPercent = 0;
         this.mouseDown = false;
         this.audio = null;
         this.baseY = Math.floor(window.innerHeight * 2/3);
@@ -120,33 +118,26 @@ export default class PlayDetail extends React.Component {
     }
 
     init() {
-        let init = this.state.init;
-        let _this = this;
-        if(!init) {
-            this.audioContext = new window.AudioContext();
-            this.canvas = document.getElementById('waveCanvas');
-            this.ctx = this.canvas.getContext('2d');
-            this.width = this.canvas.offsetWidth,
+        this.audioContext = new window.AudioContext();
+        this.canvas = document.getElementById('waveCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.width = this.canvas.offsetWidth,
             this.height = this.canvas.offsetHeight;
-            this.canvas.width = this.width,
+        this.canvas.width = this.width,
             this.canvas.height = this.height;
-            this.ctx.beginPath();
-            this.ctx.fillStyle = 'rgba(102,102,102,0.8)';
-            this.ctx.moveTo(0, this.baseY);
-            this.ctx.lineTo(this.width, this.baseY);
-            this.ctx.lineTo(this.width, this.height);
-            this.ctx.lineTo(0, this.height);
-            this.ctx.fill();
+        this.ctx.beginPath();
+        this.ctx.fillStyle = 'rgba(102,102,102,0.8)';
+        this.ctx.moveTo(0, this.baseY);
+        this.ctx.lineTo(this.width, this.baseY);
+        this.ctx.lineTo(this.width, this.height);
+        this.ctx.lineTo(0, this.height);
+        this.ctx.fill();
 
-            this.audio = document.getElementById('audio');
-            this.source = this.audioContext.createMediaElementSource(this.audio);
-            this.analyser = this.audioContext.createAnalyser();
-            this.analyser.connect(this.audioContext.destination);
-            this.source.connect(this.analyser);
-            this.setState({
-                init: true,
-            });
-        }
+        this.audio = document.getElementById('audio');
+        this.source = this.audioContext.createMediaElementSource(this.audio);
+        this.analyser = this.audioContext.createAnalyser();
+        this.analyser.connect(this.audioContext.destination);
+        this.source.connect(this.analyser);
     }
 
     animate() {
@@ -163,6 +154,7 @@ export default class PlayDetail extends React.Component {
         this.ctx.clearRect(0,0,this.width, this.height);
         //array的长度为1024, 总共取10个关键点,关键点左右边各取五个点作为过渡,波浪更为自然;
         let waveArr1 = [],waveArr2 = [],waveTemp = [],leftTemp = [],rightTemp = [],waveStep = 50,leftStep = 70, rightStep = 90;
+        //事先定好要取的点的key,相比下面直接循环整个数组来说效率高很多。
         let waveStepArr = [0, 51, 102, 153, 204, 255, 306, 357, 408];
         let leftStepArr = [70, 141, 212, 283, 354];
         let rightStepArr = [90, 181, 272, 363, 454];
@@ -284,7 +276,6 @@ export default class PlayDetail extends React.Component {
 
     dotMouseDown(e) {
         if(this.audio && this.audio.src) {
-            this.mouseDownPercent = this.state.percent;
             this.setState({
                 mouseDown: true,
             })

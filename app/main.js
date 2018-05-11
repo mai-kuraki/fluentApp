@@ -36,7 +36,7 @@ let thumbarButtons = [
             win.webContents.send('next');
         }
     }
-]
+];
 
 function createWindow() {
     win = new BrowserWindow({
