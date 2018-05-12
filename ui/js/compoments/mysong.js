@@ -89,9 +89,10 @@ export default class Mysong extends React.Component {
                             </div>
                             {
                                 state.playlist.map((data, k) => {
+                                    console.log(data.cover)
                                     return(
                                         <div key={k} className={`song-itembox ${currentSong.id == data.id?'song-itembox-active':''}`} onDoubleClick={this.playLocal.bind(this, data)}>
-                                            <div className="cover"><LazyImg src={data.cover || '/defaultCover.png'} placeholder={__REQUESTHOST + '/placeholderCover.png'}/></div>
+                                            <div className="cover"><LazyImg src={data.cover || `${__REQUESTHOST}/defaultCover.png`} placeholder={__REQUESTHOST + '/placeholderCover.png'}/></div>
                                             <div className="info">
                                                 <div className="name">{data.name}</div>
                                                 <div className="singer"><i className="iconfont icon-computer_icon"></i>{data.artist || '未知'}-{data.album || '未知'}</div>

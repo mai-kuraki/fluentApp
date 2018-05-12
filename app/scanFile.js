@@ -80,6 +80,13 @@ let getUniqueId = () => {
     return Math.random().toString(36).substr(3);
 };
 
+let done = (f, obj, listItem) => {
+    listItem.push(obj);
+    if(f == songItem.length) {
+        saveDB(listItem);
+    }
+};
+
 process.on('message', (dirs) => {
     db.then(db => {
         db.set('addedDir', dirs).write();
@@ -116,34 +123,44 @@ process.on('message', (dirs) => {
                         jsmediatags.read(data, {
                             onSuccess: (tag) => {
                                 let image = tag.tags.picture;
-                                let filename = `cache/albumCover/${createRandomId()}.jpeg`;
-                                let base64String = "";
-                                image.data.map((d, j) => {
-                                    base64String += String.fromCharCode(d);
-                                });
-                                let dataBuffer = new Buffer(btoa(base64String), 'base64');
-                                fs.writeFile(filename, dataBuffer, (err) => {
-                                   if(err) {
-                                       filename = '';
-                                   }
-                                    listItem.push({
+                                f ++;
+                                if(typeof image === 'object') {
+                                    let filename = `cache/albumCover/${createRandomId()}.jpeg`;
+                                    let base64String = "";
+                                    image.data.map((d, j) => {
+                                        base64String += String.fromCharCode(d);
+                                    });
+                                    let dataBuffer = new Buffer(btoa(base64String), 'base64');
+                                    fs.writeFile(filename, dataBuffer, (err) => {
+                                        if(err) {
+                                            filename = '';
+                                        }
+                                        done(f, {
+                                            id: getUniqueId(),
+                                            name: name,
+                                            url: data,
+                                            size: tag.size,
+                                            album: tag.tags.album,
+                                            artist: tag.tags.artist,
+                                            cover: `./${filename}`
+                                            // cover: path.join(__dirname, filename),
+                                        }, listItem);
+                                    });
+                                }else {
+                                    done(f, {
                                         id: getUniqueId(),
                                         name: name,
                                         url: data,
                                         size: tag.size,
                                         album: tag.tags.album,
                                         artist: tag.tags.artist,
-                                        cover: `./${filename}`
-                                        // cover: path.join(__dirname, filename),
-                                    });
-                                    f ++;
-                                    if(f == songItem.length) {
-                                        saveDB(listItem);
-                                    }
-                                });
+                                        cover: ``
+                                    }, listItem);
+                                }
                             },
                             onError: (error) => {
-                                listItem.push({
+                                f ++;
+                                done(f, {
                                     id: getUniqueId(),
                                     name: name,
                                     url: data,
@@ -151,11 +168,7 @@ process.on('message', (dirs) => {
                                     album: '',
                                     artist: '',
                                     cover: ''
-                                });
-                                f ++;
-                                if(f == songItem.length) {
-                                    saveDB(listItem);
-                                }
+                                }, listItem);
                             }
                         });
                     });
