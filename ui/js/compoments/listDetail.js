@@ -37,7 +37,7 @@ export default class ListDetail extends React.Component {
         }).then(data => {
             if(data.code == 200) {
                 this.setState({
-                    listData: data.result,
+                    listData: data.playlist || {},
                 })
             }
             eventEmitter.emit(constStr.RINGLOADING, false);
@@ -132,7 +132,7 @@ export default class ListDetail extends React.Component {
                                         <div className="key">{k + 1}</div>
                                         <div className="r">
                                             <div className="name">{data.name || ''}</div>
-                                            <div className="singer">{data.artists[0].name || ''}</div>
+                                            <div className="singer">{data.ar[0].name || ''}</div>
                                         </div>
                                     </div>
                                 )
